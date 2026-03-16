@@ -1,0 +1,129 @@
+@tailwind utilities;
+
+/* Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@500;700;800&display=swap");
+
+/* --- Root Colors --- */
+:root {
+  --color-primary: #1e3a8a;
+  --color-secondary: #facc15;
+  --color-accent: #0f172a;
+  --color-surface: #f8fafc;
+  --color-success: #10b981;
+}
+
+/* --- Body --- */
+body {
+  @apply bg-surface text-accent font-sans antialiased;
+}
+
+/* --- Headings --- */
+h1,
+h2,
+h3,
+h4 {
+  @apply font-heading font-bold text-accent tracking-tight;
+}
+
+/* --- Navbar --- */
+.navbar {
+  @apply bg-white border-b border-gray-200 py-4 px-6 flex justify-between items-center sticky top-0 z-50;
+}
+.navbar a {
+  @apply text-accent font-medium ml-6 hover:text-primary transition-colors;
+}
+
+/* --- Hero Section --- */
+.hero {
+  @apply relative bg-cover bg-center text-white flex flex-col items-center justify-center text-center py-36 px-6;
+}
+.hero h1 {
+  @apply text-4xl md:text-5xl font-heading font-bold mb-4;
+}
+.hero p {
+  @apply text-lg md:text-xl mb-6;
+}
+.hero .btn-primary {
+  @apply mt-4;
+}
+
+/* --- Buttons --- */
+.btn-primary {
+  @apply bg-primary text-white px-6 py-2 rounded-lg font-semibold transition duration-300 hover:bg-blue-900 hover:shadow-lg;
+}
+.btn-secondary {
+  @apply bg-secondary text-primary px-6 py-2 rounded-lg font-bold transition duration-300 hover:bg-yellow-500 hover:shadow-lg;
+}
+
+/* --- Cards / Services --- */
+.cards {
+  @apply flex flex-wrap gap-6 justify-center;
+}
+.card {
+  @apply bg-white rounded-xl shadow p-6 border border-gray-100 transition-transform duration-300 hover:shadow-2xl hover:-translate-y-2;
+}
+
+/* --- Sections Padding --- */
+.section-padding {
+  @apply py-16 md:py-24 px-6 max-w-7xl mx-auto;
+}
+
+/* --- Enquiry Form --- */
+.enquiry input,
+.enquiry textarea {
+  @apply w-full p-3 rounded-lg border border-gray-300 text-gray-700 outline-none focus:border-primary focus:ring-1 focus:ring-primary mb-4;
+}
+.enquiry button {
+  @apply bg-primary text-white px-6 py-2 rounded-lg font-semibold cursor-pointer transition duration-300 hover:bg-blue-900 hover:shadow-lg;
+}
+
+/* --- Footer --- */
+.footer {
+  @apply bg-accent text-white py-10 px-6 text-center text-sm;
+}
+.footer a {
+  @apply text-secondary hover:text-primary;
+}
+
+/* --- Animations --- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-entrance {
+  @apply animate-[fadeInUp_0.8s_cubic-bezier(0.16,1,0.3,1)_forwards];
+}
+
+@keyframes slowZoom {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+.animate-slow-zoom {
+  @apply animate-[slowZoom_20s_infinite_alternate_linear];
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .cards {
+    @apply flex-col items-center;
+  }
+  .hero h1 {
+    @apply text-3xl;
+  }
+  .hero p {
+    @apply text-base;
+  }
+  .navbar {
+    @apply flex-col gap-3;
+  }
+}
