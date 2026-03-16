@@ -1,5 +1,5 @@
-@tailwind utilities;
-
+/* @tailwind utilities; */
+@import "tailwindcss";
 /* Google Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@500;700;800&display=swap");
 
@@ -13,33 +13,33 @@
 }
 
 /* --- Body --- */
-body {
+/* body {
   @apply bg-surface text-accent font-sans antialiased;
-}
+} */
 
 /* --- Headings --- */
-h1,
+/* h1,
 h2,
 h3,
 h4 {
   @apply font-heading font-bold text-accent tracking-tight;
-}
+} */
 
 /* --- Navbar --- */
 .navbar {
   @apply bg-white border-b border-gray-200 py-4 px-6 flex justify-between items-center sticky top-0 z-50;
 }
-.navbar a {
+/* .navbar a {
   @apply text-accent font-medium ml-6 hover:text-primary transition-colors;
-}
+} */
 
 /* --- Hero Section --- */
 .hero {
   @apply relative bg-cover bg-center text-white flex flex-col items-center justify-center text-center py-36 px-6;
 }
-.hero h1 {
+/* .hero h1 {
   @apply text-4xl md:text-5xl font-heading font-bold mb-4;
-}
+} */
 .hero p {
   @apply text-lg md:text-xl mb-6;
 }
@@ -47,21 +47,21 @@ h4 {
   @apply mt-4;
 }
 
-/* --- Buttons --- */
-.btn-primary {
+--- Buttons ---
+/* .btn-primary {
   @apply bg-primary text-white px-6 py-2 rounded-lg font-semibold transition duration-300 hover:bg-blue-900 hover:shadow-lg;
-}
-.btn-secondary {
+} */
+/* .btn-secondary {
   @apply bg-secondary text-primary px-6 py-2 rounded-lg font-bold transition duration-300 hover:bg-yellow-500 hover:shadow-lg;
-}
+} */
 
 /* --- Cards / Services --- */
-.cards {
+/* .cards {
   @apply flex flex-wrap gap-6 justify-center;
 }
 .card {
   @apply bg-white rounded-xl shadow p-6 border border-gray-100 transition-transform duration-300 hover:shadow-2xl hover:-translate-y-2;
-}
+} */
 
 /* --- Sections Padding --- */
 .section-padding {
