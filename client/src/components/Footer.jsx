@@ -216,12 +216,12 @@ const Footer = () => {
       </div>
 
       {/* --- SCROLL TO TOP (CYAN THEME) --- */}
-      <button
+      {/* <button
         onClick={scrollToTop}
         className={`fixed bottom-8 right-8 z-[100] w-14 h-14 bg-[#00B0FF] text-white rounded-2xl shadow-[0_10px_30px_rgba(0,176,255,0.4)] flex items-center justify-center transition-all duration-500 hover:rotate-12 hover:scale-110 active:scale-95 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"}`}
       >
         <ChevronUp size={28} strokeWidth={3} />
-      </button>
+      </button> */}
     </footer>
   );
 };

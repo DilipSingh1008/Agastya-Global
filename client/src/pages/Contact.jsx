@@ -11,6 +11,10 @@ import {
   Globe,
   MessageSquare,
 } from "lucide-react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { postData } from "../api/api";
+import { toast } from "react-toastify";
 
 const navLinks = [
   { name: "Home", active: false },
@@ -24,41 +28,54 @@ const navLinks = [
   { name: "Contact Us", active: true },
 ];
 
-const offices = [
-  {
-    title: "London Office",
-    address: "251-253 Commercial Road, London, E1 2BT",
-    phone: "+44 0208 1435507",
-    email: "london@zainglobal.co.uk",
-  },
-  {
-    title: "Manchester Office",
-    address: "123 Main Street, Manchester, M1 1AA",
-    phone: "+44 0161 1234567",
-    email: "manchester@zainglobal.co.uk",
-  },
-];
-
 const ContactPage = () => {
-  const [form, setForm] = useState({
+  const [submitted, setSubmitted] = useState(false);
+
+  const initialValues = {
     name: "",
     email: "",
     phone: "",
     subject: "",
     message: "",
-  });
-  const [submitted, setSubmitted] = useState(false);
+  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
+  const validationSchema = Yup.object({
+    name: Yup.string().required("Full Name is required"),
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    phone: Yup.string().required("Phone number is required"),
+    subject: Yup.string().required("Subject is required"),
+    message: Yup.string().required("Message is required"),
+  });
+
+  const handleSubmit = async (values, { resetForm }) => {
+    try {
+      console.log(values);
+      let res = await postData("enquiry", values);
+      console.log(res);
+      setSubmitted(true);
+      toast.success("Enquiry submitted successfully!", {
+        style: { background: "#1A237E", color: "#FFFFFF", fontSize: "13px" },
+        icon: "✅",
+      });
+      resetForm();
+      setTimeout(() => setSubmitted(false), 3000);
+    } catch (err) {
+      console.error("Error sending enquiry:", err);
+      toast.error("Something went wrong. Please try again.", {
+        style: {
+          background: "#FF4D4F",
+          color: "#FFFFFF",
+          fontSize: "13px",
+        },
+        icon: "⚠️",
+      });
+    }
   };
 
   return (
-    <div className="font-sans bg-[#FFFFFF] min-h-screen selection:bg-[#00B0FF]/20">
+    <div className="font-sans bg-[#F8FAFC] min-h-screen selection:bg-[#00B0FF]/20">
       {/* --- TOP BAR --- */}
-      <div className="bg-[#1A237E] text-[#FFFFFF]/80 text-[11px] md:text-xs py-2 px-6 md:px-12 flex justify-between items-center border-b border-[#283593]">
+      <div className="bg-[#1A237E] text-[#FFFFFF]/80 text-[11px] py-2 px-6 flex justify-between items-center border-b border-[#283593]">
         <div className="flex gap-6 items-center">
           <a
             href="tel:+4402081435507"
@@ -67,82 +84,75 @@ const ContactPage = () => {
             <Phone size={14} className="text-[#00B0FF]" /> +44 0208 1435507
           </a>
           <a
-            href="mailto:info@zainglobal.co.uk"
-            className="hidden sm:flex items-center gap-1.5 hover:text-[#00B0FF] transition-colors"
+            href="mailto:info@AgastyaGlobal.co.uk"
+            className="flex items-center gap-1.5 hover:text-[#00B0FF] transition-colors"
           >
-            <Mail size={14} className="text-[#00B0FF]" /> info@zainglobal.co.uk
+            <Mail size={14} className="text-[#00B0FF]" /> info@Agastya
+            Global.co.uk
           </a>
         </div>
         <div className="flex gap-4 items-center">
           <Facebook
-            size={14}
             className="hover:text-[#00B0FF] cursor-pointer transition-transform hover:scale-110"
+            size={14}
           />
           <Instagram
-            size={14}
             className="hover:text-[#00B0FF] cursor-pointer transition-transform hover:scale-110"
+            size={14}
           />
           <Linkedin
-            size={14}
             className="hover:text-[#00B0FF] cursor-pointer transition-transform hover:scale-110"
+            size={14}
           />
         </div>
       </div>
 
       {/* --- NAVBAR --- */}
-      <nav className="sticky top-0 z-50 bg-[#FFFFFF]/95 backdrop-blur-md shadow-sm px-6 md:px-12 py-4 flex justify-between items-center">
-        <div className="flex items-center gap-2 group cursor-pointer">
-          <div className="bg-[#1A237E] p-2 rounded-lg relative overflow-hidden group-hover:bg-[#283593] transition-colors">
-            <div className="absolute -top-2 -right-2 w-6 h-6 bg-[#00B0FF] rounded-full opacity-50 blur-sm"></div>
-            <Globe className="text-[#FFFFFF] relative z-10" size={24} />
+      <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm px-6 py-4 flex justify-between items-center">
+        <div className="flex items-center gap-2">
+          <div className="bg-[#1A237E] p-2 rounded-lg relative">
+            <Globe className="text-white" size={24} />
           </div>
           <div className="flex flex-col">
             <span className="text-xl font-black tracking-tighter text-[#1A237E]">
-              ZAIN <span className="text-[#00B0FF]">GLOBAL</span>
+              Agastya <span className="text-[#00B0FF]">GLOBAL</span>
             </span>
-            <span className="text-[10px] uppercase tracking-[3px] font-bold text-[#283593]">
+            <span className="text-[10px] uppercase tracking-[2px] font-bold text-[#283593]">
               Education Consultant
             </span>
           </div>
         </div>
 
-        <div className="hidden lg:flex gap-8 items-center">
+        <div className="hidden lg:flex gap-6 items-center">
           {navLinks.map((link) => (
             <a
               key={link.name}
               href="#"
-              className={`text-sm font-bold uppercase tracking-wider transition-all hover:text-[#00B0FF] flex items-center gap-1 ${
+              className={`text-sm font-bold uppercase tracking-wider transition-all hover:text-[#00B0FF] ${
                 link.active
                   ? "text-[#00B0FF] border-b-2 border-[#00B0FF]"
                   : "text-[#283593]"
-              }`}
+              } flex items-center gap-1`}
             >
               {link.name} {link.hasSub && <ChevronDown size={14} />}
             </a>
           ))}
         </div>
-
-        <button className="lg:hidden p-2 text-[#1A237E]">
-          <div className="w-6 h-0.5 bg-[#1A237E] mb-1.5"></div>
-          <div className="w-6 h-0.5 bg-[#1A237E] mb-1.5"></div>
-          <div className="w-4 h-0.5 bg-[#00B0FF]"></div>
-        </button>
       </nav>
 
       {/* --- HERO SECTION --- */}
-      <div className="relative h-[300px] md:h-[400px] bg-[#1A237E] flex items-center justify-center text-center">
+      <section className="relative h-[280px] md:h-[350px] flex items-center justify-center bg-[#1A237E]">
         <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_#00B0FF_0%,_transparent_70%)]"></div>
-
-        <div className="relative z-10 px-6 animate-in fade-in slide-in-from-bottom-8 duration-1000">
-          <h1 className="text-[#FFFFFF] text-4xl md:text-6xl font-black uppercase mb-4 tracking-tighter">
+        <div className="relative z-10 text-center px-6">
+          <h1 className="text-white text-3xl md:text-5xl font-black uppercase mb-2">
             Contact <span className="text-[#00B0FF]">Us</span>
           </h1>
-          <p className="text-[#FFFFFF]/70 max-w-xl mx-auto text-sm md:text-lg font-medium">
+          <p className="text-white/80 text-sm md:text-base max-w-lg mx-auto font-medium">
             Join the elite circle of international students. Our experts are
             ready to guide you.
           </p>
         </div>
-      </div>
+      </section>
 
       {/* --- MAIN CONTENT --- */}
       <div className="max-w-7xl mx-auto px-6 md:px-12 -mt-16 relative z-20 pb-20">
@@ -160,7 +170,7 @@ const ContactPage = () => {
                 icon: <Mail />,
                 color: "bg-[#00B0FF]",
                 title: "Email Support",
-                text: "info@zainglobal.co.uk",
+                text: "info@AgastyaGlobal.co.uk",
               },
               {
                 icon: <Phone />,
@@ -171,10 +181,10 @@ const ContactPage = () => {
             ].map((card, i) => (
               <div
                 key={i}
-                className="bg-[#FFFFFF] p-6 rounded-2xl shadow-xl shadow-[#1A237E]/5 flex gap-4 hover:-translate-y-1 transition-transform border border-[#283593]/10"
+                className="bg-white p-5 rounded-2xl shadow-xl flex gap-4 hover:-translate-y-1 transition-transform border border-[#283593]/10"
               >
                 <div
-                  className={`${card.color} text-[#FFFFFF] p-3 rounded-xl h-fit`}
+                  className={`${card.color} text-white p-3 rounded-xl h-fit`}
                 >
                   {card.icon}
                 </div>
@@ -192,9 +202,9 @@ const ContactPage = () => {
 
           {/* Right Section: Form */}
           <div className="lg:col-span-8">
-            <div className="bg-[#FFFFFF] p-8 md:p-12 rounded-[2.5rem] shadow-2xl shadow-[#1A237E]/10 border border-[#283593]/5">
-              <div className="mb-8 border-l-4 border-[#00B0FF] pl-6">
-                <h2 className="text-2xl font-black text-[#1A237E] mb-2 flex items-center gap-3">
+            <div className="bg-white p-8 md:p-10 rounded-2xl shadow-2xl border border-[#283593]/5">
+              <div className="mb-6 border-l-4 border-[#00B0FF] pl-5">
+                <h2 className="text-2xl font-black text-[#1A237E] mb-1 flex items-center gap-2">
                   <MessageSquare className="text-[#00B0FF]" /> Send a Message
                 </h2>
                 <p className="text-[#283593]/50 text-sm font-medium">
@@ -202,58 +212,90 @@ const ContactPage = () => {
                 </p>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-[10px] uppercase font-black text-[#283593]/60 tracking-widest ml-1">
-                      Full Name
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Full Name"
-                      className="w-full bg-[#FFFFFF] border border-[#283593]/20 rounded-xl p-4 text-sm focus:ring-2 focus:ring-[#00B0FF] focus:border-[#00B0FF] transition-all outline-none"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[10px] uppercase font-black text-[#283593]/60 tracking-widest ml-1">
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      placeholder="Email Address"
-                      className="w-full bg-[#FFFFFF] border border-[#283593]/20 rounded-xl p-4 text-sm focus:ring-2 focus:ring-[#00B0FF] focus:border-[#00B0FF] transition-all outline-none"
-                    />
-                  </div>
-                </div>
+              <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={handleSubmit}
+              >
+                {({ isSubmitting }) => (
+                  <Form className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <Field
+                        type="text"
+                        name="name"
+                        placeholder="Full Name"
+                        className="w-full bg-white border border-[#283593]/20 rounded-xl p-3 text-sm focus:ring-2 focus:ring-[#00B0FF] focus:border-[#00B0FF] transition-all outline-none"
+                      />
+                      <ErrorMessage
+                        name="name"
+                        component="span"
+                        className="text-red-500 text-xs mt-1"
+                      />
 
-                <div className="space-y-2">
-                  <label className="text-[10px] uppercase font-black text-[#283593]/60 tracking-widest ml-1">
-                    Message
-                  </label>
-                  <textarea
-                    rows={4}
-                    placeholder="How can we help you?"
-                    className="w-full bg-[#FFFFFF] border border-[#283593]/20 rounded-xl p-4 text-sm focus:ring-2 focus:ring-[#00B0FF] focus:border-[#00B0FF] transition-all outline-none resize-none"
-                  ></textarea>
-                </div>
+                      <Field
+                        type="email"
+                        name="email"
+                        placeholder="Email Address"
+                        className="w-full bg-white border border-[#283593]/20 rounded-xl p-3 text-sm focus:ring-2 focus:ring-[#00B0FF] focus:border-[#00B0FF] transition-all outline-none"
+                      />
+                      <ErrorMessage
+                        name="email"
+                        component="span"
+                        className="text-red-500 text-xs mt-1"
+                      />
+                    </div>
 
-                <button
-                  type="submit"
-                  className={`w-full py-4 rounded-xl font-black uppercase tracking-widest flex items-center justify-center gap-3 transition-all transform active:scale-95 ${
-                    submitted
-                      ? "bg-green-600 text-[#FFFFFF]"
-                      : "bg-[#1A237E] text-[#FFFFFF] hover:bg-[#00B0FF] hover:shadow-[0_0_20px_#00B0FF]/40 shadow-lg"
-                  }`}
-                >
-                  {submitted ? (
-                    "Message Sent!"
-                  ) : (
-                    <>
-                      <Send size={18} /> Submit Now
-                    </>
-                  )}
-                </button>
-              </form>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <Field
+                        type="text"
+                        name="phone"
+                        placeholder="Phone Number"
+                        className="w-full bg-white border border-[#283593]/20 rounded-xl p-3 text-sm focus:ring-2 focus:ring-[#00B0FF] focus:border-[#00B0FF] transition-all outline-none"
+                      />
+                      <ErrorMessage
+                        name="phone"
+                        component="span"
+                        className="text-red-500 text-xs mt-1"
+                      />
+
+                      <Field
+                        type="text"
+                        name="subject"
+                        placeholder="Subject"
+                        className="w-full bg-white border border-[#283593]/20 rounded-xl p-3 text-sm focus:ring-2 focus:ring-[#00B0FF] focus:border-[#00B0FF] transition-all outline-none"
+                      />
+                      <ErrorMessage
+                        name="subject"
+                        component="span"
+                        className="text-red-500 text-xs mt-1"
+                      />
+                    </div>
+
+                    <Field
+                      as="textarea"
+                      name="message"
+                      rows={4}
+                      placeholder="Your Message"
+                      className="w-full bg-white border border-[#283593]/20 rounded-xl p-3 text-sm focus:ring-2 focus:ring-[#00B0FF] focus:border-[#00B0FF] transition-all outline-none resize-none"
+                    />
+                    <ErrorMessage
+                      name="message"
+                      component="span"
+                      className="text-red-500 text-xs mt-1"
+                    />
+
+                    <div className="flex justify-center">
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="px-8 py-2 cursor-pointer rounded-xl font-black uppercase tracking-widest flex items-center justify-center gap-2 text-sm transition-all transform active:scale-95 bg-[#1A237E] text-white hover:bg-[#00B0FF] hover:shadow-lg"
+                      >
+                        <Send size={16} /> Submit
+                      </button>
+                    </div>
+                  </Form>
+                )}
+              </Formik>
             </div>
           </div>
         </div>

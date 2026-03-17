@@ -8,6 +8,7 @@ import IELTSCourse from "../pages/IELTSCourse";
 import BlogPage from "../pages/BlogPage";
 import Gallery from "../pages/Gallery";
 import Contact from "../pages/Contact";
+import CategoryPage from "../pages/CategoryPage";
 
 function AppRoutes() {
   return (
@@ -21,6 +22,7 @@ function AppRoutes() {
         <Route path="/BlogPage" element={<BlogPage />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/gallery/:category" element={<CategoryPage />} />
       </Route>
     </Routes>
   );

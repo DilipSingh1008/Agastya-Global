@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   GraduationCap,
   BookOpen,
@@ -10,6 +10,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const logos = [
   {
@@ -37,19 +38,128 @@ const logos = [
     url: "https://cdn.worldvectorlogo.com/logos/ulster-university-1.svg",
   },
 ];
-
+const slides = [
+  {
+    image:
+      "https://images.unsplash.com/photo-1541339907198-e08756ebafe1?q=80&w=1600&auto=format&fit=crop",
+    title: "Shape Your",
+    highlight: "Future Abroad",
+    desc: "Expert guidance for international admissions and visa processing.",
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1523050338691-c5e70702453f?q=80&w=1600&auto=format&fit=crop",
+    title: "World Class",
+    highlight: "Universities",
+    desc: "Direct partnerships with top-ranked institutions in UK, USA, and Canada.",
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1600&auto=format&fit=crop",
+    title: "Agastya Global",
+    highlight: "Success Stories",
+    desc: "Join thousands of students who achieved their dreams with us.",
+  },
+];
 const Home = () => {
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const nextSlide = () =>
+    setCurrent(current === slides.length - 1 ? 0 : current + 1);
+  const prevSlide = () =>
+    setCurrent(current === 0 ? slides.length - 1 : current - 1);
   return (
     <div className="pt-20 font-sans bg-[#F8FAFC] overflow-x-hidden">
-      <section className="relative h-[350px] flex items-center justify-center overflow-hidden">
-        <img
-          src="https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1600"
-          alt="London Skyline"
-          className="absolute inset-0 w-full h-full object-cover brightness-50"
-        />
-        <h1 className="relative z-10 text-white text-5xl md:text-6xl font-black tracking-tight">
-          Home
-        </h1>
+      <section className="relative h-[300px] md:h-[450px] w-full overflow-hidden bg-[#1A237E]">
+        {slides.map((slide, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+              index === current ? "opacity-100 visible" : "opacity-0 invisible"
+            }`}
+          >
+            {/* Background Image with Zoom Effect */}
+            <img
+              src={slide.image}
+              alt={slide.title}
+              className={`absolute inset-0 w-full h-full object-cover brightness-[0.4] transition-transform duration-[6000ms] ${
+                index === current ? "scale-110" : "scale-100"
+              }`}
+            />
+
+            {/* Text Content - Optimized for 450px height */}
+            <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6 pt-10">
+              <div
+                className={`transition-all duration-1000 delay-300 transform ${
+                  index === current
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-8 opacity-0"
+                }`}
+              >
+                <span className="text-[#00B0FF] font-black uppercase tracking-[0.3em] text-[10px] md:text-xs mb-3 block">
+                  Agastya Global Education
+                </span>
+
+                {/* Headline - Slightly smaller to fit perfectly in 450px */}
+                <h1 className="text-white text-4xl md:text-7xl font-black tracking-tighter leading-[1.1] mb-4">
+                  {slide.title} <br />
+                  <span className="text-[#00B0FF]">{slide.highlight}</span>
+                </h1>
+
+                <p className="text-white/70 max-w-xl mx-auto text-[11px] md:text-sm font-medium mb-6 leading-relaxed">
+                  {slide.desc}
+                </p>
+
+                {/* Buttons - Same as other pages */}
+                <div className="flex gap-4 justify-center">
+                  <button className="bg-[#00B0FF] hover:bg-white hover:text-[#1A237E] text-white px-6 md:px-8 py-3 md:py-3.5 rounded-full font-bold text-[10px] md:text-xs uppercase tracking-widest transition-all shadow-lg shadow-blue-900/20">
+                    Get Started
+                  </button>
+                  <a
+                    href="/contact"
+                    className="border-2 border-white/20 hover:bg-white/10 text-white px-6 md:px-8 py-3 md:py-3.5 rounded-full font-bold text-[10px] md:text-xs uppercase tracking-widest transition-all cursor-pointer"
+                  >
+                    Contact Us
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+
+        {/* Navigation Arrows */}
+        <button
+          onClick={prevSlide}
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2 md:p-3 rounded-full bg-white/5 hover:bg-[#00B0FF] text-white transition-all hidden md:block"
+        >
+          <ChevronLeft size={20} />
+        </button>
+        <button
+          onClick={nextSlide}
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2 md:p-3 rounded-full bg-white/5 hover:bg-[#00B0FF] text-white transition-all hidden md:block"
+        >
+          <ChevronRight size={20} />
+        </button>
+
+        {/* Pagination Dots */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+          {slides.map((_, i) => (
+            <div
+              key={i}
+              onClick={() => setCurrent(i)}
+              className={`h-1 transition-all duration-500 rounded-full cursor-pointer ${
+                current === i ? "w-8 bg-[#00B0FF]" : "w-3 bg-white/20"
+              }`}
+            />
+          ))}
+        </div>
       </section>
       {/* --- HERO / ABOUT SECTION --- */}
       <section className="py-20 px-6 max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
@@ -324,16 +434,17 @@ const Home = () => {
         href="https://wa.me/yournumber"
         target="_blank"
         rel="noreferrer"
-        className="fixed bottom-8 right-8 bg-[#25D366] text-white p-4 rounded-3xl shadow-[0_20px_40px_rgba(37,211,102,0.3)] hover:scale-110 transition-all z-[200] flex items-center gap-3 group border-4 border-white"
+        className="fixed bottom-6 right-6 bg-[#25D366] text-white px-4 py-3 rounded-full shadow-lg hover:scale-105 transition-all duration-300 z-[200] flex items-center  group"
       >
-        <div className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 whitespace-nowrap text-sm font-bold">
-          Chat with an Expert
-        </div>
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
-          className="w-8 h-8 invert brightness-0"
+          className="w-8 h-8"
           alt="WhatsApp"
         />
+
+        <span className="max-w-0 overflow-hidden group-hover:max-w-[160px] transition-all duration-300 whitespace-nowrap text-sm font-semibold">
+          Chat with Expert
+        </span>
       </a>
     </div>
   );

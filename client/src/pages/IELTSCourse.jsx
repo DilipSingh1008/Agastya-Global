@@ -1,208 +1,268 @@
 import React from "react";
-import { CheckSquare } from "lucide-react";
+import {
+  CheckSquare,
+  BookOpen,
+  Users,
+  Star,
+  Calendar,
+  ShieldCheck,
+  ArrowRight,
+  MapPin,
+  Globe,
+} from "lucide-react";
 
 const IELTSCourse = () => {
   return (
-    <div className="pt-24 font-sans bg-white overflow-x-hidden">
-      {/* --- HERO SECTION --- */}
-      <section className="relative h-[300px] flex items-center justify-center mb-16">
+    <div className="pt-20 font-sans bg-[#F8FAFC] text-slate-900 overflow-x-hidden">
+      {/* --- HERO SECTION (High Impact) --- */}
+      <section className="relative h-[450px] md:h-[650px] flex items-center justify-center overflow-hidden">
+        {/* Animated Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-[#1A237E] via-[#1A237E]/70 to-[#00B0FF]/30 z-10" />
         <img
-          src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1600"
+          src="https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1600"
           alt="IELTS Banner"
-          className="absolute inset-0 w-full h-full object-cover brightness-[0.3]"
+          className="absolute inset-0 w-full h-full object-cover transform scale-105 transition-transform duration-[10s] hover:scale-100"
         />
-        <h1 className="relative z-10 text-white text-5xl font-black uppercase tracking-tight">
-          IELTS
-        </h1>
+        <div className="relative z-20 text-center px-6">
+          <span className="text-[#00B0FF] font-black tracking-[0.3em] uppercase mb-4 block animate-pulse">
+            Premium Training
+          </span>
+          <h1 className="text-white text-6xl md:text-9xl font-black uppercase tracking-tighter drop-shadow-2xl">
+            IELTS
+          </h1>
+          <div className="h-2 w-40 bg-[#00B0FF] mx-auto mt-6 rounded-full shadow-[0_0_15px_rgba(0,176,255,0.8)]"></div>
+          <p className="mt-8 text-white/90 text-lg md:text-2xl font-light max-w-3xl mx-auto leading-relaxed">
+            Your journey to{" "}
+            <span className="font-bold text-[#00B0FF]">Global Success</span>{" "}
+            starts with Agastya Global's expert guidance.
+          </p>
+        </div>
       </section>
 
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 pb-20">
-        {/* --- HEADER SECTION --- */}
-        <div className="mb-12">
-          <h2 className="text-[#212958] text-4xl font-black mb-2 uppercase">
-            [IELTS] International English Language Testing System
-          </h2>
-          <div className="w-20 h-1 bg-blue-600 mb-8 flex items-center">
-            <div className="w-3 h-3 bg-blue-600 rounded-full"></div>
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 pb-24 -mt-20 relative z-30">
+        {/* --- MAIN HEADER CARD --- */}
+        <div className="bg-white p-10 md:p-16 rounded-[3rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] border border-slate-50 mb-20 group">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+            <h2 className="text-[#1A237E] text-3xl md:text-5xl font-black uppercase tracking-tight leading-none">
+              [IELTS]{" "}
+              <span className="text-slate-400">International English</span>{" "}
+              <br className="hidden md:block" /> Language Testing System
+            </h2>
+            <Globe className="text-[#00B0FF] w-16 h-16 opacity-20 group-hover:rotate-12 transition-transform duration-500" />
           </div>
-          <p className="text-gray-700 text-lg leading-relaxed max-w-6xl font-medium">
+          <div className="w-24 h-1.5 bg-[#00B0FF] mb-10 rounded-full transition-all duration-500 group-hover:w-48"></div>
+          <p className="text-slate-600 text-lg md:text-2xl leading-relaxed max-w-6xl font-medium">
             The IELTS score is a globally acknowledged English language
             proficiency prerequisite for pursuing higher education in nearly all
-            countries, such as the United States, the United Kingdom, Australia,
-            Canada, and New Zealand. The topmost band score achievable is 9.0,
-            while universities generally consider a score of 6.0 for
-            undergraduate admission and 6.0-7.0 for graduate admission. The
-            IELTS test comes in two versions.
+            countries, such as the{" "}
+            <span className="text-[#1A237E] font-bold border-b-2 border-[#00B0FF]/30">
+              USA, UK, Australia, Canada, and New Zealand.
+            </span>{" "}
+            Achievement of a top-tier band score is within your reach with our
+            structured approach.
           </p>
         </div>
 
-        {/* --- ACADEMIC & GENERAL TRAINING BLOCKS --- */}
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
-          <div className="p-8 border-t-4 border-blue-600 shadow-lg rounded-b-2xl bg-white">
-            <h3 className="text-[#e11d48] text-2xl font-black mb-4 uppercase tracking-tighter">
+        {/* --- ACADEMIC & GENERAL TRAINING --- */}
+        <div className="grid md:grid-cols-2 gap-10 mb-24">
+          <div className="p-12 bg-white border-t-8 border-[#00B0FF] shadow-xl rounded-3xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3">
+            <div className="bg-[#00B0FF]/10 w-16 h-16 rounded-2xl flex items-center justify-center mb-8">
+              <span className="text-3xl">🎓</span>
+            </div>
+            <h3 className="text-[#1A237E] text-3xl font-black mb-6 uppercase">
               Academic
             </h3>
-            <p className="text-gray-700 font-bold leading-relaxed">
-              The IELTS Academic module evaluates your English language
-              competence to determine if you possess the necessary skills to
-              pursue a degree program or professional training. Students who
-              wish to enroll in a university or a higher education institution
-              are required to take the Academic Module.
+            <p className="text-slate-600 font-medium text-lg leading-relaxed">
+              Designed for students aspiring for{" "}
+              <span className="text-[#1A237E] font-bold">
+                University Admission
+              </span>
+              . It evaluates if you possess the necessary academic language
+              skills for higher education or professional registration.
             </p>
           </div>
-          <div className="p-8 border-t-4 border-blue-600 shadow-lg rounded-b-2xl bg-white">
-            <h3 className="text-[#e11d48] text-2xl font-black mb-4 uppercase tracking-tighter">
+          <div className="p-12 bg-[#1A237E] border-t-8 border-[#00B0FF] shadow-xl rounded-3xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 text-white">
+            <div className="bg-white/10 w-16 h-16 rounded-2xl flex items-center justify-center mb-8">
+              <span className="text-3xl">🌎</span>
+            </div>
+            <h3 className="text-white text-3xl font-black mb-6 uppercase">
               General Training
             </h3>
-            <p className="text-gray-700 font-bold leading-relaxed">
-              The General Training module is intended for individuals who are
-              looking to enroll in a secondary school, short course/vocational
-              training program, or those who are seeking immigration
-              opportunities.
+            <p className="text-slate-200 font-medium text-lg leading-relaxed opacity-90">
+              Ideal for those seeking{" "}
+              <span className="text-[#00B0FF] font-bold">Immigration</span>,
+              secondary education, or vocational training. Focuses on basic
+              survival skills in broad social and workplace contexts.
             </p>
           </div>
         </div>
 
-        {/* --- TEST PATTERN & DESCRIPTION (EXACT LAYOUT) --- */}
-
-        <div className="grid lg:grid-cols-2 gap-10 items-start mb-24">
-          {/* Test Pattern Card */}
-          <div className="bg-white p-10 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.08)] border border-gray-100">
-            <h3 className="text-[#212958] text-2xl font-black mb-8 uppercase flex items-center gap-3">
-              <span className="w-4 h-4 bg-red-600 rounded-full"></span>Test
-              pattern
-            </h3>
-            <ul className="space-y-6">
-              {[
-                "Part 1: Listening (4 sections; 30 minutes)",
-                "Part 2: Reading (3 passages; 60 minutes)",
-                "Part 3: Writing (2 tasks; 60 minutes)",
-                "Part 4: Speaking (Interview; 10-15 minutes)",
-              ].map((pattern, index) => (
-                <li key={index} className="flex gap-4 items-start">
-                  <CheckSquare
-                    className="text-[#f97316] shrink-0 mt-1"
-                    size={24}
-                  />
-                  <p className="text-gray-900 font-bold text-xl leading-tight">
-                    {pattern}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Description Box (Grey) */}
-          <div className="bg-[#f3f4f6] p-10 rounded-3xl h-full flex flex-col justify-center">
-            <h4 className="text-[#212958] text-2xl font-black mb-6 uppercase tracking-tighter">
-              Description
-            </h4>
-            <div className="space-y-6 text-gray-800 font-bold text-lg leading-relaxed">
-              <p>
-                The General Training module is intended for individuals who are
-                looking to enroll in a secondary school, vocational training
-                programs, or those seeking immigration opportunities.
-              </p>
-              <p>
-                Enroll in Zain Global's exclusive program today and take the
-                first step toward a brighter future. Let Zain Global be your
-                partner in achieving your goals.
-              </p>
+        {/* --- TEST PATTERN & INFO --- */}
+        <div className="grid lg:grid-cols-2 gap-12 items-stretch mb-24">
+          <div className="bg-white p-12 rounded-[3rem] shadow-xl border border-slate-100 flex flex-col justify-between">
+            <div>
+              <h3 className="text-[#1A237E] text-3xl font-black mb-10 uppercase flex items-center gap-4">
+                <div className="w-8 h-8 bg-[#00B0FF] rounded-lg rotate-45"></div>
+                Test Structure
+              </h3>
+              <ul className="space-y-6">
+                {[
+                  { label: "Part 1: Listening", time: "4 sections; 30 mins" },
+                  { label: "Part 2: Reading", time: "3 passages; 60 mins" },
+                  { label: "Part 3: Writing", time: "2 tasks; 60 mins" },
+                  { label: "Part 4: Speaking", time: "Interview; 10-15 mins" },
+                ].map((item, index) => (
+                  <li
+                    key={index}
+                    className="flex gap-6 items-center p-4 rounded-2xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100"
+                  >
+                    <CheckSquare
+                      className="text-[#00B0FF] shrink-0"
+                      size={28}
+                    />
+                    <div>
+                      <p className="text-[#1A237E] font-black text-xl leading-none mb-1 uppercase tracking-tight">
+                        {item.label}
+                      </p>
+                      <p className="text-slate-500 font-bold">{item.time}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
-        </div>
 
-        {/* --- ZAIN GLOBAL COURSE DETAILS --- */}
-        <div className="space-y-12 mb-20">
-          <div className="max-w-4xl">
-            <h2 className="text-[#212958] text-4xl font-black mb-6 uppercase">
-              Zain Global IELTS Course
-            </h2>
-            <p className="text-gray-700 text-lg leading-relaxed font-medium">
-              Zain Global is proud to announce the launch of its exclusive IELTS
-              program at our Chittagong branch, with plans to extend this
-              initiative to all of our branches very soon. This specially
-              designed program aims to provide top-notch IELTS training to
-              students aspiring to achieve their desired band scores.
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-12">
-            <div>
-              <h3 className="text-[#212958] text-2xl font-black mb-4 uppercase">
-                Why Is a Good IELTS Band Score Important?
-              </h3>
-              <div className="space-y-4 text-gray-700 font-medium leading-relaxed">
-                <p>
-                  The International English Language Testing System (IELTS) is a
-                  globally recognized English proficiency test. A good IELTS
-                  band score is crucial for students aiming to study abroad, as
-                  it is a mandatory requirement for admission to most
-                  universities in English-speaking countries.
+          <div className="bg-[#F1F5F9] p-12 rounded-[3rem] border border-slate-200 relative overflow-hidden group">
+            <div className="relative z-10">
+              <h4 className="text-[#1A237E] text-3xl font-black mb-8 uppercase tracking-tighter">
+                Course Description
+              </h4>
+              <div className="space-y-8 text-slate-700 font-medium text-xl leading-relaxed">
+                <p className="border-l-4 border-[#00B0FF] pl-6 py-2">
+                  Agastya Global provides the most comprehensive environment for
+                  both Academic and General Training modules.
                 </p>
                 <p>
-                  Moreover, a good IELTS score demonstrates your ability to
-                  communicate effectively in English, which is essential for
-                  success in academic, social, and professional settings.
+                  Our curriculum is updated weekly to match the latest Cambridge
+                  standards, ensuring you are never surprised on test day.
                 </p>
+                <div className="pt-6">
+                  <p className="text-[#1A237E] font-black text-sm uppercase tracking-widest mb-2">
+                    Our Promise
+                  </p>
+                  <p className="text-slate-500 italic">
+                    "Empowering students through excellence in English language
+                    education."
+                  </p>
+                </div>
               </div>
             </div>
-            <div>
-              <h3 className="text-[#212958] text-2xl font-black mb-4 uppercase tracking-tighter">
-                IELTS and Career Opportunities:
+            <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-[#1A237E]/5 rounded-full scale-150 group-hover:scale-[2] transition-transform duration-700"></div>
+          </div>
+        </div>
+
+        {/* --- AGASTYA GLOBAL SPECIAL FEATURES --- */}
+        <div className="bg-white p-12 md:p-20 rounded-[4rem] shadow-2xl mb-24 border border-slate-50 relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
+            <Star size={200} />
+          </div>
+
+          <div className="max-w-4xl mb-16 relative z-10">
+            <h2 className="text-[#1A237E] text-4xl md:text-6xl font-black mb-8 uppercase tracking-tight leading-tight">
+              Agastya Global{" "}
+              <span className="text-[#00B0FF] block">IELTS Course</span>
+            </h2>
+            <div className="flex items-center gap-3 text-[#1A237E] font-bold mb-6">
+              <MapPin className="text-[#00B0FF]" />
+              <span>Chittagong Branch (Now Open)</span>
+            </div>
+            <p className="text-slate-600 text-xl md:text-2xl leading-relaxed font-medium">
+              We provide top-notch training designed for success. A good IELTS
+              score is not just a requirement; it’s a{" "}
+              <span className="text-[#1A237E] font-extrabold underline decoration-[#00B0FF] decoration-4">
+                career catalyst
+              </span>
+              .
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12 relative z-10">
+            <div className="bg-slate-50 p-8 rounded-3xl border-l-8 border-[#1A237E]">
+              <h3 className="text-[#1A237E] text-2xl font-black mb-4 uppercase">
+                Why It Matters?
               </h3>
-              <p className="text-gray-700 font-medium leading-relaxed">
-                In addition to higher education, a good IELTS score can
-                significantly enhance your career prospects. Many multinational
-                companies prioritize candidates with strong communication
-                skills. Having a high IELTS score on your resume can set you
-                apart from other candidates in industries like IT, healthcare,
-                and engineering.
+              <p className="text-slate-600 text-lg leading-relaxed">
+                It’s essential for admission to top-tier universities and
+                demonstrates your professional communication capability in IT,
+                Engineering, and Healthcare.
+              </p>
+            </div>
+            <div className="bg-[#00B0FF]/5 p-8 rounded-3xl border-l-8 border-[#00B0FF]">
+              <h3 className="text-[#1A237E] text-2xl font-black mb-4 uppercase">
+                Career Impact
+              </h3>
+              <p className="text-slate-600 text-lg leading-relaxed">
+                Multinational giants prioritize candidates with strong IELTS
+                scores. It represents your ability to thrive in a global
+                workforce.
               </p>
             </div>
           </div>
         </div>
 
-        {/* --- WHY CHOOSE US (6 POINTS) --- */}
+        {/* --- WHY CHOOSE US (Interactive Grid) --- */}
         <div className="mb-24">
-          <h2 className="text-[#212958] text-3xl font-black mb-10 uppercase text-center">
-            Why Choose Zain Global for Your IELTS Preparation?
-          </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="text-center mb-16">
+            <h2 className="text-[#1A237E] text-4xl md:text-5xl font-black mb-6 uppercase tracking-tight">
+              Why Agastya Global?
+            </h2>
+            <div className="w-24 h-2 bg-[#00B0FF] mx-auto rounded-full"></div>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
                 t: "Expert Instructors",
-                d: "Our IELTS classes are conducted by British Council-certified instructors who bring years of experience and expertise.",
+                d: "British Council-certified professionals with over 10+ years of experience.",
+                icon: <Users size={32} />,
               },
               {
-                t: "Small Batch Sizes",
-                d: "To ensure effective learning, each batch is limited to only 12 students. This enables instructors to give focused attention.",
+                t: "12-Student Batches",
+                d: "Micro-batches to ensure every student gets personalized corrections.",
+                icon: <Star size={32} />,
               },
               {
-                t: "Comprehensive Curriculum",
-                d: "Our curriculum is designed to cover all four modules – Listening, Reading, Writing, and Speaking – with in-depth practice.",
+                t: "Full Module Focus",
+                d: "Comprehensive practice for Listening, Reading, Writing, and Speaking.",
+                icon: <BookOpen size={32} />,
               },
               {
-                t: "Mock Tests and Feedback",
-                d: "Regular mock tests are conducted to familiarize students with the exam format. Detailed feedback is provided for improvement.",
+                t: "Weekly Mock Tests",
+                d: "Real exam simulation every Saturday with detailed performance tracking.",
+                icon: <Calendar size={32} />,
               },
               {
-                t: "Flexible Schedules",
-                d: "We understand our students come from diverse backgrounds, hence we offer flexible class timings to accommodate everyone.",
+                t: "Flexible Timings",
+                d: "Special morning and evening batches for working professionals.",
+                icon: <CheckSquare size={32} />,
               },
               {
-                t: "Personalized Guidance",
-                d: "Equipping students with skills needed to excel in real-world scenarios and achieve their dream band score.",
+                t: "Real-World Skills",
+                d: "We don't just teach for the test; we teach you how to communicate.",
+                icon: <ShieldCheck size={32} />,
               },
             ].map((item, i) => (
               <div
                 key={i}
-                className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow"
+                className="group bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
               >
-                <h4 className="text-[#212958] font-black mb-2 uppercase text-sm">
+                <div className="text-[#00B0FF] mb-8 bg-[#00B0FF]/10 w-fit p-5 rounded-3xl group-hover:bg-[#1A237E] group-hover:text-white transition-colors duration-300">
+                  {item.icon}
+                </div>
+                <h4 className="text-[#1A237E] font-black mb-4 uppercase text-xl tracking-tight">
                   {item.t}
                 </h4>
-                <p className="text-gray-600 text-sm leading-relaxed">
+                <p className="text-slate-500 text-lg leading-relaxed">
                   {item.d}
                 </p>
               </div>
@@ -210,25 +270,32 @@ const IELTSCourse = () => {
           </div>
         </div>
 
-        {/* --- FINAL CTA SECTION (BOTTOM IMAGE) --- */}
-        <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl h-[500px]">
+        {/* --- FINAL CTA SECTION --- */}
+        <div className="relative rounded-[4rem] overflow-hidden shadow-[0_30px_70px_-15px_rgba(26,35,126,0.4)] min-h-[550px] group">
           <img
             src="https://images.pexels.com/photos/159711/books-bookcase-library-read-159711.jpeg?auto=compress&cs=tinysrgb&w=1200"
             alt="Student Practice"
-            className="w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110"
           />
-          <div className="absolute inset-0 bg-black/50 flex flex-col justify-end p-12">
-            <div className="max-w-3xl">
-              <h3 className="text-white text-4xl font-black mb-6 uppercase">
-                Get Real Guidance
+          <div className="absolute inset-0 bg-gradient-to-r from-[#1A237E] via-[#1A237E]/90 to-transparent flex flex-col justify-center p-8 md:p-24">
+            <div className="max-w-2xl text-white">
+              <span className="bg-[#00B0FF] px-8 py-2 rounded-full font-black text-sm uppercase mb-8 inline-block shadow-lg">
+                Limited Seats Available
+              </span>
+              <h3 className="text-5xl md:text-7xl font-black mb-8 uppercase leading-[0.9]">
+                Ready to <br />
+                <span className="text-[#00B0FF]">Succeed?</span>
               </h3>
-              <p className="text-white text-xl font-bold mb-8 opacity-90 leading-relaxed">
-                Unlock your potential and pave the way for a brighter future. At
-                Zain Global, we understand the importance of a good IELTS score.
-                Enroll in Zain Global’s exclusive IELTS program today.
+              <p className="text-white/80 text-xl md:text-2xl font-medium mb-12 leading-relaxed">
+                Don't leave your future to chance. Enroll in Agastya Global’s
+                exclusive program and secure your dream score.
               </p>
-              <button className="bg-red-600 hover:bg-red-700 text-white px-10 py-4 rounded-full font-black uppercase text-lg transition-transform hover:scale-105">
-                Join Us Today
+              <button className="group bg-white hover:bg-[#00B0FF] text-[#1A237E] hover:text-white px-14 py-6 rounded-full font-black uppercase text-2xl transition-all duration-300 flex items-center gap-4 shadow-2xl active:scale-95">
+                Join Us Now
+                <ArrowRight
+                  className="group-hover:translate-x-3 transition-transform duration-300"
+                  size={32}
+                />
               </button>
             </div>
           </div>
