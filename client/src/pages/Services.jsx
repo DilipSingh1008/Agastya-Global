@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   CheckSquare,
   Headphones,
@@ -8,14 +8,23 @@ import {
   FileCheck,
   Award,
   Zap,
+  ArrowRight,
 } from "lucide-react";
+import Banner from "../components/Banner";
+import { getData } from "../api/api";
 
 const Services = () => {
+  const [recruitments, setRecruiments] = useState([]);
+  const [services, setServices] = useState([]);
+  // const [courseTypes, setCourseTypes] = useState([]);
+  const [questions, setQuestions] = useState([]);
+  const [subjects, setSubjects] = useState([]);
   const serviceList = [
     "Applications",
     "Student Finance applications",
     "Interviews",
     "Student counselling",
+    "Scholarships",
   ];
 
   const courseTypes = [
@@ -36,71 +45,108 @@ const Services = () => {
     "Finance and accounting and many more",
   ];
 
-  const universityQuestions = [
-    "Does the university offer the right course options and flexibility for you?",
-    "How does it rank for student satisfaction and care?",
-    "What are your career prospects?",
-    "What percentages of its students go straight into employment or further study after graduating?",
-    "What are the teaching standards like?",
-    "How does it perform in terms of research activity?",
-    "What facilities are on offer? Consider things such as libraries, lecture halls and study spaces",
-    "Are there extra-curricular opportunities such as student unions, societies and sports teams?",
-    "Is the university based on campus or spread out over a city?",
-    "What are the course fees and accommodation costs and standards like?",
-    "Review Graduate employability and student satisfaction rate?",
-  ];
+  // const universityQuestions = [
+  //   "Does the university offer the right course options and flexibility for you?",
+  //   "How does it rank for student satisfaction and care?",
+  //   "What are your career prospects?",
+  //   "What percentages of its students go straight into employment or further study after graduating?",
+  //   "What are the teaching standards like?",
+  //   "How does it perform in terms of research activity?",
+  //   "What facilities are on offer? Consider things such as libraries, lecture halls and study spaces",
+  //   "Are there extra-curricular opportunities such as student unions, societies and sports teams?",
+  //   "Is the university based on campus or spread out over a city?",
+  //   "What are the course fees and accommodation costs and standards like?",
+  //   "Review Graduate employability and student satisfaction rate?",
+  // ];
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [recruitRes, serviceRes, courseRes, questionRes, subjectsRes] =
+          await Promise.all([
+            getData("recruitments"),
+            getData("services"),
+            getData("course-types"),
+            getData("questions"),
+            getData("subjects"),
+          ]);
+
+        if (recruitRes.success) {
+          const filtered = recruitRes.data.filter(
+            (item) => item.status === true,
+          );
+          setRecruiments(filtered);
+        }
+
+        if (serviceRes.success) {
+          setServices(serviceRes.data);
+        }
+
+        // if (courseRes.success) {
+        //   setCourseTypes(courseRes.data);
+        // }
+        if (courseRes.success) {
+          setSubjects(subjectsRes.data);
+        }
+        if (questionRes.success) {
+          setQuestions(questionRes.data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  console.log(subjects);
   return (
-    <div className="pt-20 font-sans bg-[#F8FAFC] overflow-x-hidden">
-      {/* HERO */}
-      <section className="relative h-[300px] md:h-[450px] flex items-center justify-center mb-12">
-        <img
-          src="https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1600"
-          alt="Services Banner"
-          className="absolute inset-0 w-full h-full object-cover brightness-[0.4]"
-        />
-        <h1 className="relative z-10 text-white text-5xl font-black uppercase tracking-tight">
-          Services
-        </h1>
-      </section>
+    <div className="pt-20 font-sans bg-[#FBFDFF] text-slate-900 overflow-x-hidden">
+      {/* --- MODERN HERO SECTION --- */}
+      <Banner
+        subtitle="Our Expertise"
+        title={
+          <>
+            Our <span className="text-[#00B0FF]">Services</span>
+          </>
+        }
+        align="center"
+      />
 
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
-        {/* RECRUITMENT */}
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
-          <div className="p-8 border-t-4 border-[#00B0FF] shadow-lg rounded-b-xl hover:-translate-y-1 hover:shadow-xl transition">
-            <h2 className="text-[#1A237E] text-3xl font-black mb-4">
+      <div className="max-w-7xl mx-auto px-6 py-20">
+        {/* --- RECRUITMENT & HELP SECTION --- */}
+        <div className="grid md:grid-cols-2 gap-10 mb-24">
+          <div className="group bg-white p-10 rounded-[2.5rem] shadow-xl border border-slate-100 hover:border-[#00B0FF]/30 transition-all duration-500 relative overflow-hidden">
+            <div className="absolute -right-4 -top-4 w-24 h-24 bg-[#00B0FF]/5 rounded-full group-hover:scale-150 transition-transform duration-700"></div>
+            <h2 className="text-[#1A237E] text-3xl font-black mb-6 flex items-center gap-3">
+              <span className="w-2 h-8 bg-[#00B0FF] rounded-full"></span>
               We Recruit
             </h2>
-
-            <div className="w-16 h-1 bg-[#00B0FF] mb-6 flex items-center">
-              <div className="w-3 h-3 bg-[#00B0FF] rounded-full"></div>
-            </div>
-
-            <ul className="space-y-4">
-              <li className="flex gap-3 text-slate-700 font-bold items-center">
-                <CheckSquare className="text-[#00B0FF]" size={20} /> UK students
-              </li>
-
-              <li className="flex gap-3 text-slate-700 font-bold items-center">
-                <CheckSquare className="text-[#00B0FF]" size={20} /> EU students
-              </li>
+            <ul className="space-y-4 relative z-10">
+              {recruitments.map((item, i) => (
+                <li
+                  key={i}
+                  className="flex gap-4 text-slate-600 font-bold items-center group/item"
+                >
+                  <CheckSquare
+                    className="text-[#00B0FF] group-hover/item:scale-110 transition"
+                    size={24}
+                  />
+                  <span className="text-lg">{item.name}</span>
+                </li>
+              ))}
             </ul>
           </div>
 
-          <div className="p-8 border-t-4 border-[#00B0FF] shadow-lg rounded-b-xl hover:-translate-y-1 hover:shadow-xl transition">
-            <h2 className="text-[#1A237E] text-3xl font-black mb-4">
-              We help our students with
+          <div className="group bg-[#1A237E] p-10 rounded-[2.5rem] shadow-2xl transition-all duration-500">
+            <h2 className="text-white text-3xl font-black mb-6 flex items-center gap-3">
+              <span className="w-2 h-8 bg-[#00B0FF] rounded-full"></span>
+              Student Support
             </h2>
-
-            <div className="w-16 h-1 bg-[#00B0FF] mb-6 flex items-center">
-              <div className="w-3 h-3 bg-[#00B0FF] rounded-full"></div>
-            </div>
-
-            <ul className="space-y-4">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {serviceList.map((item, index) => (
                 <li
                   key={index}
-                  className="flex gap-3 text-slate-700 font-bold items-center"
+                  className="flex gap-3 text-white/90 font-bold items-center bg-white/5 p-4 rounded-2xl hover:bg-white/10 transition"
                 >
                   <CheckSquare className="text-[#00B0FF]" size={20} /> {item}
                 </li>
@@ -109,140 +155,139 @@ const Services = () => {
           </div>
         </div>
 
-        {/* COURSE TYPES */}
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
-          <div className="p-8 border-t-4 border-[#00B0FF] shadow-lg rounded-b-xl hover:-translate-y-1 hover:shadow-xl transition">
-            <h2 className="text-[#1A237E] text-2xl font-black uppercase mb-4">
+        {/* --- COURSE TYPES GRID --- */}
+        <div className="grid md:grid-cols-2 gap-10 mb-32">
+          <div className="p-10 bg-white rounded-[3rem] shadow-lg border-l-[12px] border-[#00B0FF] hover:shadow-2xl transition-shadow">
+            <h2 className="text-[#1A237E] text-2xl font-black uppercase mb-8 tracking-tight">
               Types of courses we assist
             </h2>
-
-            <ul className="space-y-4">
+            <div className="space-y-4">
               {courseTypes.map((item, index) => (
-                <li
+                <div
                   key={index}
-                  className="flex gap-3 text-slate-700 font-bold items-center"
+                  className="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 transition group"
                 >
-                  <CheckSquare className="text-[#00B0FF]" size={20} /> {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="p-8 border-t-4 border-[#00B0FF] shadow-lg rounded-b-xl hover:-translate-y-1 hover:shadow-xl transition">
-            <h2 className="text-[#1A237E] text-2xl font-black uppercase mb-4">
-              Courses we mainly assist with
-            </h2>
-
-            <ul className="space-y-3">
-              {mainCourses.map((item, index) => (
-                <li
-                  key={index}
-                  className="flex gap-3 text-slate-700 font-bold items-center"
-                >
-                  <CheckSquare className="text-[#00B0FF]" size={20} /> {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* FIND UNIVERSITY */}
-        <section className="py-16 border-t border-slate-200">
-          <h2 className="text-[#1A237E] text-4xl font-black mb-2">
-            Find A University
-          </h2>
-
-          <div className="w-24 h-1 bg-[#00B0FF] mb-8 flex items-center">
-            <div className="w-3 h-3 bg-[#00B0FF] rounded-full"></div>
-          </div>
-
-          <div className="flex flex-col lg:flex-row gap-12 items-start">
-            <div className="flex-1 space-y-4">
-              {universityQuestions.map((question, index) => (
-                <div key={index} className="flex gap-4 items-start group">
-                  <CheckSquare
-                    className="text-[#00B0FF] mt-1 shrink-0 group-hover:scale-110 transition"
-                    size={22}
-                  />
-                  <p className="text-slate-800 font-bold text-md">{question}</p>
+                  <div className="bg-[#00B0FF]/10 p-2 rounded-lg group-hover:bg-[#00B0FF] group-hover:text-white transition-colors">
+                    <GraduationCap size={20} />
+                  </div>
+                  <span className="font-bold text-slate-700">{item}</span>
                 </div>
               ))}
             </div>
+          </div>
 
-            <div className="flex-1 w-full">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl border-8 border-white">
-                <img
-                  src="https://images.pexels.com/photos/3762800/pexels-photo-3762800.jpeg?auto=compress&cs=tinysrgb&w=800"
-                  alt="Library Interior"
-                  className="w-full h-[600px] object-cover"
-                />
+          <div className="p-10 bg-white rounded-[3rem] shadow-lg border-l-[12px] border-[#1A237E] hover:shadow-2xl transition-shadow">
+            <h2 className="text-[#1A237E] text-2xl font-black uppercase mb-8 tracking-tight">
+              Main Subject Areas
+            </h2>
+            <div className="grid grid-cols-1 gap-3">
+              {subjects.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100"
+                >
+                  <ArrowRight size={18} className="text-[#00B0FF]" />
+                  <span className="font-bold text-slate-700">{item.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* --- UNIVERSITY DECISION SECTION --- */}
+        <section className="bg-slate-900 rounded-[4rem] overflow-hidden mb-32 shadow-3xl">
+          <div className="flex flex-col lg:flex-row">
+            <div className="lg:w-1/2 p-12 md:p-20">
+              <h2 className="text-white text-4xl md:text-5xl font-black mb-4">
+                Find A <span className="text-[#00B0FF]">University</span>
+              </h2>
+              <p className="text-white/50 mb-10 font-medium">
+                Ask yourself these critical questions before choosing your
+                future destination:
+              </p>
+
+              <div className="space-y-5 h-[500px] overflow-y-auto pr-4 custom-scrollbar">
+                {questions.map((question, index) => (
+                  <div
+                    key={index}
+                    className="flex gap-5 items-start bg-white/5 p-5 rounded-2xl hover:bg-white/10 transition border border-white/5"
+                  >
+                    <span className="text-[#00B0FF] font-black text-xl">
+                      0{index + 1}
+                    </span>
+                    <p className="text-white/90 font-bold text-md leading-snug">
+                      {question.question}
+                    </p>
+                  </div>
+                ))}
               </div>
+            </div>
+            <div className="lg:w-1/2 relative min-h-[400px]">
+              <img
+                src="https://images.pexels.com/photos/3762800/pexels-photo-3762800.jpeg?auto=compress&cs=tinysrgb&w=800"
+                alt="Library"
+                className="absolute inset-0 w-full h-full object-cover opacity-80"
+              />
+              <div className="absolute inset-0 bg-gradient-to-l from-slate-900 via-transparent to-transparent"></div>
             </div>
           </div>
         </section>
 
-        {/* STUDENT SUPPORT */}
-        <section className="py-12">
-          <h2 className="text-[#1A237E] text-4xl font-black mb-2">
-            Exclusive Student Support
-          </h2>
+        {/* --- EXCLUSIVE STUDENT SUPPORT --- */}
+        <section className="py-20 bg-white rounded-[4rem] shadow-xl border border-slate-50 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-[#00B0FF]/5 blur-3xl rounded-full"></div>
 
-          <div className="w-20 h-1 bg-[#00B0FF] mb-12 flex items-center">
-            <div className="w-3 h-3 bg-[#00B0FF] rounded-full"></div>
+          <div className="text-center mb-20">
+            <h2 className="text-[#1A237E] text-4xl md:text-6xl font-black mb-4 uppercase tracking-tighter">
+              Exclusive <span className="text-[#00B0FF]">Student Support</span>
+            </h2>
+            <div className="w-24 h-2 bg-[#00B0FF] mx-auto rounded-full"></div>
           </div>
 
-          <div className="flex flex-col lg:flex-row items-center gap-12">
-            <div className="flex-1 space-y-8">
-              <div className="flex items-center gap-4 text-lg font-bold text-slate-800">
-                <Headphones size={32} className="text-[#00B0FF]" />
-                24/7 Student Recruitment Services
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-8 lg:px-16">
+            {[
+              {
+                icon: <Headphones size={32} />,
+                text: "24/7 Student Recruitment Services",
+              },
+              { icon: <UserCheck size={32} />, text: "Admission Support" },
+              { icon: <Globe size={32} />, text: "Home Overseas Consultant" },
+              {
+                icon: <GraduationCap size={32} />,
+                text: "Professional and Customized Student Pathway",
+              },
+              {
+                icon: <FileCheck size={32} />,
+                text: "Free Application Services",
+              },
+              { icon: <Award size={32} />, text: "Top Ranked Universities" },
+              {
+                icon: <Zap size={32} />,
+                text: "Best Quality Achievements and 100% Helpful Services",
+              },
+            ].map((support, i) => (
+              <div
+                key={i}
+                className="flex flex-col items-center text-center p-8 rounded-[2rem] bg-slate-50 hover:bg-[#1A237E] group transition-all duration-500 shadow-sm hover:shadow-2xl hover:-translate-y-2"
+              >
+                <div className="mb-6 p-5 bg-white rounded-2xl text-[#00B0FF] group-hover:bg-[#00B0FF] group-hover:text-white transition-all shadow-md">
+                  {support.icon}
+                </div>
+                <h3 className="text-slate-800 font-black text-lg group-hover:text-white transition-colors">
+                  {support.text}
+                </h3>
               </div>
+            ))}
+          </div>
 
-              <div className="flex items-center gap-4 text-lg font-bold text-slate-800">
-                <UserCheck size={32} className="text-[#00B0FF]" />
-                Admission Support
-              </div>
-
-              <div className="flex items-center gap-4 text-lg font-bold text-slate-800">
-                <Globe size={32} className="text-[#00B0FF]" />
-                Home Overseas Consultant
-              </div>
-
-              <div className="flex items-center gap-4 text-lg font-bold text-slate-800">
-                <GraduationCap size={32} className="text-[#00B0FF]" />
-                Professional and Customized Student Pathway
-              </div>
-            </div>
-
-            <div className="flex-1">
-              <img
-                src="https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="Students"
-                className="rounded-2xl shadow-2xl w-full"
+          {/* CTA BUTTON */}
+          <div className="text-center mt-20 relative z-10">
+            <button className="bg-[#1A237E] text-white px-12 py-5 rounded-[2rem] font-black text-xl flex items-center gap-4 mx-auto hover:bg-[#00B0FF] transition-all shadow-2xl hover:scale-105 active:scale-95 group">
+              <CheckSquare
+                size={28}
+                className="group-hover:rotate-12 transition-transform"
               />
-            </div>
-
-            <div className="flex-1 space-y-8">
-              <div className="flex items-center gap-4 text-lg font-bold text-slate-800">
-                <FileCheck size={32} className="text-[#00B0FF]" />
-                Free Application Services
-              </div>
-
-              <div className="flex items-center gap-4 text-lg font-bold text-slate-800">
-                <Award size={32} className="text-[#00B0FF]" />
-                Top Ranked Universities
-              </div>
-
-              <div className="flex items-center gap-4 text-lg font-bold text-slate-800">
-                <Zap size={32} className="text-[#00B0FF]" />
-                Best Quality Achievements and 100% Helpful Services
-              </div>
-            </div>
-          </div>
-
-          <div className="text-center mt-16">
-            <button className="bg-[#1A237E] text-white px-10 py-4 rounded-xl font-bold text-xl flex items-center gap-3 mx-auto hover:bg-[#00B0FF] transition shadow-lg">
-              <CheckSquare size={24} /> Start Application
+              START APPLICATION NOW
             </button>
           </div>
         </section>

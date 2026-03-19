@@ -32,8 +32,8 @@ exports.updateSiteSetting = async (req, res) => {
 
     // agar file upload aayi hai
     if (req.files?.logo) {
-      console.log(req.files?.logo);
-      
+      // console.log(req.files?.logo);
+
       updateData.logo = `/uploads/settings/${req.files.logo[0].filename}`;
     }
 
@@ -44,7 +44,7 @@ exports.updateSiteSetting = async (req, res) => {
     const setting = await Setting.findOneAndUpdate(
       { section: "site" },
       updateData,
-      { new: true, upsert: true }
+      { new: true, upsert: true },
     );
 
     res.status(200).json({
@@ -53,7 +53,7 @@ exports.updateSiteSetting = async (req, res) => {
       data: setting,
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).json({ success: false, message: "Server error" });
   }
 };

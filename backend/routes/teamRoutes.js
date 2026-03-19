@@ -1,16 +1,18 @@
 const express = require("express");
 const router = express.Router();
-const {
-  getTeamMembers,
-  createTeamMember,
-  updateTeamMember,
-  deleteTeamMember,
-} = require("../controllers/teamController");
+const upload = require("../middlewares/upload");
+const teamController = require("../controllers/teamController");
 
-// Routes
-router.get("/", getTeamMembers);
-router.post("/", createTeamMember);
-router.put("/:id", updateTeamMember);
-router.delete("/:id", deleteTeamMember);
+router.post("/", upload.single("image"), teamController.createTeamMember);
+
+router.get("/", teamController.getTeamMembers);
+
+// router.get("/:id", teamController.getTeamMemberById);
+
+router.put("/:id", upload.single("image"), teamController.updateTeamMember);
+
+router.delete("/:id", teamController.deleteTeamMember);
+
+router.patch("/toggle-status/:id", teamController.toggleStatus);
 
 module.exports = router;

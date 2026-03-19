@@ -42,14 +42,16 @@ const ContactPage = () => {
   const validationSchema = Yup.object({
     name: Yup.string().required("Full Name is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
-    phone: Yup.string().required("Phone number is required"),
+    phone: Yup.string()
+      .matches(/^[0-9]+$/, "Only numbers are allowed")
+      .required("Phone number is required"),
     subject: Yup.string().required("Subject is required"),
     message: Yup.string().required("Message is required"),
   });
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
-      console.log(values);
+      // console.log(values);
       let res = await postData("enquiry", values);
       console.log(res);
       setSubmitted(true);
@@ -201,7 +203,7 @@ const ContactPage = () => {
           </div>
 
           {/* Right Section: Form */}
-          <div className="lg:col-span-8">
+          {/* <div className="lg:col-span-8">
             <div className="bg-white p-8 md:p-10 rounded-2xl shadow-2xl border border-[#283593]/5">
               <div className="mb-6 border-l-4 border-[#00B0FF] pl-5">
                 <h2 className="text-2xl font-black text-[#1A237E] mb-1 flex items-center gap-2">
@@ -284,6 +286,117 @@ const ContactPage = () => {
                       className="text-red-500 text-xs mt-1"
                     />
 
+                    <div className="flex justify-center">
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="px-8 py-2 cursor-pointer rounded-xl font-black uppercase tracking-widest flex items-center justify-center gap-2 text-sm transition-all transform active:scale-95 bg-[#1A237E] text-white hover:bg-[#00B0FF] hover:shadow-lg"
+                      >
+                        <Send size={16} /> Submit
+                      </button>
+                    </div>
+                  </Form>
+                )}
+              </Formik>
+            </div>
+          </div> */}
+          <div className="lg:col-span-8">
+            <div className="bg-white p-8 md:p-10 rounded-2xl shadow-2xl border border-[#283593]/5">
+              <div className="mb-6 border-l-4 border-[#00B0FF] pl-5">
+                <h2 className="text-2xl font-black text-[#1A237E] mb-1 flex items-center gap-2">
+                  <MessageSquare className="text-[#00B0FF]" /> Send a Message
+                </h2>
+                <p className="text-[#283593]/50 text-sm font-medium">
+                  Professional support is just a message away.
+                </p>
+              </div>
+
+              <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={handleSubmit}
+              >
+                {({ isSubmitting }) => (
+                  <Form className="space-y-4">
+                    {/* Row 1 */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Field
+                          type="text"
+                          name="name"
+                          placeholder="Full Name"
+                          className="w-full bg-white border border-[#283593]/20 rounded-xl p-3 text-sm focus:ring-2 focus:ring-[#00B0FF] focus:border-[#00B0FF] transition-all outline-none"
+                        />
+                        <ErrorMessage
+                          name="name"
+                          component="span"
+                          className="text-red-500 text-xs mt-1 block"
+                        />
+                      </div>
+
+                      <div>
+                        <Field
+                          type="email"
+                          name="email"
+                          placeholder="Email Address"
+                          className="w-full bg-white border border-[#283593]/20 rounded-xl p-3 text-sm focus:ring-2 focus:ring-[#00B0FF] focus:border-[#00B0FF] transition-all outline-none"
+                        />
+                        <ErrorMessage
+                          name="email"
+                          component="span"
+                          className="text-red-500 text-xs mt-1 block"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Row 2 */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Field
+                          type="text"
+                          name="phone"
+                          placeholder="Phone Number"
+                          className="w-full bg-white border border-[#283593]/20 rounded-xl p-3 text-sm focus:ring-2 focus:ring-[#00B0FF] focus:border-[#00B0FF] transition-all outline-none"
+                        />
+                        <ErrorMessage
+                          name="phone"
+                          component="span"
+                          className="text-red-500 text-xs mt-1 block"
+                        />
+                      </div>
+
+                      <div>
+                        <Field
+                          type="text"
+                          name="subject"
+                          placeholder="Subject"
+                          className="w-full bg-white border border-[#283593]/20 rounded-xl p-3 text-sm focus:ring-2 focus:ring-[#00B0FF] focus:border-[#00B0FF] transition-all outline-none"
+                        />
+                        <ErrorMessage
+                          name="subject"
+                          component="span"
+                          className="text-red-500 text-xs mt-1 block"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Message */}
+                    <div>
+                      <Field
+                        as="textarea"
+                        name="message"
+                        rows={4}
+                        placeholder="Your Message"
+                        className="w-full bg-white border border-[#283593]/20 rounded-xl p-3 text-sm focus:ring-2 focus:ring-[#00B0FF] focus:border-[#00B0FF] transition-all outline-none resize-none"
+                      />
+                      <ErrorMessage
+                        name="message"
+                        component="span"
+                        className="text-red-500 text-xs mt-1 block"
+                      />
+                    </div>
+
+                    {/* Submit */}
                     <div className="flex justify-center">
                       <button
                         type="submit"

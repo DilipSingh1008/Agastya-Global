@@ -19,8 +19,8 @@ const CategoryPage = () => {
           sortField: "createdAt",
           sortOrder: "desc",
         });
-        console.log(res);
-        console.log(category);
+        // console.log(res);
+        // console.log(category);
         // filter only active images of this category
         const filtered = (res.data || []).filter(
           (item) =>
@@ -29,7 +29,7 @@ const CategoryPage = () => {
             item.type === "image" &&
             item.category === category,
         );
-        console.log(filtered);
+        // console.log(filtered);
         setMediaItems(filtered);
       } catch (err) {
         console.error(err);

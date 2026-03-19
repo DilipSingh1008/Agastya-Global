@@ -17,8 +17,8 @@ const settingSchema = new mongoose.Schema(
     // ===== SOCIAL =====
     facebook_link: { type: String, default: "" },
     instagram_link: { type: String, default: "" },
+    linkedin_link: { type: String, default: "" },
 
-    
     // ===== PAYMENT =====
     razorpay_key_id: { type: String, default: "" },
     razorpay_key_secret: { type: String, default: "" },

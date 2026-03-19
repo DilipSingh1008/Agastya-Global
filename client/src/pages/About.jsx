@@ -12,13 +12,13 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { AiOutlineCheckSquare } from "react-icons/ai";
+import Banner from "../components/Banner";
 
 const About = () => {
   return (
     <div className="pt-20 font-sans bg-[#FBFDFF] text-slate-900 overflow-x-hidden">
       {/* --- PREMIUM HERO SECTION --- */}
-      <section className="relative h-[450px] md:h-[550px] flex items-center justify-center overflow-hidden">
-        {/* Dynamic Overlay for better text readability */}
+      {/* <section className="relative h-[450px] md:h-[550px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-[#1A237E]/90 via-[#1A237E]/70 to-transparent z-10" />
         <img
           src="https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1600"
@@ -41,7 +41,16 @@ const About = () => {
             </p>
           </div>
         </div>
-      </section>
+      </section> */}
+      <Banner
+        subtitle="Established 2012"
+        title={
+          <>
+            About <span className="text-[#00B0FF]">Us</span>
+          </>
+        }
+        description='"Connecting aspirations with world-class education through real guidance and expert consultancy."'
+      />
 
       <div className="max-w-7xl mx-auto px-6 pb-24">
         {/* --- STATS STRIP (Interactive Social Proof) --- */}

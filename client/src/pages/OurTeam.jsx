@@ -7,6 +7,8 @@ import {
   Mail,
   ExternalLink,
 } from "lucide-react";
+import { getData } from "../api/api";
+import Banner from "../components/Banner";
 
 const OurTeam = () => {
   const [teamMembers, setTeamMembers] = useState([]);
@@ -37,22 +39,23 @@ const OurTeam = () => {
   //       "https://images.pexels.com/photos/1181682/pexels-photo-1181682.jpeg?auto=compress&cs=tinysrgb&w=400",
   //   },
   // ];
+
   useEffect(() => {
-    const fetchTeam = async () => {
+    const fetchData = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/team"); // backend API
-        const data = await res.json();
-        if (data.success) {
-          setTeamMembers(data.data);
+        const teamRes = await getData("team");
+        if (teamRes.success) {
+          const filtered = teamRes.data.filter((item) => item.status === true);
+          setTeamMembers(filtered);
         }
       } catch (error) {
-        console.error("Error fetching team members:", error);
+        console.error(error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchTeam();
+    fetchData();
   }, []);
 
   if (loading) {
@@ -63,12 +66,16 @@ const OurTeam = () => {
     );
   }
   return (
-    <div className="pt-20 font-sans bg-[#F0F4F8] overflow-x-hidden min-h-screen">
+    <div className="pt-20 font-sans bg-[#FBFDFF] text-slate-900 overflow-x-hidden">
       {/* --- PREMIUM HERO SECTION --- */}
-      <section className="relative h-[400px] md:h-[500px] flex items-center justify-center overflow-hidden">
+      {/* <section className="relative h-[400px] md:h-[500px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[#1A237E]/90 to-[#1A237E]/60 z-10" />
         <img
-          src="https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1600"
+          src={
+            heroImage
+              ? `http://localhost:5000${heroImage.replace(/\\/g, "/")}`
+              : "https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1600"
+          }
           alt="Team Banner"
           className="absolute inset-0 w-full h-full object-cover scale-105 transition-transform duration-[10000ms] hover:scale-100"
         />
@@ -81,7 +88,16 @@ const OurTeam = () => {
             Our <span className="text-[#00B0FF]">Team</span>
           </h1>
         </div>
-      </section>
+      </section> */}
+      <Banner
+        subtitle="The Experts"
+        title={
+          <>
+            Our <span className="text-[#00B0FF]">Team</span>
+          </>
+        }
+        align="center"
+      />
 
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 -mt-20 relative z-30 pb-24">
         {/* --- INTRO SECTION (Floating Card) --- */}
@@ -118,9 +134,9 @@ const OurTeam = () => {
               {/* Image Container */}
               <div className="relative flex-grow overflow-hidden">
                 <img
-                  src={member.image}
+                  src={`http://localhost:5000/${member.image}`}
                   alt={member.name}
-                  className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110"
+                  className="w-full h-full object-cover  transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110"
                 />
 
                 {/* Modern Hover Overlay */}

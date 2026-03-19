@@ -29,7 +29,7 @@ export const apiSlice = createApi({
     getItemById: builder.query({
       query: (arg) => {
         const endpoint =
-          typeof arg === "string" ? arg : (arg?.url || arg?.resource);
+          typeof arg === "string" ? arg : arg?.url || arg?.resource;
         return {
           url: `/${endpoint}`,
           method: "GET",
@@ -40,8 +40,8 @@ export const apiSlice = createApi({
 
     createItem: builder.mutation({
       query: ({ url, data }) => {
-        console.log("kk", url);
-        console.log(data);
+        // console.log("kk", url);
+        // console.log(data);
 
         return {
           url: `/${url}`,
@@ -83,7 +83,6 @@ export const apiSlice = createApi({
         method: "POST",
       }),
     }),
-    
   }),
 });
 

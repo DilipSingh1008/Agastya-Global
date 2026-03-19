@@ -268,7 +268,7 @@ exports.getActiveCategories = async (req, res) => {
             sub.isDeleted === false,
         ),
       }));
-    console.log(mainCategories);
+    // console.log(mainCategories);
     res.status(200).json({ data: mainCategories });
   } catch (err) {
     console.error("Error in getActiveCategories:", err);

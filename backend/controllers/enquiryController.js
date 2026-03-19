@@ -4,7 +4,7 @@ const { default: Enquiry } = require("../models/enquiry");
 exports.createEnquiry = async (req, res) => {
   try {
     const { name, email, phone, subject, message } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
 
     // let existingClient = await client.findOne({
     //   email: email,
@@ -42,7 +42,7 @@ exports.createEnquiry = async (req, res) => {
       data: enquiry,
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).json({
       success: false,
       message: error.message,

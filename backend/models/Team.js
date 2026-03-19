@@ -4,11 +4,15 @@ const teamSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     role: { type: String, required: true },
-    image: { type: String, required: true },
+    image: { type: String },
     linkedin: { type: String, default: "" },
     instagram: { type: String, default: "" },
     email: { type: String, default: "" },
-    isDeleted: { type: Boolean, default: false }, // soft delete
+    status: {
+      type: Boolean,
+      default: true,
+    },
+    isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true },
 );

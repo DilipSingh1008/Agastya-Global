@@ -25,7 +25,7 @@ const DashboardShow = () => {
     isLoading: productsLoading,
     refetch: refetchProducts,
   } = useGetItemsQuery("product-category");
-  console.log(productRes);
+  // console.log(productRes);
   const { isDarkMode } = useTheme();
 
   // Derive loading state directly from RTK Query

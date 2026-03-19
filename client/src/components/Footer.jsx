@@ -13,7 +13,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
-const Footer = () => {
+const Footer = ({ settings }) => {
   const currentYear = new Date().getFullYear();
   const [isVisible, setIsVisible] = useState(false);
 
@@ -90,15 +90,38 @@ const Footer = () => {
               global university placements.
             </p>
             <div className="flex gap-4">
-              {[<Facebook />, <Instagram />, <Linkedin />].map((icon, i) => (
+              {settings?.facebook_link && (
                 <a
-                  key={i}
-                  href="#"
+                  href={settings.facebook_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-11 h-11 bg-[#283593] rounded-xl flex items-center justify-center hover:bg-[#00B0FF] hover:-translate-y-2 transition-all duration-500 border border-white/5 shadow-lg"
                 >
-                  {React.cloneElement(icon, { size: 20 })}
+                  <Facebook size={20} />
                 </a>
-              ))}
+              )}
+
+              {settings?.instagram_link && (
+                <a
+                  href={settings.instagram_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-11 h-11 bg-[#283593] rounded-xl flex items-center justify-center hover:bg-[#00B0FF] hover:-translate-y-2 transition-all duration-500 border border-white/5 shadow-lg"
+                >
+                  <Instagram size={20} />
+                </a>
+              )}
+
+              {settings?.linkedin_link && (
+                <a
+                  href={settings.linkedin_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-11 h-11 bg-[#283593] rounded-xl flex items-center justify-center hover:bg-[#00B0FF] hover:-translate-y-2 transition-all duration-500 border border-white/5 shadow-lg"
+                >
+                  <Linkedin size={20} />
+                </a>
+              )}
             </div>
           </div>
 

@@ -12,7 +12,7 @@ import {
 import { useLocation, Link } from "react-router-dom";
 
 const Navbar = ({ settings }) => {
-  console.log(settings);
+  // console.log(settings);
   const [isOpen, setIsOpen] = useState(false);
   const [hideTopBar, setHideTopBar] = useState(false);
   const [isUnivOpen, setIsUnivOpen] = useState(false);
@@ -76,18 +76,36 @@ const Navbar = ({ settings }) => {
           </div>
 
           <div className="flex items-center gap-3 md:gap-4">
-            <Facebook
-              size={14}
-              className="cursor-pointer hover:text-[#00B0FF]"
-            />
-            <Instagram
-              size={14}
-              className="cursor-pointer hover:text-[#00B0FF]"
-            />
-            <Linkedin
-              size={14}
-              className="cursor-pointer hover:text-[#00B0FF]"
-            />
+            <a
+              href={settings?.facebook_link}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Facebook
+                size={14}
+                className="cursor-pointer hover:text-[#00B0FF]"
+              />
+            </a>
+            <a
+              href={settings?.instagram_link}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Instagram
+                size={14}
+                className="cursor-pointer hover:text-[#00B0FF]"
+              />
+            </a>
+            <a
+              href={settings?.linkedin_link}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Linkedin
+                size={14}
+                className="cursor-pointer hover:text-[#00B0FF]"
+              />
+            </a>
           </div>
         </div>
       )}

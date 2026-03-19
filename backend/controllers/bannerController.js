@@ -46,6 +46,7 @@ exports.getBanners = async (req, res) => {
       .limit(limit);
 
     res.json({
+      success: true,
       data: banners,
       pagination: {
         total,

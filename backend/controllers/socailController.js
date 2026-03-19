@@ -3,7 +3,6 @@ const Setting = require("../models/settings.js");
 exports.getSocialSetting = async (req, res) => {
   try {
     const setting = await Setting.findOne({ section: "social" });
-
     if (!setting) {
       return res.status(404).json({
         success: false,
@@ -23,16 +22,17 @@ exports.getSocialSetting = async (req, res) => {
 
 exports.updateSocialSetting = async (req, res) => {
   try {
-    const { facebook, instagram, linkedin} = req.body;
+    const { facebook_link, instagram_link, linkedin_link } = req.body;
+    console.log(facebook_link, instagram_link, linkedin_link);
 
     const setting = await Setting.findOneAndUpdate(
       { section: "social" },
       {
-        facebook_link: facebook,
-        instagram_link: instagram,
-        linkedin_link: linkedin,
+        facebook_link: facebook_link,
+        instagram_link: instagram_link,
+        linkedin_link: linkedin_link,
       },
-      { new: true, upsert: true }
+      { new: true, upsert: true },
     );
 
     res.status(200).json({

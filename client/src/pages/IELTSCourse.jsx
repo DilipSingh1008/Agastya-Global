@@ -10,13 +10,13 @@ import {
   MapPin,
   Globe,
 } from "lucide-react";
+import Banner from "../components/Banner";
 
 const IELTSCourse = () => {
   return (
-    <div className="pt-20 font-sans bg-[#F8FAFC] text-slate-900 overflow-x-hidden">
+    <div className="pt-20 font-sans bg-[#FBFDFF] text-slate-900 overflow-x-hidden">
       {/* --- HERO SECTION (High Impact) --- */}
-      <section className="relative h-[450px] md:h-[650px] flex items-center justify-center overflow-hidden">
-        {/* Animated Gradient Overlay */}
+      {/* <section className="relative h-[450px] md:h-[650px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-tr from-[#1A237E] via-[#1A237E]/70 to-[#00B0FF]/30 z-10" />
         <img
           src="https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1600"
@@ -37,7 +37,19 @@ const IELTSCourse = () => {
             starts with Agastya Global's expert guidance.
           </p>
         </div>
-      </section>
+      </section> */}
+      <Banner
+        subtitle="Premium Training"
+        title="IELTS"
+        description={
+          <>
+            Your journey to{" "}
+            <span className="text-[#00B0FF] font-bold">Global Success</span>{" "}
+            starts with Agastya Global's expert guidance.
+          </>
+        }
+        align="center"
+      />
 
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 pb-24 -mt-20 relative z-30">
         {/* --- MAIN HEADER CARD --- */}

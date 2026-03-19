@@ -32,7 +32,7 @@ const mediaPostRoutes = require("./routes/mediaPostRoutes");
 const mediaCategoryRoutes = require("./routes/mediaCategoryRoutes");
 const mediaItemRoutes = require("./routes/mediaItemRoutes");
 const teamRoutes = require("./routes/teamRoutes");
-
+const contentRoutes = require("./routes/contentRoutes");
 connectDB();
 
 const app = express();
@@ -76,6 +76,7 @@ app.use("/api/media-posts", mediaPostRoutes);
 app.use("/api/media-category", mediaCategoryRoutes);
 app.use("/api/media-items", mediaItemRoutes);
 app.use("/api/team", teamRoutes);
+app.use("/api", contentRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -5,8 +5,8 @@ const productItemSchema = require("../models/productItemSchema.js");
 
 exports.createProduct = async (req, res) => {
   try {
-    console.log("BODY =>", req.body);
-    console.log("FILES =>", req.files);
+    // console.log("BODY =>", req.body);
+    // console.log("FILES =>", req.files);
 
     const {
       category,
@@ -170,7 +170,7 @@ exports.deleteCategory = async (req, res) => {
       { isDeleted: true },
       { new: true },
     );
-    console.log(product);
+    // console.log(product);
     if (!product) return res.status(404).json({ message: "Product not found" });
 
     res.status(200).json({

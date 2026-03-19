@@ -48,6 +48,12 @@ import MediaAddEdit from "../pages/dashboard/ManageMedia/AddEditMediaItem.jsx";
 import ModulePlaceholder from "../pages/dashboard/ModulePlaceholder.jsx";
 
 import ProtectedRoute from "../pages/auth/ProtectedRoute.jsx";
+import ManageTeam from "../pages/dashboard/OurTeam/ManageTeam.jsx";
+import ManageCourseTypes from "../pages/dashboard/ServicesContent/ManageCourseTypes.jsx";
+import ManageQuestions from "../pages/dashboard/ServicesContent/ManageQuestions.jsx";
+import ManageRecruitment from "../pages/dashboard/ServicesContent/ManageRecruitment.jsx";
+import ManageServices from "../pages/dashboard/ServicesContent/ManageServices.jsx";
+import ManageSubjects from "../pages/dashboard/ServicesContent/ManageSubjects.jsx";
 // import ProductManagement from "../pages/dashboard/product/ProductCategory";
 // import ThemeToggleButton from "./components/Button";
 
@@ -182,13 +188,32 @@ function AppRouter() {
                   element={<MediaAddEdit />}
                 />
                 <Route
-                path="/dashboard/module/:name"
-                element={<ModulePlaceholder />}
-              />
-
+                  path="/dashboard/module/:name"
+                  element={<ModulePlaceholder />}
+                />
+                <Route path="/dashboard/ManageTeam" element={<ManageTeam />} />
+                <Route
+                  path="/dashboard/manage-recruitment"
+                  element={<ManageRecruitment />}
+                />
+                <Route
+                  path="/dashboard/manage-services"
+                  element={<ManageServices />}
+                />
+                <Route
+                  path="/dashboard/manage-course-types"
+                  element={<ManageCourseTypes />}
+                />
+                <Route
+                  path="/dashboard/manage-subjects"
+                  element={<ManageSubjects />}
+                />
+                <Route
+                  path="/dashboard/manage-questions"
+                  element={<ManageQuestions />}
+                />
               </Route>
             </Route>
-
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Router>

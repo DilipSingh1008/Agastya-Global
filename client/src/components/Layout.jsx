@@ -3,6 +3,7 @@ import Footer from "./Footer";
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
+import { getData } from "../api/api";
 
 export default function Layout() {
   const [settings, setSettings] = useState(null);
@@ -10,10 +11,10 @@ export default function Layout() {
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/setting");
-        console.log(res);
-        const data = await res.json();
-        if (data.success) setSettings(data.data);
+        const res = await getData("setting/social");
+
+        
+        if (res.success) setSettings(res.data);
       } catch (error) {
         console.error("Error fetching settings:", error);
       }

@@ -25,14 +25,11 @@ import { useGetItemsQuery } from "../redux/api/apiSlice";
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const { data: modulesData } = useGetItemsQuery("role/module");
-  const permissions = useSelector((state) => state.permission.permissions || []);
+  const permissions = useSelector(
+    (state) => state.permission.permissions || [],
+  );
   const role = localStorage.getItem("role");
-  const allow =
-    role === "admin"
-      ? true
-      : role === "sub-admin"
-        ? true
-        : false;
+  const allow = role === "admin" ? true : role === "sub-admin" ? true : false;
 
   const menuItems = [
     {
@@ -59,7 +56,12 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         ]
       : []),
 
-    { path: "/dashboard/user", name: "Users", icon: <Users size={18} />, moduleKey: "users" },
+    {
+      path: "/dashboard/user",
+      name: "Users",
+      icon: <Users size={18} />,
+      moduleKey: "users",
+    },
     {
       path: "/dashboard/location",
       name: "Location",
@@ -166,6 +168,42 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       name: "Media Items",
       icon: <ImageIcon size={18} />,
     },
+    {
+      path: "/dashboard/ManageTeam",
+      name: "Our Team",
+      icon: <ImageIcon size={18} />,
+    },
+    {
+      path: "/dashboard/manage-recruitment",
+      name: "Recruitment",
+      icon: <Users size={18} />,
+      moduleKey: "recruitment",
+    },
+    {
+      path: "/dashboard/manage-services",
+      name: "Services",
+      icon: <Briefcase size={18} />,
+      moduleKey: "services",
+    },
+    {
+      path: "/dashboard/manage-course-types",
+      name: "Course Types",
+      icon: <Layers size={18} />,
+      moduleKey: "course-types",
+    },
+    {
+      path: "/dashboard/manage-subjects",
+      name: "Subjects",
+      icon: <ListTree size={18} />,
+      moduleKey: "subjects",
+    },
+    {
+      path: "/dashboard/manage-questions",
+      name: "Questions",
+      icon: <HelpCircle size={18} />,
+      moduleKey: "questions",
+    },
+
     {
       path: "/dashboard/settings",
       name: "Settings",

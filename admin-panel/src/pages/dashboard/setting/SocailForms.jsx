@@ -1,17 +1,17 @@
-import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import React from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import { useTheme } from "../../../context/ThemeContext";
 import {
   useGetItemsQuery,
   useUpdateItemMutation,
-} from '../../../redux/api/apiSlice.js';
+} from "../../../redux/api/apiSlice.js";
 
 const SocialForms = () => {
   const { isDarkMode } = useTheme();
 
   // ── RTK Query: fetch ──
-  const { data: res } = useGetItemsQuery('setting/social');
+  const { data: res } = useGetItemsQuery("setting/social");
   const fetchedData = res?.data;
 
   // ── RTK Query: mutation ──
@@ -19,22 +19,24 @@ const SocialForms = () => {
 
   // Derived directly from fetched data — no useState needed
   const initialValues = {
-    facebook_link: fetchedData?.facebook_link || '',
-    twitter_link: fetchedData?.twitter_link || '',
-    instagram_link: fetchedData?.instagram_link || '',
-    linkedin_link: fetchedData?.linkedin_link || '',
+    facebook_link: fetchedData?.facebook_link || "",
+    twitter_link: fetchedData?.twitter_link || "",
+    instagram_link: fetchedData?.instagram_link || "",
+    linkedin_link: fetchedData?.linkedin_link || "",
   };
 
   const validationSchema = Yup.object().shape({
-    facebook_link: Yup.string().url('Invalid URL').nullable(),
-    twitter_link: Yup.string().url('Invalid URL').nullable(),
-    instagram_link: Yup.string().url('Invalid URL').nullable(),
-    linkedin_link: Yup.string().url('Invalid URL').nullable(),
+    facebook_link: Yup.string().url("Invalid URL").nullable(),
+    twitter_link: Yup.string().url("Invalid URL").nullable(),
+    instagram_link: Yup.string().url("Invalid URL").nullable(),
+    linkedin_link: Yup.string().url("Invalid URL").nullable(),
   });
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      await updateItem({ url: 'setting/social', data: values });
+      console.log(values);
+
+      await updateItem({ url: "setting/social", data: values });
       alert("Social links updated successfully!");
     } catch (error) {
       console.error("Error updating settings:", error);
@@ -51,10 +53,26 @@ const SocialForms = () => {
   };
 
   const socialFields = [
-    { name: 'facebook_link', label: 'Facebook URL', placeholder: 'https://facebook.com/...' },
-    { name: 'twitter_link', label: 'Twitter (X) URL', placeholder: 'https://x.com/...' },
-    { name: 'instagram_link', label: 'Instagram URL', placeholder: 'https://instagram.com/...' },
-    { name: 'linkedin_link', label: 'LinkedIn URL', placeholder: 'https://linkedin.com/...' },
+    {
+      name: "facebook_link",
+      label: "Facebook URL",
+      placeholder: "https://facebook.com/...",
+    },
+    {
+      name: "twitter_link",
+      label: "Twitter (X) URL",
+      placeholder: "https://x.com/...",
+    },
+    {
+      name: "instagram_link",
+      label: "Instagram URL",
+      placeholder: "https://instagram.com/...",
+    },
+    {
+      name: "linkedin_link",
+      label: "LinkedIn URL",
+      placeholder: "https://linkedin.com/...",
+    },
   ];
 
   return (
@@ -81,7 +99,9 @@ const SocialForms = () => {
                     type="text"
                     placeholder={field.placeholder}
                     className={`w-full p-2.5 text-sm rounded-lg border outline-none transition-all ${theme.input} ${
-                      errors[field.name] && touched[field.name] ? "border-red-500" : ""
+                      errors[field.name] && touched[field.name]
+                        ? "border-red-500"
+                        : ""
                     }`}
                   />
                   <ErrorMessage
@@ -99,7 +119,7 @@ const SocialForms = () => {
                 disabled={isSubmitting}
                 className="bg-(--primary) hover:opacity-90 text-white px-8 py-2.5 cursor-pointer rounded-lg text-xs font-bold transition-all shadow-md disabled:opacity-50"
               >
-                {isSubmitting ? 'Saving...' : 'Update Social Links'}
+                {isSubmitting ? "Saving..." : "Update Social Links"}
               </button>
             </div>
           </Form>

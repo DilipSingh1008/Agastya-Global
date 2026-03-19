@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Calendar, User, ArrowRight, BookOpen, Clock, Tag } from "lucide-react";
 import { getData } from "../api/api";
 import { Link } from "react-router-dom";
+import Banner from "../components/Banner";
 
 const BlogPage = () => {
   const [blogs, setBlogs] = useState([]);
@@ -69,9 +70,9 @@ const BlogPage = () => {
   }
 
   return (
-    <div className="pt-20 bg-[#FBFDFF] min-h-screen font-sans overflow-x-hidden">
+    <div className="pt-20 font-sans bg-[#FBFDFF] text-slate-900 overflow-x-hidden">
       {/* --- HERO SECTION --- */}
-      <section className="relative h-[350px] md:h-[500px] flex items-center justify-center overflow-hidden">
+      {/* <section className="relative h-[350px] md:h-[500px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-[#1A237E]/90 to-[#1A237E]/60 z-10" />
         <img
           src="https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1600"
@@ -90,7 +91,17 @@ const BlogPage = () => {
             Careers.
           </p>
         </div>
-      </section>
+      </section> */}
+      <Banner
+        subtitle="Knowledge Hub"
+        title={
+          <>
+            Latest <span className="text-[#00B0FF]">Insights</span>
+          </>
+        }
+        description="Expert advice on Study Abroad, IELTS preparation, and Global Careers."
+        align="center"
+      />
 
       {/* --- BLOG GRID SECTION --- */}
       <div className="max-w-[1440px] mx-auto px-6 -mt-16 md:px-12 lg:px-20 pb-24 relative z-30">

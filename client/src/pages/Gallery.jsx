@@ -7,6 +7,7 @@ import {
   LayoutGrid,
   Camera,
 } from "lucide-react";
+import Banner from "../components/Banner";
 
 const Gallery = () => {
   const [galleryItems, setGalleryItems] = useState([]);
@@ -60,9 +61,9 @@ const Gallery = () => {
     );
 
   return (
-    <div className="pt-20 font-sans bg-[#FBFDFF] overflow-x-hidden min-h-screen">
+    <div className="pt-20 font-sans bg-[#FBFDFF] text-slate-900 overflow-x-hidden">
       {/* --- HERO SECTION (Premium Look) --- */}
-      <section className="relative h-[400px] md:h-[500px] flex items-center justify-center mb-16 overflow-hidden">
+      {/* <section className="relative h-[400px] md:h-[500px] flex items-center justify-center mb-16 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[#1A237E]/90 to-[#1A237E]/60 z-10" />
         <img
           src="https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1600"
@@ -82,8 +83,17 @@ const Gallery = () => {
             Agastya Global.
           </p>
         </div>
-      </section>
-
+      </section> */}
+      <Banner
+        subtitle="Visual Stories"
+        title={
+          <>
+            Our <span className="text-[#00B0FF]">Moments</span>
+          </>
+        }
+        description="Visual stories of excellence, events, and student achievements at Agastya Global."
+        align="center"
+      />
       {/* --- GALLERY FILTER / INFO BAR --- */}
       <div className="max-w-7xl mx-auto px-6 mb-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="flex items-center gap-3">
