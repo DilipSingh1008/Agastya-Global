@@ -54,6 +54,17 @@ import ManageQuestions from "../pages/dashboard/ServicesContent/ManageQuestions.
 import ManageRecruitment from "../pages/dashboard/ServicesContent/ManageRecruitment.jsx";
 import ManageServices from "../pages/dashboard/ServicesContent/ManageServices.jsx";
 import ManageSubjects from "../pages/dashboard/ServicesContent/ManageSubjects.jsx";
+import AboutHeroPage from "../pages/dashboard/AboutPage/AboutHeroPage.jsx";
+import AboutStatsPage from "../pages/dashboard/AboutPage/AboutStatsPage.jsx";
+import AboutSectionsPage from "../pages/dashboard/AboutPage/AboutSectionsPage.jsx";
+import AboutCardsPage from "../pages/dashboard/AboutPage/AboutCardsPage.jsx";
+import AboutPartnersPage from "../pages/dashboard/AboutPage/AboutPartnersPage.jsx";
+import IELTSHeroPage from "../pages/dashboard/IELTS/IELTSHeroPage.jsx";
+import IELTSOverviewPage from "../pages/dashboard/IELTS/IELTSOverviewPage.jsx";
+import IELTSTypesPage from "../pages/dashboard/IELTS/IELTSTypesPage.jsx";
+import IELTSTestStructurePage from "../pages/dashboard/IELTS/IELTSTestStructurePage.jsx";
+import IELTSFeaturesPage from "../pages/dashboard/IELTS/IELTSFeaturesPage.jsx";
+import IELTSCTAPage from "../pages/dashboard/IELTS/IELTSCTAPage.jsx";
 // import ProductManagement from "../pages/dashboard/product/ProductCategory";
 // import ThemeToggleButton from "./components/Button";
 
@@ -212,6 +223,47 @@ function AppRouter() {
                   path="/dashboard/manage-questions"
                   element={<ManageQuestions />}
                 />
+                <Route
+                  path="/dashboard/about/hero"
+                  element={<AboutHeroPage />}
+                />
+                <Route
+                  path="/dashboard/about/stats"
+                  element={<AboutStatsPage />}
+                />
+                <Route
+                  path="/dashboard/about/sections"
+                  element={<AboutSectionsPage />}
+                />
+                <Route
+                  path="/dashboard/about/cards"
+                  element={<AboutCardsPage />}
+                />
+                <Route
+                  path="/dashboard/about/partners"
+                  element={<AboutPartnersPage />}
+                />
+                <Route
+                  path="/dashboard/ielts/hero"
+                  element={<IELTSHeroPage />}
+                />
+                <Route
+                  path="/dashboard/ielts/overview"
+                  element={<IELTSOverviewPage />}
+                />
+                <Route
+                  path="/dashboard/ielts/types"
+                  element={<IELTSTypesPage />}
+                />
+                <Route
+                  path="/dashboard/ielts/test-structure"
+                  element={<IELTSTestStructurePage />}
+                />
+                <Route
+                  path="/dashboard/ielts/features"
+                  element={<IELTSFeaturesPage />}
+                />
+                <Route path="/dashboard/ielts/cta" element={<IELTSCTAPage />} />
               </Route>
             </Route>
             <Route path="*" element={<NotFound />} />

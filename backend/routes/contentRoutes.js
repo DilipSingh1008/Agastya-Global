@@ -16,8 +16,8 @@ router.get("/Conservices", controller.getServices);
 router.post("/Conservices", controller.createService);
 router.patch("/Conservices/:id/status", controller.toggleServiceStatus);
 
-router.put("/services/:id", controller.updateService);
-router.delete("/services/:id", controller.deleteService);
+router.put("/Conservices/:id", controller.updateService);
+router.delete("/Conservices/:id", controller.deleteService);
 
 /* Course Types */
 router.get("/course-types", controller.getCourseTypes);

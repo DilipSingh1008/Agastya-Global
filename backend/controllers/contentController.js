@@ -117,7 +117,8 @@ const softDelete = async (Model, req, res) => {
     const data = await Model.findByIdAndUpdate(
       id,
       { isDelete: true },
-      { new: true },
+      // { new: true },
+      { returnDocument: "after" },
     );
 
     res.json({ success: true, data });

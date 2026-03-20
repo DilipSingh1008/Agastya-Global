@@ -13,7 +13,7 @@ import Searchbar from "./Searchbar";
 import { useTheme } from "../context/ThemeContext";
 import { FieldArray } from "formik";
 
-const GenericCrudPage = ({
+const IELTScom = ({
   endpoint,
   fields,
   columns,
@@ -52,6 +52,7 @@ const GenericCrudPage = ({
         data: values,
       });
     } else {
+      console.log(values);
       await createItem({ url: endpoint, data: values });
     }
     refetch();
@@ -347,6 +348,7 @@ const GenericCrudPage = ({
                         <Field
                           key={i}
                           name={field.name}
+                          type={field.type === "number" ? "number" : "text"}
                           placeholder={field.label}
                           className="w-full border p-2"
                         />
@@ -367,4 +369,4 @@ const GenericCrudPage = ({
   );
 };
 
-export default GenericCrudPage;
+export default IELTScom;

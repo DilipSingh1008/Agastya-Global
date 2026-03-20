@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   CheckSquare,
   BookOpen,
@@ -9,10 +9,58 @@ import {
   ArrowRight,
   MapPin,
   Globe,
+  GraduationCap,
 } from "lucide-react";
 import Banner from "../components/Banner";
+import { getData } from "../api/api";
 
 const IELTSCourse = () => {
+  const [types, setTypes] = useState([]);
+  const [structure, setStructure] = useState([]);
+  const [features, setFeatures] = useState([]);
+  const iconMap = {
+    graduation: GraduationCap,
+    globe: Globe,
+    star: Star,
+    users: Users,
+    book: BookOpen,
+    check: CheckSquare,
+  };
+  const fetchData = async (url, setter) => {
+    try {
+      const res = await getData(url);
+      if (res.success) {
+        setter(res.data);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchData("ielts/types", setTypes);
+    fetchData("ielts/test-structure", setStructure);
+    fetchData("ielts/features", setFeatures);
+  }, []);
+
+  // fallback random/default
+  const fallbackIcons = [
+    GraduationCap,
+    Globe,
+    Star,
+    Users,
+    BookOpen,
+    CheckSquare,
+  ];
+
+  const getIcon = (iconName, index = 0) => {
+    if (iconName && iconMap[iconName.toLowerCase()]) {
+      return iconMap[iconName.toLowerCase()];
+    }
+
+    return fallbackIcons[index % fallbackIcons.length];
+  };
+
   return (
     <div className="pt-20 font-sans bg-[#FBFDFF] text-slate-900 overflow-x-hidden">
       {/* --- HERO SECTION (High Impact) --- */}
@@ -76,10 +124,10 @@ const IELTSCourse = () => {
         </div>
 
         {/* --- ACADEMIC & GENERAL TRAINING --- */}
-        <div className="grid md:grid-cols-2 gap-10 mb-24">
+        {/* <div className="grid md:grid-cols-2 gap-10 mb-24">
           <div className="p-12 bg-white border-t-8 border-[#00B0FF] shadow-xl rounded-3xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3">
             <div className="bg-[#00B0FF]/10 w-16 h-16 rounded-2xl flex items-center justify-center mb-8">
-              <span className="text-3xl">🎓</span>
+              <GraduationCap size={32} />
             </div>
             <h3 className="text-[#1A237E] text-3xl font-black mb-6 uppercase">
               Academic
@@ -95,7 +143,7 @@ const IELTSCourse = () => {
           </div>
           <div className="p-12 bg-[#1A237E] border-t-8 border-[#00B0FF] shadow-xl rounded-3xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 text-white">
             <div className="bg-white/10 w-16 h-16 rounded-2xl flex items-center justify-center mb-8">
-              <span className="text-3xl">🌎</span>
+              <Globe size={32} />{" "}
             </div>
             <h3 className="text-white text-3xl font-black mb-6 uppercase">
               General Training
@@ -107,6 +155,51 @@ const IELTSCourse = () => {
               survival skills in broad social and workplace contexts.
             </p>
           </div>
+        </div> */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-24">
+          {types?.map((item, index) => {
+            const Icon = getIcon(item?.icon, index);
+
+            const isAcademic = item?.type?.toLowerCase().includes("academic");
+
+            return (
+              <div
+                key={item._id}
+                className={`p-12 border-t-8 border-[#00B0FF] shadow-xl rounded-3xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 ${
+                  isAcademic ? "bg-white" : "bg-[#1A237E] text-white"
+                }`}
+              >
+                {/* ICON */}
+                <div
+                  className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 ${
+                    isAcademic
+                      ? "bg-[#00B0FF]/10 text-[#00B0FF]"
+                      : "bg-white/10 text-white"
+                  }`}
+                >
+                  <Icon size={32} />
+                </div>
+
+                {/* TITLE */}
+                <h3
+                  className={`text-3xl font-black mb-6 uppercase ${
+                    isAcademic ? "text-[#1A237E]" : "text-white"
+                  }`}
+                >
+                  {item?.title}
+                </h3>
+
+                {/* DESCRIPTION */}
+                <p
+                  className={`font-medium text-lg leading-relaxed ${
+                    isAcademic ? "text-slate-600" : "text-slate-200 opacity-90"
+                  }`}
+                >
+                  {item?.description}
+                </p>
+              </div>
+            );
+          })}
         </div>
 
         {/* --- TEST PATTERN & INFO --- */}
@@ -118,24 +211,21 @@ const IELTSCourse = () => {
                 Test Structure
               </h3>
               <ul className="space-y-6">
-                {[
-                  { label: "Part 1: Listening", time: "4 sections; 30 mins" },
-                  { label: "Part 2: Reading", time: "3 passages; 60 mins" },
-                  { label: "Part 3: Writing", time: "2 tasks; 60 mins" },
-                  { label: "Part 4: Speaking", time: "Interview; 10-15 mins" },
-                ].map((item, index) => (
+                {structure.map((item, index) => (
                   <li
-                    key={index}
+                    key={item._id || index}
                     className="flex gap-6 items-center p-4 rounded-2xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100"
                   >
                     <CheckSquare
                       className="text-[#00B0FF] shrink-0"
                       size={28}
                     />
+
                     <div>
                       <p className="text-[#1A237E] font-black text-xl leading-none mb-1 uppercase tracking-tight">
-                        {item.label}
+                        {item.name}: {item.title}
                       </p>
+
                       <p className="text-slate-500 font-bold">{item.time}</p>
                     </div>
                   </li>
@@ -231,7 +321,7 @@ const IELTSCourse = () => {
             <div className="w-24 h-2 bg-[#00B0FF] mx-auto rounded-full"></div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
                 t: "Expert Instructors",
@@ -279,6 +369,30 @@ const IELTSCourse = () => {
                 </p>
               </div>
             ))}
+          </div> */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {features?.map((item, i) => {
+              const Icon = getIcon(item.icon, i); // reuse your icon logic
+
+              return (
+                <div
+                  key={item._id || i}
+                  className="group bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
+                >
+                  <div className="text-[#00B0FF] mb-8 bg-[#00B0FF]/10 w-fit p-5 rounded-3xl group-hover:bg-[#1A237E] group-hover:text-white transition-colors duration-300">
+                    <Icon size={32} />
+                  </div>
+
+                  <h4 className="text-[#1A237E] font-black mb-4 uppercase text-xl tracking-tight">
+                    {item.title}
+                  </h4>
+
+                  <p className="text-slate-500 text-lg leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
 

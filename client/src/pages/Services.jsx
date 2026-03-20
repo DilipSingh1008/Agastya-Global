@@ -16,34 +16,43 @@ import { getData } from "../api/api";
 const Services = () => {
   const [recruitments, setRecruiments] = useState([]);
   const [services, setServices] = useState([]);
-  // const [courseTypes, setCourseTypes] = useState([]);
+  const [courseTypes, setCourseTypes] = useState([]);
   const [questions, setQuestions] = useState([]);
   const [subjects, setSubjects] = useState([]);
-  const serviceList = [
-    "Applications",
-    "Student Finance applications",
-    "Interviews",
-    "Student counselling",
-    "Scholarships",
-  ];
 
-  const courseTypes = [
-    "Bachelor degrees",
-    "Masters degrees",
-    "Foundation Diploma courses",
-    "Higher National Diploma",
-    "Higher National Certificate",
-  ];
+  // const serviceList = [
+  //   "Applications",
+  //   "Student Finance applications",
+  //   "Interviews",
+  //   "Student counselling",
+  //   "Scholarships",
+  // ];
+  const iconMap = {
+    Headphones,
+    UserCheck,
+    Globe,
+    GraduationCap,
+    FileCheck,
+    Award,
+    Zap,
+  };
+  // const courseTypes = [
+  //   "Bachelor degrees",
+  //   "Masters degrees",
+  //   "Foundation Diploma courses",
+  //   "Higher National Diploma",
+  //   "Higher National Certificate",
+  // ];
 
-  const mainCourses = [
-    "Business Management",
-    "Law",
-    "Health and social care",
-    "ICT",
-    "Hospitality management",
-    "Project management",
-    "Finance and accounting and many more",
-  ];
+  // const mainCourses = [
+  //   "Business Management",
+  //   "Law",
+  //   "Health and social care",
+  //   "ICT",
+  //   "Hospitality management",
+  //   "Project management",
+  //   "Finance and accounting and many more",
+  // ];
 
   // const universityQuestions = [
   //   "Does the university offer the right course options and flexibility for you?",
@@ -65,12 +74,12 @@ const Services = () => {
         const [recruitRes, serviceRes, courseRes, questionRes, subjectsRes] =
           await Promise.all([
             getData("recruitments"),
-            getData("services"),
+            getData("Conservices"),
             getData("course-types"),
             getData("questions"),
             getData("subjects"),
           ]);
-
+        // console.log(serviceRes);
         if (recruitRes.success) {
           const filtered = recruitRes.data.filter(
             (item) => item.status === true,
@@ -82,9 +91,9 @@ const Services = () => {
           setServices(serviceRes.data);
         }
 
-        // if (courseRes.success) {
-        //   setCourseTypes(courseRes.data);
-        // }
+        if (courseRes.success) {
+          setCourseTypes(courseRes.data);
+        }
         if (courseRes.success) {
           setSubjects(subjectsRes.data);
         }
@@ -98,7 +107,7 @@ const Services = () => {
 
     fetchData();
   }, []);
-  console.log(subjects);
+  console.log(courseTypes);
   return (
     <div className="pt-20 font-sans bg-[#FBFDFF] text-slate-900 overflow-x-hidden">
       {/* --- MODERN HERO SECTION --- */}
@@ -143,14 +152,22 @@ const Services = () => {
               Student Support
             </h2>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {serviceList.map((item, index) => (
-                <li
-                  key={index}
-                  className="flex gap-3 text-white/90 font-bold items-center bg-white/5 p-4 rounded-2xl hover:bg-white/10 transition"
-                >
-                  <CheckSquare className="text-[#00B0FF]" size={20} /> {item}
-                </li>
-              ))}
+              {services
+                .filter(
+                  (item) =>
+                    item.category === "student_support" &&
+                    item.status === true &&
+                    !item.isDelete,
+                )
+                .map((item, index) => (
+                  <li
+                    key={index}
+                    className="flex gap-3 text-white/90 font-bold items-center bg-white/5 p-4 rounded-2xl hover:bg-white/10 transition"
+                  >
+                    <CheckSquare className="text-[#00B0FF]" size={20} />{" "}
+                    {item.title}
+                  </li>
+                ))}
             </ul>
           </div>
         </div>
@@ -170,7 +187,7 @@ const Services = () => {
                   <div className="bg-[#00B0FF]/10 p-2 rounded-lg group-hover:bg-[#00B0FF] group-hover:text-white transition-colors">
                     <GraduationCap size={20} />
                   </div>
-                  <span className="font-bold text-slate-700">{item}</span>
+                  <span className="font-bold text-slate-700">{item.title}</span>
                 </div>
               ))}
             </div>
@@ -245,39 +262,31 @@ const Services = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-8 lg:px-16">
-            {[
-              {
-                icon: <Headphones size={32} />,
-                text: "24/7 Student Recruitment Services",
-              },
-              { icon: <UserCheck size={32} />, text: "Admission Support" },
-              { icon: <Globe size={32} />, text: "Home Overseas Consultant" },
-              {
-                icon: <GraduationCap size={32} />,
-                text: "Professional and Customized Student Pathway",
-              },
-              {
-                icon: <FileCheck size={32} />,
-                text: "Free Application Services",
-              },
-              { icon: <Award size={32} />, text: "Top Ranked Universities" },
-              {
-                icon: <Zap size={32} />,
-                text: "Best Quality Achievements and 100% Helpful Services",
-              },
-            ].map((support, i) => (
-              <div
-                key={i}
-                className="flex flex-col items-center text-center p-8 rounded-[2rem] bg-slate-50 hover:bg-[#1A237E] group transition-all duration-500 shadow-sm hover:shadow-2xl hover:-translate-y-2"
-              >
-                <div className="mb-6 p-5 bg-white rounded-2xl text-[#00B0FF] group-hover:bg-[#00B0FF] group-hover:text-white transition-all shadow-md">
-                  {support.icon}
-                </div>
-                <h3 className="text-slate-800 font-black text-lg group-hover:text-white transition-colors">
-                  {support.text}
-                </h3>
-              </div>
-            ))}
+            {services
+              .filter(
+                (item) =>
+                  item.category === "application_services" &&
+                  item.status === true &&
+                  !item.isDelete,
+              )
+              .map((item, i) => {
+                const IconComponent = iconMap[item.icon] || Zap;
+
+                return (
+                  <div
+                    key={i}
+                    className="flex flex-col items-center text-center p-8 rounded-[2rem] bg-slate-50 hover:bg-[#1A237E] group transition-all duration-500 shadow-sm hover:shadow-2xl hover:-translate-y-2"
+                  >
+                    <div className="mb-6 p-5 bg-white rounded-2xl text-[#00B0FF] group-hover:bg-[#00B0FF] group-hover:text-white transition-all shadow-md">
+                      {IconComponent && <IconComponent size={32} />}
+                    </div>
+
+                    <h3 className="text-slate-800 font-black text-lg group-hover:text-white transition-colors">
+                      {item.title}
+                    </h3>
+                  </div>
+                );
+              })}
           </div>
 
           {/* CTA BUTTON */}

@@ -18,7 +18,7 @@ const serviceSchema = new mongoose.Schema(
     category: {
       type: String,
       enum: ["student_support", "application_services"],
-      default: "student_support",
+      // default: "student_support",
     },
     status: { type: Boolean, default: true },
     isDelete: { type: Boolean, default: false },

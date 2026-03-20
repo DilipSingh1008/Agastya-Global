@@ -33,6 +33,8 @@ const mediaCategoryRoutes = require("./routes/mediaCategoryRoutes");
 const mediaItemRoutes = require("./routes/mediaItemRoutes");
 const teamRoutes = require("./routes/teamRoutes");
 const contentRoutes = require("./routes/contentRoutes");
+const aboutRoutes = require("./routes/aboutRoutes");
+const ieltsRoutes = require("./routes/ieltsRoutes");
 connectDB();
 
 const app = express();
@@ -77,6 +79,8 @@ app.use("/api/media-category", mediaCategoryRoutes);
 app.use("/api/media-items", mediaItemRoutes);
 app.use("/api/team", teamRoutes);
 app.use("/api", contentRoutes);
+app.use("/api/about", aboutRoutes);
+app.use("/api/ielts", ieltsRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

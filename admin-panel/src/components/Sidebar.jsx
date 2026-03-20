@@ -20,10 +20,21 @@ import {
   Tags,
   PenTool,
   MessageCircle,
+  Info,
+  FileText,
+  BarChart3,
+  LayoutGrid,
+  Globe,
+  BookOpen,
+  CheckSquare,
+  Star,
+  ArrowRight,
 } from "lucide-react";
 import { useGetItemsQuery } from "../redux/api/apiSlice";
+import { useState } from "react";
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
+  const [openMenu, setOpenMenu] = useState(null);
   const { data: modulesData } = useGetItemsQuery("role/module");
   const permissions = useSelector(
     (state) => state.permission.permissions || [],
@@ -146,12 +157,12 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       name: "Vendor",
       icon: <MessageCircle size={18} />,
     },
-    {
-      path: "/dashboard/career",
-      name: "Career",
-      icon: <Briefcase size={18} />,
-      moduleKey: "career",
-    },
+    // {
+    //   path: "/dashboard/career",
+    //   name: "Career",
+    //   icon: <Briefcase size={18} />,
+    //   moduleKey: "career",
+    // },
     {
       path: "/dashboard/Media-Post",
       name: "MediaPost",
@@ -174,36 +185,119 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       icon: <ImageIcon size={18} />,
     },
     {
-      path: "/dashboard/manage-recruitment",
-      name: "Recruitment",
-      icon: <Users size={18} />,
-      moduleKey: "recruitment",
+      name: "IELTS",
+      icon: <Globe size={18} />,
+      children: [
+        {
+          name: "Hero",
+          path: "/dashboard/ielts/hero",
+          icon: <FileText size={16} />,
+          moduleKey: "ielts-hero",
+        },
+        {
+          name: "Overview",
+          path: "/dashboard/ielts/overview",
+          icon: <BookOpen size={16} />,
+          moduleKey: "ielts-overview",
+        },
+        {
+          name: "Course Types",
+          path: "/dashboard/ielts/types",
+          icon: <LayoutGrid size={16} />,
+          moduleKey: "ielts-types",
+        },
+        {
+          name: "Test Structure",
+          path: "/dashboard/ielts/test-structure",
+          icon: <CheckSquare size={16} />,
+          moduleKey: "ielts-test-structure",
+        },
+        {
+          name: "Features",
+          path: "/dashboard/ielts/features",
+          icon: <Star size={16} />,
+          moduleKey: "ielts-features",
+        },
+        {
+          name: "CTA",
+          path: "/dashboard/ielts/cta",
+          icon: <ArrowRight size={16} />,
+          moduleKey: "ielts-cta",
+        },
+      ],
     },
     {
-      path: "/dashboard/manage-services",
       name: "Services",
       icon: <Briefcase size={18} />,
-      moduleKey: "services",
+      children: [
+        {
+          name: "Recruitment",
+          path: "/dashboard/manage-recruitment",
+          icon: <Users size={16} />,
+          moduleKey: "recruitment",
+        },
+        {
+          name: "Services",
+          path: "/dashboard/manage-services",
+          icon: <Briefcase size={16} />,
+          moduleKey: "services",
+        },
+        {
+          name: "Course Types",
+          path: "/dashboard/manage-course-types",
+          icon: <Layers size={16} />,
+          moduleKey: "course-types",
+        },
+        {
+          name: "Subjects",
+          path: "/dashboard/manage-subjects",
+          icon: <ListTree size={16} />,
+          moduleKey: "subjects",
+        },
+        {
+          name: "Questions",
+          path: "/dashboard/manage-questions",
+          icon: <HelpCircle size={16} />,
+          moduleKey: "questions",
+        },
+      ],
     },
     {
-      path: "/dashboard/manage-course-types",
-      name: "Course Types",
-      icon: <Layers size={18} />,
-      moduleKey: "course-types",
+      name: "About",
+      icon: <Info size={18} />,
+      children: [
+        {
+          name: "Hero",
+          path: "/dashboard/about/hero",
+          icon: <FileText size={16} />,
+          moduleKey: "about-hero",
+        },
+        {
+          name: "Stats",
+          path: "/dashboard/about/stats",
+          icon: <BarChart3 size={16} />,
+          moduleKey: "about-stats",
+        },
+        {
+          name: "Sections",
+          path: "/dashboard/about/sections",
+          icon: <LayoutGrid size={16} />,
+          moduleKey: "about-sections",
+        },
+        {
+          name: "Cards",
+          path: "/dashboard/about/cards",
+          icon: <FileText size={16} />,
+          moduleKey: "about-cards",
+        },
+        {
+          name: "Partners",
+          path: "/dashboard/about/partners",
+          icon: <Users size={16} />,
+          moduleKey: "about-partners",
+        },
+      ],
     },
-    {
-      path: "/dashboard/manage-subjects",
-      name: "Subjects",
-      icon: <ListTree size={18} />,
-      moduleKey: "subjects",
-    },
-    {
-      path: "/dashboard/manage-questions",
-      name: "Questions",
-      icon: <HelpCircle size={18} />,
-      moduleKey: "questions",
-    },
-
     {
       path: "/dashboard/settings",
       name: "Settings",
@@ -232,7 +326,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         "client",
         "enquiry",
         "vendor",
-        "career",
+        // "career",
         "media-post",
         "settings",
       ]),
@@ -319,38 +413,78 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         </div>
 
         <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-          {allMenuItems.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              end
-              onClick={() => window.innerWidth < 768 && toggleSidebar()}
-              className={({ isActive }) => `
-                flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all duration-200 group
-                ${isActive ? "bg-white/5 border border-white/5" : "hover:bg-white/5 text-slate-400"}
-              `}
-              style={({ isActive }) => ({
-                color: isActive ? "var(--primary)" : "var(--text-muted)",
-              })}
-            >
-              {({ isActive }) => (
-                <>
-                  <span className="group-hover:scale-110 transition-transform">
-                    {item.icon}
-                  </span>
-                  <span className="text-[13px] font-medium tracking-tight">
-                    {item.name}
-                  </span>
-                  {isActive && (
-                    <div
-                      className="ml-auto w-1 h-1 rounded-full shadow-[0_0_8px_var(--primary)]"
-                      style={{ backgroundColor: "var(--primary)" }}
-                    />
+          {allMenuItems.map((item, index) => {
+            // 👉 If item has children (Services)
+            if (item.children) {
+              return (
+                <div key={index}>
+                  {/* Parent */}
+                  <div
+                    onClick={() =>
+                      setOpenMenu(openMenu === index ? null : index)
+                    }
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-lg cursor-pointer hover:bg-white/5 text-slate-400"
+                  >
+                    <span>{item.icon}</span>
+                    <span className="text-[13px] font-medium">{item.name}</span>
+                  </div>
+
+                  {/* Children */}
+                  {openMenu === index && (
+                    <div className="ml-6 mt-1 space-y-1">
+                      {item.children.map((child, i) => (
+                        <NavLink
+                          key={i}
+                          to={child.path}
+                          onClick={() =>
+                            window.innerWidth < 768 && toggleSidebar()
+                          }
+                          className={({ isActive }) => `
+                    flex items-center gap-2 px-3 py-2 rounded-lg text-[12px]
+                    ${isActive ? "bg-white/5" : "hover:bg-white/5"}
+                  `}
+                          style={({ isActive }) => ({
+                            color: isActive
+                              ? "var(--primary)"
+                              : "var(--text-muted)",
+                          })}
+                        >
+                          {child.icon && <span>{child.icon}</span>}
+                          <span>{child.name}</span>
+                        </NavLink>
+                      ))}
+                    </div>
                   )}
-                </>
-              )}
-            </NavLink>
-          ))}
+                </div>
+              );
+            }
+
+            // 👉 Normal menu item
+            return (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                end
+                onClick={() => window.innerWidth < 768 && toggleSidebar()}
+                className={({ isActive }) => `
+          flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all duration-200 group
+          ${isActive ? "bg-white/5 border border-white/5" : "hover:bg-white/5 text-slate-400"}
+        `}
+                style={({ isActive }) => ({
+                  color: isActive ? "var(--primary)" : "var(--text-muted)",
+                })}
+              >
+                {({ isActive }) => (
+                  <>
+                    <span>{item.icon}</span>
+                    <span className="text-[13px] font-medium tracking-tight">
+                      {item.name}
+                    </span>
+                  </>
+                )}
+              </NavLink>
+            );
+          })}
         </nav>
       </aside>
     </>
