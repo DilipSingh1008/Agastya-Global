@@ -35,6 +35,9 @@ const teamRoutes = require("./routes/teamRoutes");
 const contentRoutes = require("./routes/contentRoutes");
 const aboutRoutes = require("./routes/aboutRoutes");
 const ieltsRoutes = require("./routes/ieltsRoutes");
+const courseRoutes = require("./routes/courseRoutes");
+const homeRoutes = require("./routes/home.routes");
+const homeHeroRoutes = require("./routes/homeHeroRoutes");
 connectDB();
 
 const app = express();
@@ -81,6 +84,9 @@ app.use("/api/team", teamRoutes);
 app.use("/api", contentRoutes);
 app.use("/api/about", aboutRoutes);
 app.use("/api/ielts", ieltsRoutes);
+app.use("/api/home-courses", courseRoutes);
+app.use("/api", homeRoutes);
+app.use("/api/home-hero", homeHeroRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

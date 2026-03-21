@@ -29,6 +29,9 @@ import {
   CheckSquare,
   Star,
   ArrowRight,
+  Home,
+  Icon,
+  Image,
 } from "lucide-react";
 import { useGetItemsQuery } from "../redux/api/apiSlice";
 import { useState } from "react";
@@ -295,6 +298,36 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           path: "/dashboard/about/partners",
           icon: <Users size={16} />,
           moduleKey: "about-partners",
+        },
+      ],
+    },
+    {
+      name: "Home",
+      icon: <Home size={18} />,
+      children: [
+        {
+          name: "Manage Courses",
+          path: "/dashboard/home/ManageCourses",
+          icon: <BookOpen size={16} />,
+          moduleKey: "home-courses",
+        },
+        {
+          name: "Manage Hero",
+          path: "/dashboard/home/ManageHero",
+          icon: <Image size={16} />,
+          moduleKey: "home-hero",
+        },
+        {
+          name: "Manage Logos",
+          path: "/dashboard/home/ManageLogos",
+          icon: <Layers size={16} />,
+          moduleKey: "home-logos",
+        },
+        {
+          name: "Services Manager",
+          path: "/dashboard/home/ServicesManager",
+          icon: <Settings size={16} />,
+          moduleKey: "home-services",
         },
       ],
     },

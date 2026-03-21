@@ -9,35 +9,17 @@ import {
   ArrowRight,
   CheckCircle2,
 } from "lucide-react";
+import * as Icons from "lucide-react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { getData, postData } from "../api/api";
+import {
+  CourseSkeleton,
+  EmptyState,
+  ErrorState,
+} from "../components/StatusComponents";
+import { toast } from "react-toastify";
 
-const logos = [
-  {
-    name: "Roehampton",
-    url: "https://upload.wikimedia.org/wikipedia/en/thumb/0/00/University_of_Roehampton_logo.svg/1200px-University_of_Roehampton_logo.svg.png",
-  },
-  {
-    name: "Sunderland",
-    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/University_of_Sunderland_logo.svg/1200px-University_of_Sunderland_logo.svg.png",
-  },
-  {
-    name: "Anglia Ruskin",
-    url: "https://upload.wikimedia.org/wikipedia/en/thumb/2/2c/Anglia_Ruskin_University_logo.svg/1200px-Anglia_Ruskin_University_logo.svg.png",
-  },
-  {
-    name: "Aston",
-    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Aston_University_logo.svg/1200px-Aston_University_logo.svg.png",
-  },
-  {
-    name: "Portsmouth",
-    url: "https://upload.wikimedia.org/wikipedia/en/thumb/a/af/University_of_Portsmouth_logo.svg/1200px-University_of_Portsmouth_logo.svg.png",
-  },
-  {
-    name: "Ulster",
-    url: "https://cdn.worldvectorlogo.com/logos/ulster-university-1.svg",
-  },
-];
 const slides = [
   {
     image:
@@ -63,7 +45,29 @@ const slides = [
 ];
 const Home = () => {
   const [current, setCurrent] = useState(0);
+  const [Course, setCourse] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [services, setServices] = useState([]);
+  const [logo, setLogo] = useState([]);
 
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: "",
+  });
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
@@ -75,6 +79,64 @@ const Home = () => {
     setCurrent(current === slides.length - 1 ? 0 : current + 1);
   const prevSlide = () =>
     setCurrent(current === 0 ? slides.length - 1 : current - 1);
+
+  const fetchData = async (url, setter) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await getData(url);
+
+      const data = res?.data || res;
+      setter(data);
+    } catch (err) {
+      console.error(err);
+      setError("Something went wrong while fetching data");
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchData("home-courses", setCourse);
+    fetchData("home-services", setServices);
+    fetchData("home-logos", setLogo);
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await postData("enquiry", formData);
+
+      toast.success("Enquiry submitted successfully!", {
+        style: { background: "#1A237E", color: "#fff" },
+      });
+
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: "",
+      });
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong");
+    }
+  };
+  const images = [
+    "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800",
+    "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=800",
+    "https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=800",
+  ];
   return (
     <div className="pt-20 font-sans bg-[#F8FAFC] overflow-x-hidden">
       <section className="relative h-[300px] md:h-[450px] w-full overflow-hidden bg-[#1A237E]">
@@ -170,9 +232,9 @@ const Home = () => {
 
           <div className="rounded-[2rem] overflow-hidden shadow-2xl bg-white p-3 rotate-1 group-hover:rotate-0 transition-all duration-500">
             <img
-              src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800"
+              src={images[currentIndex]}
               alt="Graduate Student"
-              className="rounded-[1.5rem] w-full object-cover aspect-[4/3]"
+              className="rounded-[1.5rem] w-full object-cover aspect-[4/3] transition-all duration-700"
             />
           </div>
         </div>
@@ -222,60 +284,51 @@ const Home = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[
-            {
-              title: "IELTS/PTE TRAINING",
-              icon: BookOpen,
-              desc: "Expert coaching for top scores.",
-            },
-            {
-              title: "COURSE SELECTION",
-              icon: Landmark,
-              desc: "Find the perfect academic path.",
-            },
-            {
-              title: "EDUCATIONAL ASSISTANCE",
-              icon: GraduationCap,
-              desc: "End-to-end support for students.",
-            },
-            {
-              title: "STUDENT CONSULTING",
-              icon: Users,
-              desc: "One-on-one professional guidance.",
-            },
-            {
-              title: "VISA GUIDANCE",
-              icon: FileCheck,
-              desc: "Hassle-free visa processing.",
-            },
-            {
-              title: "ORIENTATION",
-              icon: Map,
-              desc: "Be prepared before you fly.",
-            },
-          ].map((item, i) => (
-            <div
-              key={i}
-              className="group p-8 bg-white border border-slate-100 rounded-[2rem] hover:border-[#00B0FF]/30 hover:shadow-2xl hover:shadow-blue-900/5 transition-all duration-500 cursor-pointer relative overflow-hidden"
-            >
-              <div className="absolute -right-4 -top-4 text-[#F1F5F9] group-hover:text-[#00B0FF]/5 transition-colors">
-                <item.icon size={120} />
-              </div>
-              <div className="relative z-10 space-y-4">
-                <div className="w-14 h-14 bg-slate-50 text-[#1A237E] rounded-2xl flex items-center justify-center group-hover:bg-[#00B0FF] group-hover:text-white transition-all duration-500 shadow-inner">
-                  <item.icon size={28} />
+          {loading ? (
+            <CourseSkeleton />
+          ) : error ? (
+            <ErrorState message={error} />
+          ) : services.length === 0 ? (
+            <EmptyState />
+          ) : (
+            services.map((item, i) => {
+              const IconComponent = Icons[item.icon];
+
+              return (
+                <div
+                  key={i}
+                  className="group p-8 bg-white border border-slate-100 rounded-[2rem] hover:border-[#00B0FF]/30 hover:shadow-2xl hover:shadow-blue-900/5 transition-all duration-500 cursor-pointer relative overflow-hidden"
+                >
+                  <div className="absolute -right-4 -top-4 text-[#F1F5F9] group-hover:text-[#00B0FF]/5 transition-colors">
+                    {IconComponent ? (
+                      <IconComponent size={28} />
+                    ) : (
+                      <span>No Icon</span>
+                    )}
+                  </div>
+
+                  <div className="relative z-10 space-y-4">
+                    <div className="w-14 h-14 bg-slate-50 text-[#1A237E] rounded-2xl flex items-center justify-center group-hover:bg-[#00B0FF] group-hover:text-white transition-all duration-500 shadow-inner">
+                      {IconComponent ? (
+                        <IconComponent size={28} />
+                      ) : (
+                        <span>No Icon</span>
+                      )}
+                    </div>
+
+                    <div>
+                      <h3 className="font-black text-[#1A237E] text-sm tracking-widest uppercase mb-2">
+                        {item.title}
+                      </h3>
+                      <p className="text-slate-500 text-sm leading-relaxed">
+                        {item.desc}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-black text-[#1A237E] text-sm tracking-widest uppercase mb-2">
-                    {item.title}
-                  </h3>
-                  <p className="text-slate-500 text-sm leading-relaxed">
-                    {item.desc}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
+              );
+            })
+          )}
         </div>
       </section>
 
@@ -300,61 +353,81 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              "MSc in Engineering",
-              "International Business",
-              "Project Management",
-              "Computer Science",
-              "Advanced IC Design",
-              "Robotics & Automation",
-              "Cybersecurity",
-              "Data Science",
-            ].map((course, i) => (
-              <div
-                key={i}
-                className="bg-white/5 backdrop-blur-md rounded-3xl overflow-hidden group border border-white/10 hover:border-[#00B0FF]/50 transition-all duration-500"
-              >
-                <div className="relative h-48 overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#1A237E] to-transparent z-10 opacity-60"></div>
-                  <img
-                    src={`https://picsum.photos/seed/${i + 123}/400/300`}
-                    alt={course}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="font-bold text-lg mb-4 group-hover:text-[#00B0FF] transition-colors line-clamp-1">
-                    {course}
-                  </h3>
-                  <div className="flex items-center gap-2 text-white/50 text-xs font-bold uppercase tracking-widest">
-                    <CheckCircle2 size={14} className="text-[#00B0FF]" /> 2
-                    Years Full-time
+            {loading ? (
+              <CourseSkeleton />
+            ) : error ? (
+              <ErrorState message={error} />
+            ) : Course.length === 0 ? (
+              <EmptyState />
+            ) : (
+              Course.map((course, i) => (
+                <div
+                  key={i}
+                  className="bg-white/5 backdrop-blur-md rounded-3xl overflow-hidden group border border-white/10 hover:border-[#00B0FF]/50 transition-all duration-500"
+                >
+                  <div className="relative h-48 overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#1A237E] to-transparent z-10 opacity-60"></div>
+                    <img
+                      src={course.image}
+                      alt={course.name}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                  </div>
+                  <div className="p-6">
+                    <h3 className="font-bold text-lg mb-4 group-hover:text-[#00B0FF] transition-colors line-clamp-1">
+                      {course.name}
+                    </h3>
+                    <div className="flex items-center gap-2 text-white/50 text-xs font-bold uppercase tracking-widest">
+                      <CheckCircle2 size={14} className="text-[#00B0FF]" />
+                      {course.duration}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
       </section>
 
       {/* --- UNIVERSITY LOGOS --- */}
-      <section className="py-16 bg-white overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 mb-12 text-center">
-          <span className="text-slate-400 text-[10px] font-black uppercase tracking-[0.5em]">
+      <section className="py-12 md:py-16 bg-white overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-8 md:mb-12 text-center">
+          <span className="text-slate-400 text-[9px] sm:text-[10px] font-black uppercase tracking-[0.4em] sm:tracking-[0.5em]">
             Global Partners
           </span>
         </div>
 
-        <div className="relative flex overflow-x-hidden group">
-          <div className="flex animate-marquee whitespace-nowrap items-center gap-16 md:gap-24 py-4">
-            {[...logos, ...logos].map((logo, index) => (
-              <img
-                key={index}
-                src={logo.url}
-                alt={logo.name}
-                className="h-10 md:h-12 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer"
-              />
-            ))}
+        <div className="flex w-full">
+          <div
+            className="flex w-full items-center justify-evenly
+ flex-wrap gap-y-4 py-3 md:py-4 "
+          >
+            {loading ? (
+              <CourseSkeleton />
+            ) : error ? (
+              <ErrorState message={error} />
+            ) : services.length === 0 ? (
+              <EmptyState />
+            ) : (
+              logo.map((logo, index) => (
+                <div
+                  key={index}
+                  className="w-24 h-16 sm:w-28 sm:h-18 md:w-32 md:h-20 flex items-center justify-center"
+                >
+                  <img
+                    src={`http://localhost:5000/${logo.image}`}
+                    alt={logo.name}
+                    className="
+        max-h-full max-w-full
+        object-contain
+      
+        hover:grayscale-0 hover:opacity-100
+        transition-all duration-500
+      "
+                  />
+                </div>
+              ))
+            )}
           </div>
         </div>
       </section>
@@ -373,21 +446,65 @@ const Home = () => {
               </p>
             </div>
 
-            <form className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {["Name", "Email", "Phone", "Subject"].map((field) => (
-                <input
-                  key={field}
-                  type="text"
-                  placeholder={field}
-                  className="p-3.5 bg-slate-50 border border-slate-100 rounded-xl text-sm text-slate-700 outline-none focus:border-[#00B0FF] focus:bg-white transition-all shadow-sm"
-                />
-              ))}
+            <form
+              onSubmit={handleSubmit}
+              className="grid grid-cols-1 md:grid-cols-2 gap-4"
+            >
+              {/* Inputs */}
+              <input
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                type="text"
+                placeholder="Name"
+                className="p-3.5 bg-slate-50 border border-slate-100 rounded-xl text-sm text-slate-700 outline-none focus:border-[#00B0FF] focus:bg-white transition-all shadow-sm"
+                required
+              />
+
+              <input
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                type="email"
+                placeholder="Email"
+                className="p-3.5 bg-slate-50 border border-slate-100 rounded-xl text-sm text-slate-700 outline-none focus:border-[#00B0FF] focus:bg-white transition-all shadow-sm"
+                required
+              />
+
+              <input
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                type="text"
+                placeholder="Phone"
+                className="p-3.5 bg-slate-50 border border-slate-100 rounded-xl text-sm text-slate-700 outline-none focus:border-[#00B0FF] focus:bg-white transition-all shadow-sm"
+                required
+              />
+
+              <input
+                name="subject"
+                value={formData.subject}
+                onChange={handleChange}
+                type="text"
+                placeholder="Subject"
+                className="p-3.5 bg-slate-50 border border-slate-100 rounded-xl text-sm text-slate-700 outline-none focus:border-[#00B0FF] focus:bg-white transition-all shadow-sm"
+                required
+              />
+
               <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
                 placeholder="How can we help you?"
                 className="col-span-1 md:col-span-2 p-3.5 bg-slate-50 border border-slate-100 rounded-xl text-sm text-slate-700 outline-none h-24 resize-none focus:border-[#00B0FF] focus:bg-white transition-all shadow-sm"
+                required
               ></textarea>
+
               <div className="col-span-1 md:col-span-2">
-                <button className="w-full md:w-auto px-10 bg-[#1A237E] text-white font-bold uppercase tracking-widest text-[11px] py-4 rounded-xl hover:bg-[#00B0FF] transition-all duration-300 shadow-lg shadow-blue-900/10">
+                <button
+                  type="submit"
+                  className="w-full md:w-auto px-10 bg-[#1A237E] text-white font-bold uppercase tracking-widest text-[11px] py-4 rounded-xl hover:bg-[#00B0FF] transition-all duration-300 shadow-lg shadow-blue-900/10"
+                >
                   Send Message
                 </button>
               </div>

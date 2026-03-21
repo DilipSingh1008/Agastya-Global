@@ -65,6 +65,10 @@ import IELTSTypesPage from "../pages/dashboard/IELTS/IELTSTypesPage.jsx";
 import IELTSTestStructurePage from "../pages/dashboard/IELTS/IELTSTestStructurePage.jsx";
 import IELTSFeaturesPage from "../pages/dashboard/IELTS/IELTSFeaturesPage.jsx";
 import IELTSCTAPage from "../pages/dashboard/IELTS/IELTSCTAPage.jsx";
+import ManageCourses from "../pages/dashboard/HomeCMS/ManageCourses.jsx";
+import ManageHero from "../pages/dashboard/HomeCMS/ManageHero.jsx";
+import ManageLogos from "../pages/dashboard/HomeCMS/ManageLogos.jsx";
+import ServicesManager from "../pages/dashboard/HomeCMS/ServicesManager.jsx";
 // import ProductManagement from "../pages/dashboard/product/ProductCategory";
 // import ThemeToggleButton from "./components/Button";
 
@@ -264,6 +268,22 @@ function AppRouter() {
                   element={<IELTSFeaturesPage />}
                 />
                 <Route path="/dashboard/ielts/cta" element={<IELTSCTAPage />} />
+                <Route
+                  path="/dashboard/home/ManageCourses"
+                  element={<ManageCourses />}
+                />
+                <Route
+                  path="/dashboard/home/ManageHero"
+                  element={<ManageHero />}
+                />
+                <Route
+                  path="/dashboard/home/ManageLogos"
+                  element={<ManageLogos />}
+                />
+                <Route
+                  path="/dashboard/home/ServicesManager"
+                  element={<ServicesManager />}
+                />
               </Route>
             </Route>
             <Route path="*" element={<NotFound />} />
