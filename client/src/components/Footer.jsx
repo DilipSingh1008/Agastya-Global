@@ -74,15 +74,42 @@ const Footer = ({ settings }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 pb-20">
           {/* Column 1: Brand Info */}
           <div className="space-y-8">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-                <Globe className="text-[#1A237E]" size={28} />
+            <div className="flex items-center gap-2 group">
+              {/* Logo Container */}
+              <div
+                className="w-12 h-12 md:w-14 md:h-14 
+                  flex items-center justify-center 
+                   backdrop-blur-md 
+    
+                  transition-all duration-300"
+              >
+                <img
+                  src="/AgastyaGlobal.png"
+                  alt="Agastya Logo"
+                  className="w-14 h-16 md:w-16 md:h-16 object-contain 
+                 brightness-0 invert contrast-200 
+                 drop-shadow-[0_0_6px_rgba(255,255,255,0.6)]
+                 group-hover:scale-110 transition-all duration-300"
+                />
               </div>
-              <div className="flex flex-col">
-                <span className="text-2xl font-black tracking-tighter uppercase leading-none">
-                  Agastya <span className="text-[#00B0FF]">Global</span>
+
+              {/* Text Section */}
+              <div className="flex flex-col leading-tight">
+                <span
+                  className="text-xl md:text-1xl font-extrabold tracking-tight uppercase 
+                     text-white group-hover:text-[#E0F7FF] transition"
+                >
+                  Agastya{" "}
+                  <span className="text-[#00B0FF] group-hover:text-[#33C3FF]">
+                    Global
+                  </span>
                 </span>
-                <div className="h-1 w-full bg-[#00B0FF] mt-1 rounded-full opacity-50"></div>
+
+                <div
+                  className="h-[2px] w-0 bg-gradient-to-r from-[#00B0FF] to-transparent 
+                    mt-1 rounded-full 
+                    group-hover:w-full transition-all duration-500"
+                ></div>
               </div>
             </div>
             <p className="text-white/50 text-sm leading-relaxed font-medium">
@@ -125,7 +152,6 @@ const Footer = ({ settings }) => {
             </div>
           </div>
 
-          {/* Column 2: Links (Color logic applied) */}
           <div>
             <h4 className="text-[#00B0FF] text-xs font-black uppercase tracking-[0.3em] mb-8">
               Navigation
@@ -148,7 +174,6 @@ const Footer = ({ settings }) => {
             </ul>
           </div>
 
-          {/* Column 3: Contact */}
           <div>
             <h4 className="text-[#00B0FF] text-xs font-black uppercase tracking-[0.3em] mb-8">
               Quick Contact
@@ -180,7 +205,6 @@ const Footer = ({ settings }) => {
             </div>
           </div>
 
-          {/* Column 4: Trust Elements */}
           <div>
             <h4 className="text-[#00B0FF] text-xs font-black uppercase tracking-[0.3em] mb-8">
               Official Trust
@@ -201,7 +225,6 @@ const Footer = ({ settings }) => {
         </div>
       </div>
 
-      {/* --- FINAL STRIP --- */}
       <div className="bg-[#090e3c] py-10 relative">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="text-center md:text-left">

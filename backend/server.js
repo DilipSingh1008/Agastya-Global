@@ -38,6 +38,8 @@ const ieltsRoutes = require("./routes/ieltsRoutes");
 const courseRoutes = require("./routes/courseRoutes");
 const homeRoutes = require("./routes/home.routes");
 const homeHeroRoutes = require("./routes/homeHeroRoutes");
+const applicationRoutes = require("./routes/applicationRoutes");
+const homeSlideRoutes = require("./routes/homeSlideRoutes");
 connectDB();
 
 const app = express();
@@ -87,6 +89,8 @@ app.use("/api/ielts", ieltsRoutes);
 app.use("/api/home-courses", courseRoutes);
 app.use("/api", homeRoutes);
 app.use("/api/home-hero", homeHeroRoutes);
+app.use("/api/applications", applicationRoutes);
+app.use("/api/home-slides", homeSlideRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

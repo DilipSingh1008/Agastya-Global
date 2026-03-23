@@ -9,12 +9,14 @@ const {
   deleteHomeHero,
   toggleHomeHeroStatus,
 } = require("../controllers/homeHeroController");
+const upload = require("../middlewares/upload");
 
-router.post("/", createHomeHero);
+router.post("/", upload.single("image"), createHomeHero);
+router.patch("/toggle-status/:id", toggleHomeHeroStatus);
+
+router.put("/:id", upload.single("image"), updateHomeHero);
 router.get("/", getHomeHeroes);
 router.get("/:id", getHomeHeroById);
-router.put("/:id", updateHomeHero);
 router.delete("/:id", deleteHomeHero);
-router.patch("/toggle-status/:id", toggleHomeHeroStatus);
 
 module.exports = router;

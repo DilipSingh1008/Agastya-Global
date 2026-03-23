@@ -69,6 +69,8 @@ import ManageCourses from "../pages/dashboard/HomeCMS/ManageCourses.jsx";
 import ManageHero from "../pages/dashboard/HomeCMS/ManageHero.jsx";
 import ManageLogos from "../pages/dashboard/HomeCMS/ManageLogos.jsx";
 import ServicesManager from "../pages/dashboard/HomeCMS/ServicesManager.jsx";
+import ApplicationForm from "../pages/enquiry/ApplicationList.jsx";
+import HomeSliderPage from "../pages/dashboard/HomeCMS/HomeSliderPage.jsx";
 // import ProductManagement from "../pages/dashboard/product/ProductCategory";
 // import ThemeToggleButton from "./components/Button";
 
@@ -283,6 +285,14 @@ function AppRouter() {
                 <Route
                   path="/dashboard/home/ServicesManager"
                   element={<ServicesManager />}
+                />
+                <Route
+                  path="/dashboard/applicationList"
+                  element={<ApplicationForm />}
+                />
+                <Route
+                  path="/dashboard/home/home-slider"
+                  element={<HomeSliderPage />}
                 />
               </Route>
             </Route>

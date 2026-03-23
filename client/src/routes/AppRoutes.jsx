@@ -9,6 +9,8 @@ import BlogPage from "../pages/BlogPage";
 import Gallery from "../pages/Gallery";
 import Contact from "../pages/Contact";
 import CategoryPage from "../pages/CategoryPage";
+import UniversitySection from "../pages/UniversitySection";
+import ApplicationForm from "../pages/ApplicationForm";
 
 function AppRoutes() {
   return (
@@ -22,6 +24,8 @@ function AppRoutes() {
         <Route path="/BlogPage" element={<BlogPage />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/University" element={<UniversitySection />} />
+        <Route path="/University/apply/:type" element={<ApplicationForm />} />
         <Route path="/gallery/:category" element={<CategoryPage />} />
       </Route>
     </Routes>

@@ -14,21 +14,21 @@ import Searchbar from "../../../components/Searchbar";
 import { useSelector } from "react-redux";
 import CommonImage from "../../../components/CommonImage.jsx";
 
-const validateImageDimensions = (file) => {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.src = URL.createObjectURL(file);
-    img.onload = () => {
-      const { width, height } = img;
-      if (width >= 200 && width <= 500 && height >= 200 && height <= 500) {
-        resolve(true);
-      } else {
-        reject("Image must be between 200x200 px and 500x500 px");
-      }
-    };
-    img.onerror = () => reject("Invalid image file");
-  });
-};
+// const validateImageDimensions = (file) => {
+//   return new Promise((resolve, reject) => {
+//     const img = new Image();
+//     img.src = URL.createObjectURL(file);
+//     img.onload = () => {
+//       const { width, height } = img;
+//       if (width >= 200 && width <= 1080 && height >= 200 && height <= 1080) {
+//         resolve(true);
+//       } else {
+//         reject("Image must be between 200x200 px and 500x500 px");
+//       }
+//     };
+//     img.onerror = () => reject("Invalid image file");
+//   });
+// };
 
 const BannerPage = () => {
   const { isDarkMode } = useTheme();
@@ -449,14 +449,18 @@ const BannerPage = () => {
                           type="file"
                           accept="image/*"
                           onChange={async (e) => {
+                            // const file = e.currentTarget.files[0];
+                            // if (file) {
+                            //   try {
+                            //     await validateImageDimensions(file);
+                            //     setFieldValue("image", file);
+                            //   } catch (err) {
+                            //     setFieldError("image", err);
+                            //   }
+                            // }
                             const file = e.currentTarget.files[0];
                             if (file) {
-                              try {
-                                await validateImageDimensions(file);
-                                setFieldValue("image", file);
-                              } catch (err) {
-                                setFieldError("image", err);
-                              }
+                              setFieldValue("image", file);
                             }
                           }}
                           className="w-full text-xs file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-(--primary) file:text-white hover:file:bg-(--primary) cursor-pointer"

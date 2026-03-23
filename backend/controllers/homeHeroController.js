@@ -3,11 +3,17 @@ const HomeHero = require("../models/HomeHero");
 // CREATE
 exports.createHomeHero = async (req, res) => {
   try {
-    const hero = await HomeHero.create(req.body);
-    console.log(hero);
+    const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
+
+    const hero = await HomeHero.create({
+      title: req.body.title,
+      images: imagePath,
+      status: true,
+    });
+
     res.status(201).json({
       success: true,
-      message: "Home Hero created successfully",
+      message: "Hero created successfully",
       data: hero,
     });
   } catch (error) {
@@ -15,14 +21,40 @@ exports.createHomeHero = async (req, res) => {
   }
 };
 
-// GET ALL
+// GET ALL (search + pagination + sort)
 exports.getHomeHeroes = async (req, res) => {
   try {
-    const heroes = await HomeHero.find().sort({ order: 1 });
+    const {
+      page = 1,
+      limit = 10,
+      search = "",
+      sortField = "createdAt",
+      sortOrder = "desc",
+    } = req.query;
+
+    const query = {
+      isDeleted: false,
+      title: { $regex: search, $options: "i" },
+    };
+
+    const skip = (page - 1) * limit;
+
+    const heroes = await HomeHero.find(query)
+      .sort({ [sortField]: sortOrder === "asc" ? 1 : -1 })
+      .skip(skip)
+      .limit(Number(limit));
+
+    const total = await HomeHero.countDocuments(query);
 
     res.status(200).json({
       success: true,
       data: heroes,
+      pagination: {
+        total,
+        page: Number(page),
+        limit: Number(limit),
+        totalPages: Math.ceil(total / limit),
+      },
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -32,12 +64,15 @@ exports.getHomeHeroes = async (req, res) => {
 // GET BY ID
 exports.getHomeHeroById = async (req, res) => {
   try {
-    const hero = await HomeHero.findById(req.params.id);
+    const hero = await HomeHero.findOne({
+      _id: req.params.id,
+      isDeleted: false,
+    });
 
     if (!hero) {
       return res.status(404).json({
         success: false,
-        message: "Home Hero not found",
+        message: "Hero not found",
       });
     }
 
@@ -50,16 +85,19 @@ exports.getHomeHeroById = async (req, res) => {
 // UPDATE
 exports.updateHomeHero = async (req, res) => {
   try {
-    const hero = await HomeHero.findByIdAndUpdate(req.params.id, req.body, {
+    const imagePath = req.file ? `/uploads/${req.file.filename}` : undefined;
+
+    const updateData = {
+      title: req.body.title,
+    };
+
+    if (imagePath) {
+      updateData.images = imagePath;
+    }
+
+    const hero = await HomeHero.findByIdAndUpdate(req.params.id, updateData, {
       new: true,
     });
-
-    if (!hero) {
-      return res.status(404).json({
-        success: false,
-        message: "Home Hero not found",
-      });
-    }
 
     res.status(200).json({
       success: true,
@@ -71,17 +109,20 @@ exports.updateHomeHero = async (req, res) => {
   }
 };
 
-// DELETE
+// DELETE (soft delete)
 exports.deleteHomeHero = async (req, res) => {
   try {
-    const hero = await HomeHero.findByIdAndDelete(req.params.id);
+    const hero = await HomeHero.findById(req.params.id);
 
     if (!hero) {
       return res.status(404).json({
         success: false,
-        message: "Home Hero not found",
+        message: "Hero not found",
       });
     }
+
+    hero.isDeleted = true;
+    await hero.save();
 
     res.status(200).json({
       success: true,
@@ -95,16 +136,19 @@ exports.deleteHomeHero = async (req, res) => {
 // TOGGLE STATUS
 exports.toggleHomeHeroStatus = async (req, res) => {
   try {
-    const hero = await HomeHero.findById(req.params.id);
+    const hero = await HomeHero.findOne({
+      _id: req.params.id,
+      isDeleted: false,
+    });
 
     if (!hero) {
       return res.status(404).json({
         success: false,
-        message: "Home Hero not found",
+        message: "Hero not found",
       });
     }
 
-    hero.isActive = !hero.isActive;
+    hero.status = !hero.status;
     await hero.save();
 
     res.status(200).json({

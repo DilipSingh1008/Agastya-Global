@@ -20,29 +20,29 @@ import {
 } from "../components/StatusComponents";
 import { toast } from "react-toastify";
 
-const slides = [
-  {
-    image:
-      "https://images.unsplash.com/photo-1541339907198-e08756ebafe1?q=80&w=1600&auto=format&fit=crop",
-    title: "Shape Your",
-    highlight: "Future Abroad",
-    desc: "Expert guidance for international admissions and visa processing.",
-  },
-  {
-    image:
-      "https://images.unsplash.com/photo-1523050338691-c5e70702453f?q=80&w=1600&auto=format&fit=crop",
-    title: "World Class",
-    highlight: "Universities",
-    desc: "Direct partnerships with top-ranked institutions in UK, USA, and Canada.",
-  },
-  {
-    image:
-      "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1600&auto=format&fit=crop",
-    title: "Agastya Global",
-    highlight: "Success Stories",
-    desc: "Join thousands of students who achieved their dreams with us.",
-  },
-];
+// const slides = [
+//   {
+//     image:
+//       "https://images.unsplash.com/photo-1541339907198-e08756ebafe1?q=80&w=1600&auto=format&fit=crop",
+//     title: "Shape Your",
+//     highlight: "Future Abroad",
+//     desc: "Expert guidance for international admissions and visa processing.",
+//   },
+//   {
+//     image:
+//       "https://images.unsplash.com/photo-1523050338691-c5e70702453f?q=80&w=1600&auto=format&fit=crop",
+//     title: "World Class",
+//     highlight: "Universities",
+//     desc: "Direct partnerships with top-ranked institutions in UK, USA, and Canada.",
+//   },
+//   {
+//     image:
+//       "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1600&auto=format&fit=crop",
+//     title: "Agastya Global",
+//     highlight: "Success Stories",
+//     desc: "Join thousands of students who achieved their dreams with us.",
+//   },
+// ];
 const Home = () => {
   const [current, setCurrent] = useState(0);
   const [Course, setCourse] = useState([]);
@@ -50,7 +50,7 @@ const Home = () => {
   const [error, setError] = useState(null);
   const [services, setServices] = useState([]);
   const [logo, setLogo] = useState([]);
-
+  const [slides, setSlides] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -58,22 +58,61 @@ const Home = () => {
     subject: "",
     message: "",
   });
-
+  const [images, setImages] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  useEffect(() => {
+    const fetchSlides = async () => {
+      try {
+        const res = await getData("home-slides");
+
+        const data = res?.data || res;
+
+        const activeSlides = data.filter((s) => s.status && !s.isDeleted);
+
+        setSlides(activeSlides);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchSlides();
+  }, []);
+  useEffect(() => {
+    const fetchSlides = async () => {
+      try {
+        const res = await getData("home-hero");
+        const data = res?.data || res;
+
+        const activeSlides = data.filter((s) => s.status && !s.isDelete);
+
+        setImages(activeSlides);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchSlides();
+  }, []);
 
   useEffect(() => {
+    if (images.length === 0) return;
+
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % images.length);
     }, 3000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [images]);
+
   useEffect(() => {
+    if (slides.length === 0) return;
+
     const timer = setInterval(() => {
       setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
     }, 5000);
+
     return () => clearInterval(timer);
-  }, []);
+  }, [slides.length]);
 
   const nextSlide = () =>
     setCurrent(current === slides.length - 1 ? 0 : current + 1);
@@ -132,69 +171,79 @@ const Home = () => {
       toast.error("Something went wrong");
     }
   };
-  const images = [
-    "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800",
-    "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=800",
-    "https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=800",
-  ];
+
+  // const images = [
+  //   "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800",
+  //   "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=800",
+  //   "https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=800",
+  // ];
+
+  console.log(images);
   return (
     <div className="pt-20 font-sans bg-[#F8FAFC] overflow-x-hidden">
       <section className="relative h-[300px] md:h-[450px] w-full overflow-hidden bg-[#1A237E]">
-        {slides.map((slide, index) => (
-          <div
-            key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-              index === current ? "opacity-100 visible" : "opacity-0 invisible"
-            }`}
-          >
-            {/* Background Image with Zoom Effect */}
-            <img
-              src={slide.image}
-              alt={slide.title}
-              className={`absolute inset-0 w-full h-full object-cover brightness-[0.4] transition-transform duration-[6000ms] ${
-                index === current ? "scale-110" : "scale-100"
+        {slides.length === 0 ? (
+          <div className="flex items-center justify-center h-full text-white">
+            No Slides Available
+          </div>
+        ) : (
+          slides.map((slide, index) => (
+            <div
+              key={index}
+              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                index === current
+                  ? "opacity-100 visible"
+                  : "opacity-0 invisible"
               }`}
-            />
-
-            {/* Text Content - Optimized for 450px height */}
-            <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6 pt-10">
-              <div
-                className={`transition-all duration-1000 delay-300 transform ${
-                  index === current
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-8 opacity-0"
+            >
+              <img
+                src={`http://localhost:5000${slide.image}`}
+                alt={slide.title}
+                className={`absolute inset-0 w-full h-full object-cover brightness-[0.4] transition-transform duration-[6000ms] ${
+                  index === current ? "scale-110" : "scale-100"
                 }`}
-              >
-                <span className="text-[#00B0FF] font-black uppercase tracking-[0.3em] text-[10px] md:text-xs mb-3 block">
-                  Agastya Global Education
-                </span>
+              />
 
-                {/* Headline - Slightly smaller to fit perfectly in 450px */}
-                <h1 className="text-white text-4xl md:text-7xl font-black tracking-tighter leading-[1.1] mb-4">
-                  {slide.title} <br />
-                  <span className="text-[#00B0FF]">{slide.highlight}</span>
-                </h1>
+              {/* Text Content - Optimized for 450px height */}
+              <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 sm:px-6 pt-10 overflow-hidden">
+                <div
+                  className={`transition-all duration-1000 delay-300 transform ${
+                    index === current
+                      ? "translate-y-0 opacity-100"
+                      : "translate-y-8 opacity-0"
+                  }`}
+                >
+                  <span className="text-[#00B0FF] font-black uppercase tracking-[0.3em] text-[10px] md:text-xs mb-3 block">
+                    Agastya Global Education
+                  </span>
 
-                <p className="text-white/70 max-w-xl mx-auto text-[11px] md:text-sm font-medium mb-6 leading-relaxed">
-                  {slide.desc}
-                </p>
+                  {/* Headline - Slightly smaller to fit perfectly in 450px */}
+                  <h1 className="text-white text-2xl sm:text-2xl md:text-4xl font-black tracking-tight leading-[1.2] mb-3 line-clamp-2 break-words">
+                    {slide.title} <br />
+                    <span className="text-[#00B0FF]">{slide.highlight}</span>
+                  </h1>
 
-                {/* Buttons - Same as other pages */}
-                <div className="flex gap-4 justify-center">
-                  <button className="bg-[#00B0FF] hover:bg-white hover:text-[#1A237E] text-white px-6 md:px-8 py-3 md:py-3.5 rounded-full font-bold text-[10px] md:text-xs uppercase tracking-widest transition-all shadow-lg shadow-blue-900/20">
-                    Get Started
-                  </button>
-                  <a
-                    href="/contact"
-                    className="border-2 border-white/20 hover:bg-white/10 text-white px-6 md:px-8 py-3 md:py-3.5 rounded-full font-bold text-[10px] md:text-xs uppercase tracking-widest transition-all cursor-pointer"
-                  >
-                    Contact Us
-                  </a>
+                  <p className="text-white/70 max-w-md mx-auto text-[10px] sm:text-xs md:text-sm font-medium mb-4 leading-relaxed line-clamp-3 break-words">
+                    {slide.desc}
+                  </p>
+
+                  {/* Buttons - Same as other pages */}
+                  <div className="flex gap-4 justify-center">
+                    <button className="bg-[#00B0FF] hover:bg-white hover:text-[#1A237E] text-white px-6 md:px-8 py-3 md:py-3.5 rounded-full font-bold text-[10px] md:text-xs uppercase tracking-widest transition-all shadow-lg shadow-blue-900/20">
+                      Get Started
+                    </button>
+                    <a
+                      href="/contact"
+                      className="border-2 border-white/20 hover:bg-white/10 text-white px-6 md:px-8 py-3 md:py-3.5 rounded-full font-bold text-[10px] md:text-xs uppercase tracking-widest transition-all cursor-pointer"
+                    >
+                      Contact Us
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
 
         {/* Navigation Arrows */}
         <button
@@ -232,7 +281,7 @@ const Home = () => {
 
           <div className="rounded-[2rem] overflow-hidden shadow-2xl bg-white p-3 rotate-1 group-hover:rotate-0 transition-all duration-500">
             <img
-              src={images[currentIndex]}
+              src={`http://localhost:5000/${images[currentIndex]?.image}`}
               alt="Graduate Student"
               className="rounded-[1.5rem] w-full object-cover aspect-[4/3] transition-all duration-700"
             />

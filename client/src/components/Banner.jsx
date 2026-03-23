@@ -65,11 +65,11 @@ const Banner = ({
               {title}
             </h1>
 
-            <div
+            {/* <div
               className={`h-2 w-24 bg-[#00B0FF] rounded-full mb-6 ${
                 align === "center" ? "mx-auto" : ""
               }`}
-            ></div>
+            ></div> */}
 
             {description && (
               <p className="text-white/80 text-base md:text-xl lg:text-2xl font-medium leading-relaxed italic border-l-4 border-[#00B0FF] pl-4 md:pl-6">

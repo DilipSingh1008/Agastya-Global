@@ -19,11 +19,11 @@ const Navbar = ({ settings }) => {
   const location = useLocation();
 
   const universityLinks = [
-    { name: "Study in UK", href: "/" },
-    { name: "Study in USA", href: "/" },
-    { name: "Study in Canada", href: "/" },
-    { name: "Study in Europe", href: "/" },
-    { name: "Study in Australia", href: "/" },
+    { name: "Study in UK", href: "/University" },
+    { name: "Study in USA", href: "/University" },
+    { name: "Study in Canada", href: "/University" },
+    { name: "Study in Europe", href: "/University" },
+    { name: "Study in Australia", href: "/University" },
     { name: "hELP & Support", href: "/" },
   ];
 
