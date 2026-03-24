@@ -178,8 +178,13 @@ const Home = () => {
   //   "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=800",
   //   "https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=800",
   // ];
-
-  console.log(images);
+  const getImageUrl = (path) => {
+    if (!path) return "";
+    return path.startsWith("http")
+      ? path
+      : `${import.meta.env.VITE_BASE_URL}${path}`;
+  };
+  // console.log(images);
   return (
     <div className="pt-20 font-sans bg-[#F8FAFC] overflow-x-hidden">
       {/* bg-[#1A237E] */}
@@ -419,7 +424,7 @@ const Home = () => {
                   <div className="relative h-48 overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-t from-[#1A237E] to-transparent z-10 opacity-60"></div>
                     <img
-                      src={course.image}
+                      src={getImageUrl(course.image)}
                       alt={course.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     />
