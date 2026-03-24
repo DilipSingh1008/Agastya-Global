@@ -197,7 +197,7 @@ const ManageMedia = () => {
                             <CommonImage
                               src={
                                 item.icon
-                                  ? `http://localhost:5000${item.icon}`
+                                  ? `${import.meta.env.VITE_BASE_URL}${item.icon}`
                                   : null
                               }
                               alt="media"
@@ -229,7 +229,7 @@ const ManageMedia = () => {
                               onClick={() => {
                                 setFormData({
                                   title: item.title,
-                                  icon: `http://localhost:5000${item.icon}`,
+                                  icon: `${import.meta.env.VITE_BASE_URL}${item.icon}`,
                                   id: item._id,
                                 });
                                 setIsModalOpen(true);

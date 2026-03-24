@@ -4,6 +4,7 @@ import { PencilLine, CheckCircle2, ArrowRightCircle, X } from "lucide-react";
 import Banner from "../components/Banner";
 import ApplicationForm from "./ApplicationForm";
 import { useParams, useNavigate } from "react-router-dom";
+import WhatsappFloat from "../components/WhatsappFloat";
 
 const UniversitySection = () => {
   const [activeTab, setActiveTab] = useState("UK");
@@ -52,8 +53,22 @@ const UniversitySection = () => {
     );
   }
   return (
-    <div className="w-full bg-[#F8FAFC] font-sans pb-12 relative">
-      <Banner />
+    <div className="pt-20 font-sans bg-[#FBFDFF] text-slate-900 overflow-x-hidden">
+      <Banner
+        subtitle="Global Education"
+        title={
+          <>
+            Study <span className="text-[#00B0FF]">Abroad</span>
+          </>
+        }
+        description={
+          <>
+            Explore top universities across the UK, USA, Canada, Europe and
+            beyond. Find the right course and institution to shape your global
+            career.
+          </>
+        }
+      />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* --- CTA Section --- */}
@@ -179,6 +194,7 @@ const UniversitySection = () => {
       `,
         }}
       />
+      <WhatsappFloat />
     </div>
   );
 };

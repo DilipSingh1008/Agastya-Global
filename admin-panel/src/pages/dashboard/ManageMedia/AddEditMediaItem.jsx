@@ -70,7 +70,7 @@ const MediaAddEditPage = () => {
         type: itemData.type || "image",
         icon: null,
         existingIcon: itemData.icon
-          ? `http://localhost:5000${itemData.icon}`
+          ? `${import.meta.env.VITE_BASE_URL}${itemData.icon}`
           : null,
       });
     }
@@ -178,7 +178,7 @@ const MediaAddEditPage = () => {
               ? URL.createObjectURL(icon)
               : icon.startsWith("http")
                 ? icon
-                : `http://localhost:5000${icon}`
+                : `${import.meta.env.VITE_BASE_URL}${icon}`
           }
           alt={title}
           className="w-40 h-40 object-cover rounded-lg border"
@@ -248,7 +248,7 @@ const MediaAddEditPage = () => {
         return (
           <video
             src={
-              icon.startsWith("http") ? icon : `http://localhost:5000${icon}`
+              icon.startsWith("http") ? icon : `${import.meta.env.VITE_BASE_URL}${icon}`
             }
             controls
             className="w-40 h-40 object-cover rounded-lg border"

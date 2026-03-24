@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import Banner from "../components/Banner";
 import { getData } from "../api/api";
+import WhatsappFloat from "../components/WhatsappFloat";
 
 const IELTSCourse = () => {
   const [types, setTypes] = useState([]);
@@ -96,7 +97,7 @@ const IELTSCourse = () => {
             starts with Agastya Global's expert guidance.
           </>
         }
-        align="center"
+        // align="center"
       />
 
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 pb-24 -mt-20 relative z-30">
@@ -427,6 +428,7 @@ const IELTSCourse = () => {
           </div>
         </div>
       </div>
+      <WhatsappFloat />
     </div>
   );
 };

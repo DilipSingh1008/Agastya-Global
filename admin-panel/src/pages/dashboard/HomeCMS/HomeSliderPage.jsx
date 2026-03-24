@@ -219,7 +219,7 @@ const HomeSliderPage = () => {
                         <CommonImage
                           src={
                             item.image
-                              ? `http://localhost:5000${item.image}`
+                              ? `${import.meta.env.VITE_BASE_URL}${item.image}`
                               : null
                           }
                           className="w-14 h-10 object-cover rounded"

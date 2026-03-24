@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { getData } from "../api/api";
 import Banner from "../components/Banner";
+import WhatsappFloat from "../components/WhatsappFloat";
 
 const OurTeam = () => {
   const [teamMembers, setTeamMembers] = useState([]);
@@ -96,7 +97,15 @@ const OurTeam = () => {
             Our <span className="text-[#00B0FF]">Team</span>
           </>
         }
-        align="center"
+        description={
+          <>
+            Meet our experienced and certified consultants dedicated to guiding
+            students with personalized support. We work together to help you
+            achieve your academic and global career goals.
+          </>
+        }
+
+        // align="center"
       />
 
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 -mt-20 relative z-30 pb-24">
@@ -134,7 +143,7 @@ const OurTeam = () => {
               {/* Image Container */}
               <div className="relative flex-grow overflow-hidden">
                 <img
-                  src={`http://localhost:5000/${member.image}`}
+                  src={`${import.meta.env.VITE_BASE_URL}/${member.image}`}
                   alt={member.name}
                   className="w-full h-full object-cover  transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110"
                 />
@@ -186,6 +195,7 @@ const OurTeam = () => {
           </button>
         </div>
       </div>
+      <WhatsappFloat />
     </div>
   );
 };

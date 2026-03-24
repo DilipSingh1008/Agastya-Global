@@ -3,6 +3,7 @@ import { Calendar, User, ArrowRight, BookOpen, Clock, Tag } from "lucide-react";
 import { getData } from "../api/api";
 import { Link } from "react-router-dom";
 import Banner from "../components/Banner";
+import WhatsappFloat from "../components/WhatsappFloat";
 
 const BlogPage = () => {
   const [blogs, setBlogs] = useState([]);
@@ -100,7 +101,7 @@ const BlogPage = () => {
           </>
         }
         description="Expert advice on Study Abroad, IELTS preparation, and Global Careers."
-        align="center"
+        // align="center"
       />
 
       {/* --- BLOG GRID SECTION --- */}
@@ -129,7 +130,7 @@ const BlogPage = () => {
               {/* Image Container */}
               <div className="relative overflow-hidden h-[260px] w-full">
                 <img
-                  src={`http://localhost:5000/uploads/${blog.images[0]}`}
+                  src={`${import.meta.env.VITE_BASE_URL}/uploads/${blog.images[0]}`}
                   alt={blog.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
                 />
@@ -228,6 +229,7 @@ const BlogPage = () => {
           </div>
         </div>
       </div>
+      <WhatsappFloat />
     </div>
   );
 };

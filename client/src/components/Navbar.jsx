@@ -24,7 +24,7 @@ const Navbar = ({ settings }) => {
     { name: "Study in Canada", href: "/University" },
     { name: "Study in Europe", href: "/University" },
     { name: "Study in Australia", href: "/University" },
-    { name: "hELP & Support", href: "/" },
+    { name: "hELP & Support", href: "/help-support" },
   ];
 
   const menuItems = [
@@ -59,19 +59,21 @@ const Navbar = ({ settings }) => {
         <div className="bg-[#212958] text-white text-[11px] md:text-[12px] py-2 px-4 md:px-10 flex justify-between items-center transition-all duration-300">
           <div className="flex items-center gap-4 md:gap-6">
             <a
-              href="tel:+4402081435507"
+              href="tel:+91 73835 95549"
               className="flex items-center gap-1.5 hover:text-[#00B0FF] transition-colors"
             >
               <Phone size={12} />
-              <span className="hidden sm:inline">+44 0208 1435507</span>
+              <span className="hidden sm:inline"> +91 73835 95549</span>
             </a>
 
             <a
-              href="mailto:info@AgastyaGlobal.co.uk"
+              href="mailto:support@agastyaglobal.org"
               className="flex items-center gap-1.5 hover:text-[#00B0FF] transition-colors"
             >
               <Mail size={12} />
-              <span className="hidden sm:inline">info@AgastyaGlobal.co.uk</span>
+              <span className="hidden sm:inline">
+                support@agastyaglobal.org
+              </span>
             </a>
           </div>
 
@@ -113,11 +115,11 @@ const Navbar = ({ settings }) => {
       {/* --- Main Navigation --- */}
       <nav className="bg-white shadow-md border-b border-gray-100 px-4 md:px-10 py-3 flex justify-between items-center relative">
         {/* Logo Section */}
-        <Link to="/" className="flex items-center gap-3 cursor-pointer group">
+        {/* <Link to="/" className="flex items-center gap-3 cursor-pointer group">
           <img
             src="/AgastyaGlobal.png"
             alt="Agastya Logo"
-            className="w-16 h-16 md:w-20 md:h-20 object-contain scale-125"
+            className="w-14 h-16 md:w-20 md:h-20 object-contain scale-125"
           />
 
           <div className="flex flex-col -ml-2">
@@ -128,6 +130,34 @@ const Navbar = ({ settings }) => {
             <span className="text-[7px] md:text-[7px] uppercase tracking-[0.3em] text-gray-400 font-bold">
               Overseas Education
             </span>
+          </div>
+        </Link> */}
+        <Link to="/" className="flex items-center gap-1 cursor-pointer group">
+          {/* Logo Image */}
+          <img
+            src="/AgastyaGlobal.png"
+            alt="Agastya Logo"
+            className="w-14 h-14 md:w-16 md:h-16 object-contain"
+          />
+
+          {/* Text Container */}
+          <div className="flex flex-col justify-center">
+            <div className="flex items-baseline gap-1 italic font-extrabold tracking-tight">
+              {/* Dark Navy Blue color from the logo */}
+              <span className="text-1xl md:text-2xl text-[#1A237E]">
+                Agastya
+              </span>
+
+              {/* Bright Sky Blue color from the logo */}
+              <span className="text-1xl md:text-2xl text-[#00B0FF]">
+                Global
+              </span>
+            </div>
+
+            {/* Optional: Tagline (Agar aapko chahiye ho toh uncomment karein) */}
+            {/* <span className="text-[8px] uppercase tracking-[0.2em] text-gray-500 font-semibold -mt-1 ml-1">
+      Overseas Education
+    </span> */}
           </div>
         </Link>
 
@@ -265,8 +295,8 @@ const Navbar = ({ settings }) => {
               </p>
               <div className="flex flex-col gap-3 text-sm text-gray-600">
                 <div className="flex items-center gap-2">
-                  <Phone size={14} className="text-[#00B0FF]" /> +44 0208
-                  1435507
+                  <Phone size={14} className="text-[#00B0FF]" />
+                  +91 73835 95549
                 </div>
                 <div className="flex items-center gap-2">
                   <Mail size={14} className="text-[#00B0FF]" />{" "}

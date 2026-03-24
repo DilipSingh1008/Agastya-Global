@@ -24,10 +24,10 @@ const SiteSettingsForm = () => {
     if (fetchedData) {
       setPreviews({
         logo: fetchedData.logo
-          ? `http://localhost:5000${fetchedData.logo}`
+          ? `${import.meta.env.VITE_BASE_URL}${fetchedData.logo}`
           : null,
         favicon: fetchedData.favicon
-          ? `http://localhost:5000${fetchedData.favicon}`
+          ? `${import.meta.env.VITE_BASE_URL}${fetchedData.favicon}`
           : null,
       });
     }

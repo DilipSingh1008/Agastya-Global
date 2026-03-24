@@ -19,6 +19,7 @@ import {
   ErrorState,
 } from "../components/StatusComponents";
 import { toast } from "react-toastify";
+import WhatsappFloat from "../components/WhatsappFloat";
 
 // const slides = [
 //   {
@@ -181,7 +182,8 @@ const Home = () => {
   console.log(images);
   return (
     <div className="pt-20 font-sans bg-[#F8FAFC] overflow-x-hidden">
-      <section className="relative h-[300px] md:h-[450px] w-full overflow-hidden bg-[#1A237E]">
+      {/* bg-[#1A237E] */}
+      <section className="relative h-[300px] md:h-[450px] w-full overflow-hidden ">
         {slides.length === 0 ? (
           <div className="flex items-center justify-center h-full text-white">
             No Slides Available
@@ -197,7 +199,7 @@ const Home = () => {
               }`}
             >
               <img
-                src={`http://localhost:5000${slide.image}`}
+                src={`${import.meta.env.VITE_BASE_URL}${slide.image}`}
                 alt={slide.title}
                 className={`absolute inset-0 w-full h-full object-cover brightness-[0.4] transition-transform duration-[6000ms] ${
                   index === current ? "scale-110" : "scale-100"
@@ -281,7 +283,7 @@ const Home = () => {
 
           <div className="rounded-[2rem] overflow-hidden shadow-2xl bg-white p-3 rotate-1 group-hover:rotate-0 transition-all duration-500">
             <img
-              src={`http://localhost:5000/${images[currentIndex]?.image}`}
+              src={`${import.meta.env.VITE_BASE_URL}/${images[currentIndex]?.image}`}
               alt="Graduate Student"
               className="rounded-[1.5rem] w-full object-cover aspect-[4/3] transition-all duration-700"
             />
@@ -464,7 +466,7 @@ const Home = () => {
                   className="w-24 h-16 sm:w-28 sm:h-18 md:w-32 md:h-20 flex items-center justify-center"
                 >
                   <img
-                    src={`http://localhost:5000/${logo.image}`}
+                    src={`${import.meta.env.VITE_BASE_URL}/${logo.image}`}
                     alt={logo.name}
                     className="
         max-h-full max-w-full
@@ -596,22 +598,7 @@ const Home = () => {
       </section>
 
       {/* --- WHATSAPP FLOATER --- */}
-      <a
-        href="https://wa.me/yournumber"
-        target="_blank"
-        rel="noreferrer"
-        className="fixed bottom-6 right-6 bg-[#25D366] text-white px-4 py-3 rounded-full shadow-lg hover:scale-105 transition-all duration-300 z-[200] flex items-center  group"
-      >
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
-          className="w-8 h-8"
-          alt="WhatsApp"
-        />
-
-        <span className="max-w-0 overflow-hidden group-hover:max-w-[160px] transition-all duration-300 whitespace-nowrap text-sm font-semibold">
-          Chat with Expert
-        </span>
-      </a>
+      <WhatsappFloat />
     </div>
   );
 };

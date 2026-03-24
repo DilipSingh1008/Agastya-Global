@@ -208,7 +208,7 @@ const ManageMediaPost = () => {
                           <CommonImage
                             src={
                               item.image
-                                ? `http://localhost:5000${item.image}`
+                                ? `${import.meta.env.VITE_BASE_URL}${item.image}`
                                 : null
                             }
                             alt={item.title}

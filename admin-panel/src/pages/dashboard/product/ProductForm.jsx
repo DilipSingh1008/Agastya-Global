@@ -280,7 +280,7 @@ const ProductForm = () => {
                   {values.existingImages?.map((url, idx) => (
                     <div key={idx} className="relative h-16 w-16 rounded border border-gray-500 overflow-hidden">
                       <img
-                        src={`http://localhost:5000/${url.replace(/\\/g, "/")}`}
+                        src={`${import.meta.env.VITE_BASE_URL}/${url.replace(/\\/g, "/")}`}
                         alt={`existing-${idx}`}
                         className="w-full h-full object-cover"
                       />

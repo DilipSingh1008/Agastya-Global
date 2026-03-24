@@ -267,7 +267,7 @@ const BannerPage = () => {
                             <CommonImage
                               src={
                                 b.image
-                                  ? `http://localhost:5000${b.image}`
+                                  ? `${import.meta.env.VITE_BASE_URL}${b.image}`
                                   : null
                               }
                               alt={b.title}

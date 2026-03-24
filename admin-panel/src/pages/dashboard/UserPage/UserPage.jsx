@@ -267,7 +267,7 @@ const UserPage = () => {
                           <div className="w-8 h-8 rounded bg-gray-500/10 border border-gray-500/10 overflow-hidden flex items-center justify-center">
                             {u.image ? (
                               <img
-                                src={`http://localhost:5000/${u.image}`}
+                                src={`${import.meta.env.VITE_BASE_URL}/${u.image}`}
                                 className="w-full h-full object-cover"
                                 alt="user"
                               />

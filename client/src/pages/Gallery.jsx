@@ -8,6 +8,7 @@ import {
   Camera,
 } from "lucide-react";
 import Banner from "../components/Banner";
+import WhatsappFloat from "../components/WhatsappFloat";
 
 const Gallery = () => {
   const [galleryItems, setGalleryItems] = useState([]);
@@ -92,7 +93,7 @@ const Gallery = () => {
           </>
         }
         description="Visual stories of excellence, events, and student achievements at Agastya Global."
-        align="center"
+        // align="center"
       />
       {/* --- GALLERY FILTER / INFO BAR --- */}
       <div className="max-w-7xl mx-auto px-6 mb-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -131,7 +132,7 @@ const Gallery = () => {
                 <img
                   src={
                     item.icon
-                      ? `http://localhost:5000${item.icon}`
+                      ? `${import.meta.env.VITE_BASE_URL}${item.icon}`
                       : "/placeholder.jpg"
                   }
                   alt={item.title}
@@ -190,6 +191,7 @@ const Gallery = () => {
 
       {/* --- BOTTOM DECORATION --- */}
       <div className="h-24 bg-gradient-to-t from-slate-100 to-transparent"></div>
+      <WhatsappFloat />
     </div>
   );
 };

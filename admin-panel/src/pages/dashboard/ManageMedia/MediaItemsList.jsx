@@ -269,7 +269,7 @@ const MediaPreview = ({ type, icon, link, title }) => {
   if (type === "image" && icon) {
     return (
       <CommonImage
-        src={icon.startsWith("http") ? icon : `http://localhost:5000${icon}`}
+        src={icon.startsWith("http") ? icon : `${import.meta.env.VITE_BASE_URL}${icon}`}
         alt={title}
         className="w-32 h-20 object-cover rounded-lg border"
       />
@@ -333,7 +333,7 @@ const MediaPreview = ({ type, icon, link, title }) => {
     if (icon) {
       return (
         <video
-          src={icon.startsWith("http") ? icon : `http://localhost:5000${icon}`}
+          src={icon.startsWith("http") ? icon : `${import.meta.env.VITE_BASE_URL}${icon}`}
           controls
           className="w-32 h-20 object-cover rounded-lg border"
         />

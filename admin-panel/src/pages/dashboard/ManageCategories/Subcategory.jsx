@@ -192,7 +192,7 @@ const Subcategory = () => {
                             <CommonImage
                               src={
                                 cat.icon
-                                  ? `http://localhost:5000${cat.icon}`
+                                  ? `${import.meta.env.VITE_BASE_URL}${cat.icon}`
                                   : null
                               }
                               alt={cat.title}
@@ -231,7 +231,7 @@ const Subcategory = () => {
                                     onClick={() => {
                                       setFormData({
                                         name: cat.name,
-                                        icon: `http://localhost:5000${cat.icon}`,
+                                        icon: `${import.meta.env.VITE_BASE_URL}${cat.icon}`,
                                         id: cat._id,
                                       });
                                       setIsModalOpen(true);

@@ -43,10 +43,19 @@ const homeSlideRoutes = require("./routes/homeSlideRoutes");
 connectDB();
 
 const app = express();
+const allowedOrigins = process.env.FRONTEND_URL.split(",");
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:5174"],
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("CORS not allowed"));
+      }
+    },
     credentials: true,
   }),
 );

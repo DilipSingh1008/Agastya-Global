@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useTheme } from "../../../context/ThemeContext";
-import { Formik, Form, Field, FieldArray } from "formik";
-import { Plus, Trash2, Edit3, X } from "lucide-react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Plus, Trash2, Edit3, X, Loader2 } from "lucide-react";
 import {
   useGetItemsQuery,
   useCreateItemMutation,
@@ -12,7 +12,7 @@ import {
 import { FiChevronRight, FiChevronLeft } from "react-icons/fi";
 import Searchbar from "../../../components/Searchbar";
 import { useSelector } from "react-redux";
-
+import * as Yup from "yup";
 const ManageHero = () => {
   const { isDarkMode } = useTheme();
 
@@ -20,6 +20,7 @@ const ManageHero = () => {
   const [editingItem, setEditingItem] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
+
   const limit = 10;
 
   // Permissions
@@ -52,39 +53,20 @@ const ManageHero = () => {
       ? "bg-[#151b28] border-gray-800"
       : "bg-white border-gray-200",
     text: isDarkMode ? "text-slate-300" : "text-gray-700",
-    subText: "opacity-60",
     input: isDarkMode
       ? "bg-[#1f2637] border-gray-700 text-white"
       : "bg-white border-gray-300",
-    primary: "bg-blue-600 hover:bg-blue-700",
+    primary: "bg-(--primary) hover:bg-(--primary)",
   };
 
-  // Submit
-  const handleSubmit = async (values) => {
-    if (editingItem) {
-      await updateItem({
-        url: `home-hero/${editingItem._id}`,
-        data: values,
-      });
-    } else {
-      await createItem({
-        url: "home-hero",
-        data: values,
-      });
-    }
-
-    setIsModalOpen(false);
-    setEditingItem(null);
-  };
-
-  // Delete
+  // Helpers
   const handleDelete = async (id) => {
     if (confirm("Delete this item?")) {
       await deleteItem(`home-hero/${id}`);
+      refetch();
     }
   };
 
-  // Toggle
   const handleToggle = async (id) => {
     await patchItem({
       url: `home-hero/toggle-status/${id}`,
@@ -93,18 +75,21 @@ const ManageHero = () => {
     refetch();
   };
 
+  const openModal = (item = null) => {
+    setEditingItem(item);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setEditingItem(null);
+    setIsModalOpen(false);
+  };
+
   return (
-    <div className={`min-h-screen p-4 md:p-6 ${theme.bg} ${theme.text}`}>
+    <div className={`min-h-screen ${theme.bg} ${theme.text}`}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
-          <div>
-            <h1 className="text-xl font-bold">Manage Hero Sections</h1>
-            <p className={`text-xs ${theme.subText}`}>
-              Control homepage hero content
-            </p>
-          </div>
-
           <div className="flex gap-3 w-full md:w-auto">
             <Searchbar
               onChange={(e) => {
@@ -115,11 +100,8 @@ const ManageHero = () => {
 
             {permission?.add && (
               <button
-                onClick={() => {
-                  setEditingItem(null);
-                  setIsModalOpen(true);
-                }}
-                className={`flex items-center gap-2 px-4 py-2 text-white rounded-lg text-sm font-semibold transition ${theme.primary}`}
+                onClick={() => openModal()}
+                className={`flex items-center gap-2 px-4 py-2 text-white rounded-lg text-sm font-semibold ${theme.primary}`}
               >
                 <Plus size={16} /> Add
               </button>
@@ -128,9 +110,7 @@ const ManageHero = () => {
         </div>
 
         {/* Table */}
-        <div
-          className={`rounded-2xl border shadow-sm overflow-hidden ${theme.card}`}
-        >
+        <div className={`rounded-2xl border shadow-sm ${theme.card}`}>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead className="bg-gray-100 dark:bg-[#1f2637] text-xs uppercase">
@@ -139,22 +119,22 @@ const ManageHero = () => {
                   <th className="p-4">Image</th>
                   <th className="p-4">Title</th>
                   <th className="p-4 text-center">Status</th>
-                  {(permission?.edit || permission?.delete) && (
-                    <th className="p-4 text-right pr-6">Actions</th>
-                  )}
+                  <th className="p-4 text-right pr-6">Actions</th>
                 </tr>
               </thead>
 
-              <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
+              <tbody>
                 {isLoading ? (
                   <tr>
-                    <td colSpan="5" className="text-center py-10">
-                      Loading...
+                    <td colSpan="5" className="text-center py-12">
+                      <div className="flex justify-center items-center gap-2">
+                        <Loader2 className="animate-spin" /> Loading...
+                      </div>
                     </td>
                   </tr>
                 ) : items.length === 0 ? (
                   <tr>
-                    <td colSpan="5" className="text-center py-10 opacity-60">
+                    <td colSpan="5" className="text-center py-12 opacity-60">
                       No data found
                     </td>
                   </tr>
@@ -164,13 +144,13 @@ const ManageHero = () => {
                       key={item._id}
                       className="hover:bg-blue-500/5 transition"
                     >
-                      <td className="p-4 text-center opacity-60">
+                      <td className="p-4 text-center">
                         {(page - 1) * limit + i + 1}
                       </td>
 
                       <td className="p-4">
                         <img
-                          src={`http://localhost:5000/${item.image}`}
+                          src={`${import.meta.env.VITE_BASE_URL}/${item.image}`}
                           className="w-16 h-10 object-cover rounded-lg border"
                           alt=""
                         />
@@ -182,7 +162,7 @@ const ManageHero = () => {
                         <button
                           onClick={() => handleToggle(item._id)}
                           className={`w-10 h-5 rounded-full relative transition ${
-                            item.status ? "bg-blue-600" : "bg-gray-400"
+                            item.status ? "bg-(--primary)" : "bg-gray-400"
                           }`}
                         >
                           <span
@@ -193,32 +173,27 @@ const ManageHero = () => {
                         </button>
                       </td>
 
-                      {(permission?.edit || permission?.delete) && (
-                        <td className="p-4 text-right pr-6">
-                          <div className="flex justify-end gap-2">
-                            {permission?.edit && (
-                              <button
-                                onClick={() => {
-                                  setEditingItem(item);
-                                  setIsModalOpen(true);
-                                }}
-                                className="p-2 rounded-lg hover:bg-blue-500/10 hover:text-blue-600 transition"
-                              >
-                                <Edit3 size={15} />
-                              </button>
-                            )}
+                      <td className="p-4 text-right pr-6">
+                        <div className="flex justify-end gap-2">
+                          {permission?.edit && (
+                            <button
+                              onClick={() => openModal(item)}
+                              className="p-2 rounded-lg hover:bg-blue-500/10"
+                            >
+                              <Edit3 size={15} />
+                            </button>
+                          )}
 
-                            {permission?.delete && (
-                              <button
-                                onClick={() => handleDelete(item._id)}
-                                className="p-2 rounded-lg hover:bg-red-500/10 hover:text-red-500 transition"
-                              >
-                                <Trash2 size={15} />
-                              </button>
-                            )}
-                          </div>
-                        </td>
-                      )}
+                          {permission?.delete && (
+                            <button
+                              onClick={() => handleDelete(item._id)}
+                              className="p-2 rounded-lg hover:bg-red-500/10 text-red-500"
+                            >
+                              <Trash2 size={15} />
+                            </button>
+                          )}
+                        </div>
+                      </td>
                     </tr>
                   ))
                 )}
@@ -227,26 +202,36 @@ const ManageHero = () => {
           </div>
 
           {/* Pagination */}
-          <div className="flex items-center justify-between p-4 border-t border-gray-200 dark:border-gray-800">
-            <span className="text-xs opacity-60">
-              Page {page} of {totalPages}
+          <div className="flex items-center justify-between p-3 border-t">
+            <span className="text-[11px] opacity-60">
+              Showing {items.length} entries
             </span>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               <button
                 disabled={page === 1}
                 onClick={() => setPage(page - 1)}
-                className="p-2 border rounded-lg disabled:opacity-30 hover:bg-blue-500/10"
+                className="p-1.5 border rounded-md"
               >
                 <FiChevronLeft />
               </button>
 
-              <span className="text-xs">{page}</span>
+              {[...Array(totalPages)].map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setPage(i + 1)}
+                  className={`w-7 h-7 text-[11px] border rounded-md ${
+                    page === i + 1 ? "bg-(--primary) text-white" : ""
+                  }`}
+                >
+                  {i + 1}
+                </button>
+              ))}
 
               <button
                 disabled={page === totalPages}
                 onClick={() => setPage(page + 1)}
-                className="p-2 border rounded-lg disabled:opacity-30 hover:bg-blue-500/10"
+                className="p-1.5 border rounded-md"
               >
                 <FiChevronRight />
               </button>
@@ -258,30 +243,27 @@ const ManageHero = () => {
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-          <div
-            className={`w-full max-w-lg rounded-2xl p-6 shadow-2xl ${theme.card}`}
-          >
-            {/* Header */}
-            <div className="flex justify-between items-center mb-5">
-              <h2 className="text-lg font-bold">
+          <div className={`w-full max-w-lg rounded-2xl p-6 ${theme.card}`}>
+            <div className="flex justify-between mb-4">
+              <h2 className="font-bold">
                 {editingItem ? "Edit Hero" : "Add Hero"}
               </h2>
-              <button onClick={() => setIsModalOpen(false)}>
-                <X />
-              </button>
+              <X className="cursor-pointer" onClick={closeModal} />
             </div>
 
-            {/* Form */}
             <Formik
               enableReinitialize
               initialValues={{
                 title: editingItem?.title || "",
                 image: null,
               }}
+              validationSchema={Yup.object({
+                title: Yup.string().required("Title is required"),
+                image: Yup.mixed().required("Image is required"),
+              })}
               onSubmit={async (values) => {
                 const formData = new FormData();
                 formData.append("folder", "homehero");
-
                 formData.append("title", values.title);
 
                 if (values.image) {
@@ -300,53 +282,42 @@ const ManageHero = () => {
                   });
                 }
 
-                setIsModalOpen(false);
-                setEditingItem(null);
+                closeModal();
+                refetch();
               }}
             >
               {({ setFieldValue, values }) => (
                 <Form className="space-y-4">
-                  {/* Title */}
                   <Field
                     name="title"
                     placeholder="Title"
-                    className={`w-full p-2 rounded-lg border outline-none focus:border-blue-500 ${theme.input}`}
+                    className={`w-full p-2 border rounded-lg ${theme.input}`}
+                  />
+                  <ErrorMessage
+                    name="title"
+                    component="div"
+                    className="text-red-500 text-[10px]"
                   />
 
-                  {/* Image Upload */}
-                  <div>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => {
-                        const file = e.target.files[0];
-                        setFieldValue("image", file);
-                      }}
-                      className="text-sm"
-                    />
-                  </div>
-
-                  {/* Preview */}
+                  <input
+                    type="file"
+                    onChange={(e) => setFieldValue("image", e.target.files[0])}
+                  />
+                  <ErrorMessage
+                    name="image"
+                    component="div"
+                    className="text-red-500 text-[10px]"
+                  />
                   {values.image && (
                     <img
                       src={URL.createObjectURL(values.image)}
-                      alt="preview"
-                      className="w-32 h-20 object-cover rounded border"
-                    />
-                  )}
-
-                  {/* Existing Image (Edit Mode) */}
-                  {editingItem && !values.image && editingItem.images && (
-                    <img
-                      src={`http://localhost:5000${editingItem.images}`}
-                      alt="existing"
-                      className="w-32 h-20 object-cover rounded border"
+                      className="w-32 h-20 object-cover rounded"
                     />
                   )}
 
                   <button
                     type="submit"
-                    className={`w-full py-2 rounded-lg text-white font-semibold transition ${theme.primary}`}
+                    className={`w-full py-2 rounded-lg text-white ${theme.primary}`}
                   >
                     {editingItem ? "Update" : "Create"}
                   </button>

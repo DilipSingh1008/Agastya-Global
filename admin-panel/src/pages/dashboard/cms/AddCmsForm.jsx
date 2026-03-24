@@ -46,10 +46,9 @@ const AddCmsForm = () => {
       : rawCmsPermission;
 
   // ── RTK Query: fetch CMS page for edit (skipped on add) ──
-  const { data: cmsRes, isLoading } = useGetItemsQuery(
-    `cms/${id}`,
-    { skip: !isEdit }
-  );
+  const { data: cmsRes, isLoading } = useGetItemsQuery(`cms/${id}`, {
+    skip: !isEdit,
+  });
 
   // ── RTK Query: mutations ──
   const [createItem] = useCreateItemMutation();
@@ -137,14 +136,18 @@ const AddCmsForm = () => {
   });
 
   const theme = {
-    main: isDarkMode ? "bg-[#0b0e14] text-slate-300" : "bg-gray-50 text-gray-700",
+    main: isDarkMode
+      ? "bg-[#0b0e14] text-slate-300"
+      : "bg-gray-50 text-gray-700",
     card: isDarkMode
       ? "bg-[#151b28] border border-gray-800 text-white"
       : "bg-white border border-gray-200 text-gray-700",
-    input: "w-full p-2 text-sm rounded border outline-none focus:border-(--primary) focus:ring-1 focus:ring-(--primary)/30",
+    input:
+      "w-full p-2 text-sm rounded border outline-none focus:border-(--primary) focus:ring-1 focus:ring-(--primary)/30",
     label: "block text-[10px] font-bold opacity-70 mb-1 uppercase",
     error: "text-red-500 text-[10px] mt-1",
-    fileInput: "w-full text-xs file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-(--primary) file:text-white hover:file:bg-(--primary) cursor-pointer",
+    fileInput:
+      "w-full text-xs file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-(--primary) file:text-white hover:file:bg-(--primary) cursor-pointer",
     section: "p-4 md:p-6 rounded-xl border shadow-sm",
   };
 
@@ -171,11 +174,15 @@ const AddCmsForm = () => {
 
   return (
     <div className={`h-screen w-full flex flex-col ${theme.main}`}>
-      <header className={`px-6 py-4 border-b ${isDarkMode ? "border-gray-800" : "border-gray-200"}`}>
+      <header
+        className={`px-6 py-4 border-b ${isDarkMode ? "border-gray-800" : "border-gray-200"}`}
+      >
         <h1 className="text-sm font-bold">
           {isEdit ? "Edit CMS Page" : "Add New CMS Page"}
         </h1>
-        <p className="text-[10px] opacity-50">Fill in all required details below</p>
+        <p className="text-[10px] opacity-50">
+          Fill in all required details below
+        </p>
       </header>
 
       <main className="flex-1 overflow-y-auto p-4 md:p-8">
@@ -187,14 +194,14 @@ const AddCmsForm = () => {
         >
           {({ setFieldValue, values, isSubmitting }) => (
             <Form className="max-w-4xl mx-auto space-y-6">
-
               {/* Page Details */}
               <div className={`${theme.section} ${theme.card}`}>
                 <h2 className="text-xs font-bold mb-4">Page Details</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-
                   <div>
-                    <label className={theme.label}>Title <span className="text-red-500">*</span></label>
+                    <label className={theme.label}>
+                      Title <span className="text-red-500">*</span>
+                    </label>
                     <Field
                       name="title"
                       type="text"
@@ -204,18 +211,31 @@ const AddCmsForm = () => {
                         setFieldValue("slug", generateSlug(e.target.value));
                       }}
                     />
-                    <ErrorMessage name="title" component="div" className={theme.error} />
+                    <ErrorMessage
+                      name="title"
+                      component="div"
+                      className={theme.error}
+                    />
                   </div>
 
                   <div>
                     <label className={theme.label}>Slug</label>
-                    <Field name="slug" type="text" className={`${theme.input} cursor-not-allowed`} readOnly />
+                    <Field
+                      name="slug"
+                      type="text"
+                      className={`${theme.input} cursor-not-allowed`}
+                      readOnly
+                    />
                   </div>
 
                   <div>
                     <label className={theme.label}>Meta Title</label>
                     <Field name="meta" type="text" className={theme.input} />
-                    <ErrorMessage name="meta" component="div" className={theme.error} />
+                    <ErrorMessage
+                      name="meta"
+                      component="div"
+                      className={theme.error}
+                    />
                   </div>
 
                   <div>
@@ -224,7 +244,9 @@ const AddCmsForm = () => {
                       name="status"
                       as="select"
                       className={theme.input}
-                      onChange={(e) => setFieldValue("status", e.target.value === "true")}
+                      onChange={(e) =>
+                        setFieldValue("status", e.target.value === "true")
+                      }
                     >
                       <option value="true">Active</option>
                       <option value="false">Inactive</option>
@@ -241,7 +263,11 @@ const AddCmsForm = () => {
                     className={theme.input}
                     placeholder="SEO meta description..."
                   />
-                  <ErrorMessage name="metaDescription" component="div" className={theme.error} />
+                  <ErrorMessage
+                    name="metaDescription"
+                    component="div"
+                    className={theme.error}
+                  />
                 </div>
 
                 <div className="mb-4">
@@ -253,7 +279,11 @@ const AddCmsForm = () => {
                     className={theme.input}
                     placeholder="Brief summary of the page..."
                   />
-                  <ErrorMessage name="shortDescription" component="div" className={theme.error} />
+                  <ErrorMessage
+                    name="shortDescription"
+                    component="div"
+                    className={theme.error}
+                  />
                 </div>
 
                 <div>
@@ -272,21 +302,29 @@ const AddCmsForm = () => {
                   accept="image/*"
                   multiple
                   className={theme.fileInput}
-                  onChange={(e) => setFieldValue("images", Array.from(e.target.files))}
+                  onChange={(e) =>
+                    setFieldValue("images", Array.from(e.target.files))
+                  }
                 />
 
                 <div className="mt-3 flex flex-wrap gap-2">
                   {values.existingImages?.map((url, idx) => (
-                    <div key={idx} className="relative h-16 w-16 rounded border border-gray-500 overflow-hidden">
+                    <div
+                      key={idx}
+                      className="relative h-16 w-16 rounded border border-gray-500 overflow-hidden"
+                    >
                       <img
-                        src={`http://localhost:5000${url}`}
+                        src={`${import.meta.env.VITE_BASE_URL}${url}`}
                         alt={`existing-${idx}`}
                         className="w-full h-full object-cover"
                       />
                       <button
                         type="button"
                         onClick={() =>
-                          setFieldValue("existingImages", values.existingImages.filter((_, i) => i !== idx))
+                          setFieldValue(
+                            "existingImages",
+                            values.existingImages.filter((_, i) => i !== idx),
+                          )
                         }
                         className="absolute top-0 right-0 bg-red-500 p-0.5 cursor-pointer"
                       >
@@ -296,7 +334,10 @@ const AddCmsForm = () => {
                   ))}
 
                   {values.images?.map((file, idx) => (
-                    <div key={idx} className="relative h-16 w-16 rounded border border-gray-500 overflow-hidden">
+                    <div
+                      key={idx}
+                      className="relative h-16 w-16 rounded border border-gray-500 overflow-hidden"
+                    >
                       <img
                         src={URL.createObjectURL(file)}
                         alt={`new-${idx}`}
@@ -308,7 +349,10 @@ const AddCmsForm = () => {
                       <button
                         type="button"
                         onClick={() =>
-                          setFieldValue("images", values.images.filter((_, i) => i !== idx))
+                          setFieldValue(
+                            "images",
+                            values.images.filter((_, i) => i !== idx),
+                          )
                         }
                         className="absolute top-0 right-0 bg-red-500 p-0.5 cursor-pointer"
                       >
@@ -325,8 +369,12 @@ const AddCmsForm = () => {
                 className="w-full py-3 cursor-pointer bg-(--primary) text-white rounded-lg text-sm font-semibold hover:opacity-90 transition-all disabled:opacity-50"
               >
                 {isSubmitting
-                  ? isEdit ? "Updating..." : "Saving..."
-                  : isEdit ? "Update Page" : "Publish Page"}
+                  ? isEdit
+                    ? "Updating..."
+                    : "Saving..."
+                  : isEdit
+                    ? "Update Page"
+                    : "Publish Page"}
               </button>
             </Form>
           )}

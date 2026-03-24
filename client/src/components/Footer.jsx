@@ -15,15 +15,6 @@ import {
 
 const Footer = ({ settings }) => {
   const currentYear = new Date().getFullYear();
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const toggleVisibility = () => setIsVisible(window.pageYOffset > 300);
-    window.addEventListener("scroll", toggleVisibility);
-    return () => window.removeEventListener("scroll", toggleVisibility);
-  }, []);
-
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   const footerLinks = [
     { name: "Our Services", active: false },
@@ -94,7 +85,7 @@ const Footer = ({ settings }) => {
               </div>
 
               {/* Text Section */}
-              <div className="flex flex-col leading-tight">
+              {/* <div className="flex flex-col leading-tight">
                 <span
                   className="text-xl md:text-1xl font-extrabold tracking-tight uppercase 
                      text-white group-hover:text-[#E0F7FF] transition"
@@ -110,6 +101,17 @@ const Footer = ({ settings }) => {
                     mt-1 rounded-full 
                     group-hover:w-full transition-all duration-500"
                 ></div>
+              </div> */}
+              <div className="flex flex-col leading-tight">
+                <span className="text-sm md:text-xl font-black italic tracking-tighter uppercase transition-colors duration-300">
+                  <span className="text-white group-hover:text-gray-200">
+                    Agastya{" "}
+                  </span>
+                  <span className="text-[#00B0FF] group-hover:text-[#00B0FF]">
+                    Global
+                  </span>
+                </span>
+                <div className="h-[2px] w-0 bg-gradient-to-r from-white via-[#00B0FF] to-transparent mt-1 rounded-full group-hover:w-full transition-all duration-500"></div>
               </div>
             </div>
             <p className="text-white/50 text-sm leading-relaxed font-medium">
@@ -184,9 +186,8 @@ const Footer = ({ settings }) => {
                   <MapPin size={20} />
                 </div>
                 <p className="text-sm text-white/60 leading-snug group-hover:text-white">
-                  251-253 Commercial Road,
-                  <br />
-                  London, E1 2BT, UK
+                  3114, Tirupati Avenue, Pushpakunj Soc, <br />
+                  Kankaria , Ahmedabad - 380022, Gujarat, India
                 </p>
               </div>
               <div className="flex items-start gap-4 group cursor-pointer">
@@ -195,7 +196,7 @@ const Footer = ({ settings }) => {
                 </div>
                 <div>
                   <p className="text-sm text-white font-bold tracking-tight">
-                    +44 0208 1435507
+                    +91 73835 95549
                   </p>
                   <p className="text-[10px] text-[#00B0FF] font-black uppercase tracking-widest mt-1">
                     Direct Helpline

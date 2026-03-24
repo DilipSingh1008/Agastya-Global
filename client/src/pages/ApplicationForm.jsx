@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  Send,
-  MapPin,
-  User,
-  Phone,
-  Mail,
-  BookOpen,
-  MessageSquare,
-} from "lucide-react";
+import { Send, MapPin, User, Phone, Mail, BookOpen } from "lucide-react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { postData } from "../api/api";
@@ -43,11 +35,7 @@ const ApplicationForm = () => {
       setLoading(true);
 
       try {
-        const payload = {
-          ...values,
-          type, // ✅ comes from route
-        };
-
+        const payload = { ...values, type };
         const res = await postData("applications", payload);
 
         toast.success(res?.message || "Enquiry submitted successfully!", {
@@ -63,11 +51,7 @@ const ApplicationForm = () => {
           "Something went wrong. Please try again.";
 
         toast.error(message, {
-          style: {
-            background: "#FF4D4F",
-            color: "#FFFFFF",
-            fontSize: "13px",
-          },
+          style: { background: "#FF4D4F", color: "#FFFFFF", fontSize: "13px" },
           icon: "⚠️",
         });
       } finally {
@@ -76,145 +60,109 @@ const ApplicationForm = () => {
     },
   });
 
-  return (
-    <div className="w-full min-h-screen bg-white mt-16">
-      {/* Banner */}
-      <div className="relative h-64 md:h-80 bg-[#1A237E] flex items-center justify-center overflow-hidden">
-        <Banner
-          title={type === "eu" ? "EU Student" : "International Student"}
+  const InputField = ({ icon: Icon, name, placeholder, type = "text" }) => (
+    <div className="space-y-2">
+      <label className="text-xs font-bold text-[#1A237E] uppercase tracking-wider">
+        {placeholder}
+      </label>
+
+      <div className="relative group">
+        <Icon
+          className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#00B0FF]"
+          size={18}
+        />
+
+        <input
+          type={type}
+          name={name}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values[name]}
+          placeholder={placeholder}
+          className="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl outline-none transition-all duration-200 focus:border-[#00B0FF] focus:ring-2 focus:ring-[#00B0FF]/20 hover:shadow-sm"
         />
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 -mt-10 mb-20 relative z-20">
-        <div className="bg-white rounded-3xl shadow-2xl border border-slate-100 p-6 md:p-12">
+      {formik.touched[name] && formik.errors[name] && (
+        <p className="text-red-500 text-xs">{formik.errors[name]}</p>
+      )}
+    </div>
+  );
+
+  return (
+    <div className="pt-20 font-sans bg-[#FBFDFF] min-h-screen text-slate-900">
+      {/* Banner */}
+      <Banner
+        subtitle="Application Portal"
+        title={
+          <>
+            {type === "eu" ? "EU Students" : "International Students"}{" "}
+            {/* <span className="text-[#00B0FF]">Application</span> */}
+          </>
+        }
+        description="Submit your details to begin your university application process. Our experts will guide you through admissions, documentation, and next steps."
+      />
+
+      {/* Form Card */}
+      <div className="max-w-5xl mx-auto px-4 -mt-12 mb-20 relative z-20">
+        <div className="bg-white rounded-3xl shadow-2xl border border-slate-100 p-6 md:p-10 hover:shadow-[0_30px_80px_-20px_rgba(26,35,126,0.2)] transition-all duration-300">
+          {/* Header */}
+          <div className="mb-8 text-center">
+            <h2 className="text-2xl md:text-3xl font-black text-[#1A237E] uppercase tracking-tight">
+              Apply Now
+            </h2>
+            <p className="text-slate-500 text-sm mt-2">
+              Fill in your details and our team will contact you shortly.
+            </p>
+          </div>
+
           <form
             className="grid grid-cols-1 md:grid-cols-2 gap-6"
             onSubmit={formik.handleSubmit}
           >
-            {/* Full Name */}
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-[#1A237E] uppercase ml-1">
-                Full Name
-              </label>
-              <div className="relative">
-                <User
-                  className="absolute left-3 top-3.5 text-slate-400"
-                  size={18}
-                />
-                <input
-                  type="text"
-                  name="fullName"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.fullName}
-                  className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl"
-                />
-              </div>
-              {formik.touched.fullName && formik.errors.fullName && (
-                <p className="text-red-500 text-xs">{formik.errors.fullName}</p>
-              )}
-            </div>
+            <InputField icon={User} name="fullName" placeholder="Full Name" />
 
-            {/* Phone */}
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-[#1A237E] uppercase ml-1">
-                Phone Number
-              </label>
-              <div className="relative">
-                <Phone
-                  className="absolute left-3 top-3.5 text-slate-400"
-                  size={18}
-                />
-                <input
-                  type="tel"
-                  name="phone"
-                  onChange={formik.handleChange}
-                  value={formik.values.phone}
-                  className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl"
-                />
-              </div>
-            </div>
+            <InputField icon={Phone} name="phone" placeholder="Phone Number" />
 
-            {/* Email */}
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-[#1A237E] uppercase ml-1">
-                Email Address
-              </label>
-              <div className="relative">
-                <Mail
-                  className="absolute left-3 top-3.5 text-slate-400"
-                  size={18}
-                />
-                <input
-                  type="email"
-                  name="email"
-                  onChange={formik.handleChange}
-                  value={formik.values.email}
-                  className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl"
-                />
-              </div>
-            </div>
+            <InputField
+              icon={Mail}
+              name="email"
+              placeholder="Email Address"
+              type="email"
+            />
 
-            {/* Country */}
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-[#1A237E] uppercase ml-1">
-                Country
-              </label>
-              <div className="relative">
-                <MapPin
-                  className="absolute left-3 top-3.5 text-slate-400"
-                  size={18}
-                />
-                <input
-                  type="text"
-                  name="country"
-                  onChange={formik.handleChange}
-                  value={formik.values.country}
-                  className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl"
-                />
-              </div>
-            </div>
+            <InputField icon={MapPin} name="country" placeholder="Country" />
 
-            {/* Subject */}
-            <div className="md:col-span-2 space-y-2">
-              <label className="text-sm font-bold text-[#1A237E] uppercase ml-1">
-                Interested Subject
-              </label>
-              <div className="relative">
-                <BookOpen
-                  className="absolute left-3 top-3.5 text-slate-400"
-                  size={18}
-                />
-                <input
-                  type="text"
-                  name="subject"
-                  onChange={formik.handleChange}
-                  value={formik.values.subject}
-                  className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl"
-                />
-              </div>
+            <div className="md:col-span-2">
+              <InputField
+                icon={BookOpen}
+                name="subject"
+                placeholder="Interested Subject"
+              />
             </div>
 
             {/* Message */}
             <div className="md:col-span-2 space-y-2">
-              <label className="text-sm font-bold text-[#1A237E] uppercase ml-1">
+              <label className="text-xs font-bold text-[#1A237E] uppercase tracking-wider">
                 Message
               </label>
+
               <textarea
-                rows="4"
+                rows="5"
                 name="message"
                 onChange={formik.handleChange}
                 value={formik.values.message}
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl"
+                placeholder="Write your message..."
+                className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl outline-none transition-all duration-200 focus:border-[#00B0FF] focus:ring-2 focus:ring-[#00B0FF]/20 hover:shadow-sm"
               />
             </div>
 
             {/* Buttons */}
-            <div className="md:col-span-2 flex flex-col items-center mt-4 gap-4">
+            <div className="md:col-span-2 flex flex-col sm:flex-row items-center justify-center gap-4 mt-6">
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-[#00B0FF] text-white px-12 py-4 rounded-full font-black text-sm uppercase flex items-center gap-3"
+                className="bg-gradient-to-r from-[#00B0FF] to-[#1A237E] text-white px-10 py-4 rounded-full font-black text-sm uppercase flex items-center gap-3 shadow-lg hover:scale-105 active:scale-95 transition-all"
               >
                 {loading ? "Sending..." : "Send Message"}
                 <Send size={18} />
@@ -223,9 +171,9 @@ const ApplicationForm = () => {
               <button
                 type="button"
                 onClick={() => navigate("/University")}
-                className="text-slate-400 hover:text-[#1A237E] font-bold text-xs uppercase"
+                className="text-slate-500 hover:text-[#1A237E] font-bold text-xs uppercase tracking-wider transition"
               >
-                Go Back to Universities
+                ← Back to Universities
               </button>
             </div>
           </form>

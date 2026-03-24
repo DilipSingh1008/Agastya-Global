@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import Banner from "../components/Banner";
 import { getData } from "../api/api";
+import WhatsappFloat from "../components/WhatsappFloat";
 
 const Services = () => {
   const [recruitments, setRecruiments] = useState([]);
@@ -118,7 +119,14 @@ const Services = () => {
             Our <span className="text-[#00B0FF]">Services</span>
           </>
         }
-        align="center"
+        description={
+          <>
+            Comprehensive guidance for admissions, counselling, and student
+            support. Helping you choose the right path towards a successful
+            global career.
+          </>
+        }
+        // align="center"
       />
 
       <div className="max-w-7xl mx-auto px-6 py-20">
@@ -301,6 +309,7 @@ const Services = () => {
           </div>
         </section>
       </div>
+      <WhatsappFloat />
     </div>
   );
 };

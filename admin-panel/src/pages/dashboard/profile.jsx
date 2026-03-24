@@ -159,7 +159,7 @@ const ProfilePage = () => {
                       <div className="w-24 h-24 rounded-full border-2 border-gray-100 p-1">
                         <div className="w-full h-full rounded-full bg-gray-100 overflow-hidden flex items-center justify-center text-gray-400">
                           <CommonImage
-                            src={`http://localhost:5000/${profileData?.image}`}
+                            src={`${import.meta.env.VITE_BASE_URL}${profileData?.image}`}
                             alt="preview"
                             className="w-full h-full object-cover"
                           />

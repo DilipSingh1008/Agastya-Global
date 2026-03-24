@@ -116,7 +116,10 @@ const NewsForm = () => {
               data.append("folder", "newsimage");
 
               values.images?.forEach((file) => data.append("images", file));
-              data.append("existingImages", JSON.stringify(values.existingImages));
+              data.append(
+                "existingImages",
+                JSON.stringify(values.existingImages),
+              );
 
               if (isEdit) {
                 await updateItem({ url: `news/${id}`, data }).unwrap();
@@ -135,7 +138,6 @@ const NewsForm = () => {
         >
           {({ setFieldValue, values, isSubmitting }) => (
             <Form className="max-w-4xl mx-auto space-y-6">
-
               {/* News Details */}
               <div className={`${theme.section} ${theme.card}`}>
                 <div className="mb-4">
@@ -143,7 +145,11 @@ const NewsForm = () => {
                     Title <span className="text-red-500">*</span>
                   </label>
                   <Field name="title" type="text" className={theme.input} />
-                  <ErrorMessage name="title" component="div" className={theme.error} />
+                  <ErrorMessage
+                    name="title"
+                    component="div"
+                    className={theme.error}
+                  />
                 </div>
 
                 <div className="mb-4">
@@ -191,7 +197,7 @@ const NewsForm = () => {
                       className="relative h-16 w-16 rounded border border-gray-500 overflow-hidden"
                     >
                       <img
-                        src={`http://localhost:5000/uploads/${url.replace(/\\/g, "/")}`}
+                        src={`${import.meta.env.VITE_BASE_URL}/uploads/${url.replace(/\\/g, "/")}`}
                         alt={`existing-${idx}`}
                         className="w-full h-full object-cover"
                       />
@@ -246,8 +252,12 @@ const NewsForm = () => {
                 className="w-full py-3 cursor-pointer bg-(--primary) text-white rounded-lg text-sm font-semibold hover:opacity-90 transition-all"
               >
                 {isSubmitting
-                  ? isEdit ? "Updating..." : "Adding..."
-                  : isEdit ? "Update News" : "Publish News"}
+                  ? isEdit
+                    ? "Updating..."
+                    : "Adding..."
+                  : isEdit
+                    ? "Update News"
+                    : "Publish News"}
               </button>
             </Form>
           )}

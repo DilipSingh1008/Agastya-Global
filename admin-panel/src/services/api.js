@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:5000/api/",
+  baseUrl: `${import.meta.env.VITE_BASE_URL}/api/`,
   prepareHeaders: (headers) => {
     const token = localStorage.getItem("token");
 
@@ -18,7 +18,6 @@ export const apiSlice = createApi({
   baseQuery,
   tagTypes: ["CRUD"],
   endpoints: (builder) => ({
-    
     getItems: builder.query({
       query: (resource) => ({
         url: `/${resource}`,
@@ -69,7 +68,6 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["CRUD"],
     }),
-
   }),
 });
 

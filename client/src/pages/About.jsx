@@ -14,6 +14,7 @@ import {
 import { AiOutlineCheckSquare } from "react-icons/ai";
 import Banner from "../components/Banner";
 import { getData } from "../api/api";
+import WhatsappFloat from "../components/WhatsappFloat";
 
 const About = () => {
   const [stats, setStats] = useState([]);
@@ -192,6 +193,7 @@ const About = () => {
           </div>
         </div>
       </div>
+      <WhatsappFloat />
     </div>
   );
 };

@@ -15,6 +15,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { postData } from "../api/api";
 import { toast } from "react-toastify";
+import WhatsappFloat from "../components/WhatsappFloat";
 
 const navLinks = [
   { name: "Home", active: false },
@@ -80,13 +81,13 @@ const ContactPage = () => {
       <div className="bg-[#1A237E] text-[#FFFFFF]/80 text-[11px] py-2 px-6 flex justify-between items-center border-b border-[#283593]">
         <div className="flex gap-6 items-center">
           <a
-            href="tel:+4402081435507"
+            href="tel:+917383595549"
             className="flex items-center gap-1.5 hover:text-[#00B0FF] transition-colors"
           >
-            <Phone size={14} className="text-[#00B0FF]" /> +44 0208 1435507
+            <Phone size={14} className="text-[#00B0FF]" /> 91 73835 95549
           </a>
           <a
-            href="mailto:info@AgastyaGlobal.co.uk"
+            href="mailto:support@agastyaglobal.org"
             className="flex items-center gap-1.5 hover:text-[#00B0FF] transition-colors"
           >
             <Mail size={14} className="text-[#00B0FF]" /> info@Agastya
@@ -166,19 +167,20 @@ const ContactPage = () => {
                 icon: <MapPin />,
                 color: "bg-[#1A237E]",
                 title: "Head Office",
-                text: "Room G2-G4, Ground Floor\n251-253 Commercial Road,\nLondon, E1 2BT",
+                text: "3114, Tirupati Avenue,\n Pushpakunj Soc,251-253 Commercial\n Road,Kankaria , Ahmedabad - 380022,\n Gujarat, India",
               },
+
               {
                 icon: <Mail />,
                 color: "bg-[#00B0FF]",
                 title: "Email Support",
-                text: "info@AgastyaGlobal.co.uk",
+                text: "support@agastyaglobal.org",
               },
               {
                 icon: <Phone />,
                 color: "bg-[#283593]",
                 title: "Call Helpline",
-                text: "+44 0208 1435507\n+44 7808 223229",
+                text: "917383595549",
               },
             ].map((card, i) => (
               <div
@@ -413,6 +415,7 @@ const ContactPage = () => {
           </div>
         </div>
       </div>
+      <WhatsappFloat />
     </div>
   );
 };

@@ -39,7 +39,7 @@ const Banner = ({
       <img
         src={
           heroImage
-            ? `http://localhost:5000${heroImage.replace(/\\/g, "/")}`
+            ? `${import.meta.env.VITE_BASE_URL}${heroImage.replace(/\\/g, "/")}`
             : "https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg"
         }
         alt="Banner"
@@ -61,7 +61,7 @@ const Banner = ({
               </span>
             )}
 
-            <h1 className="text-white text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter leading-tight mb-6">
+            <h1 className="text-white text-3xl md:text-4xl lg:text-4xl font-black uppercase tracking-tighter leading-tight mb-6">
               {title}
             </h1>
 

@@ -40,7 +40,9 @@ const AddEditServicePage = () => {
 
   // ── Permission Logic ──
   const permissions = useSelector((state) => state.permission.permissions);
-  const rawServicePermission = permissions?.find((p) => p.module.name === "services");
+  const rawServicePermission = permissions?.find(
+    (p) => p.module.name === "services",
+  );
   const localRole = localStorage.getItem("role");
   const servicePermission =
     localRole === "admin"
@@ -48,13 +50,14 @@ const AddEditServicePage = () => {
       : rawServicePermission;
 
   // ── RTK Query: fetch categories ──
-  const { data: catRes, isLoading: catsLoading } = useGetItemsQuery("services/active");
+  const { data: catRes, isLoading: catsLoading } =
+    useGetItemsQuery("services/active");
   const categories = catRes?.data || [];
 
   // ── RTK Query: fetch service for edit ──
   const { data: serviceRes, isLoading: serviceLoading } = useGetItemsQuery(
     `services/${id}`,
-    { skip: !isEdit } // only fetch when editing
+    { skip: !isEdit }, // only fetch when editing
   );
 
   // ── RTK Query: mutations ──
@@ -130,7 +133,9 @@ const AddEditServicePage = () => {
       formData.append("status", values.status);
 
       if (values.galleryImages?.length > 0) {
-        values.galleryImages.forEach((file) => formData.append("galleryImages", file));
+        values.galleryImages.forEach((file) =>
+          formData.append("galleryImages", file),
+        );
       }
       if (values.pdfFile) formData.append("pdfFile", values.pdfFile);
 
@@ -159,14 +164,18 @@ const AddEditServicePage = () => {
   });
 
   const theme = {
-    main: isDarkMode ? "bg-[#0b0e14] text-slate-300" : "bg-gray-50 text-gray-700",
+    main: isDarkMode
+      ? "bg-[#0b0e14] text-slate-300"
+      : "bg-gray-50 text-gray-700",
     card: isDarkMode
       ? "bg-[#151b28] border border-gray-800 text-white"
       : "bg-white border border-gray-200 text-gray-700",
-    input: "w-full p-2 text-sm rounded border outline-none focus:border-(--primary) focus:ring-1 focus:ring-(--primary)/30",
+    input:
+      "w-full p-2 text-sm rounded border outline-none focus:border-(--primary) focus:ring-1 focus:ring-(--primary)/30",
     label: "block text-[10px] font-bold opacity-70 mb-1 uppercase",
     error: "text-red-500 text-[10px] mt-1",
-    fileInput: "w-full text-xs file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-(--primary) file:text-white hover:file:bg-(--primary) cursor-pointer",
+    fileInput:
+      "w-full text-xs file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-(--primary) file:text-white hover:file:bg-(--primary) cursor-pointer",
     section: "p-4 md:p-6 rounded-xl border shadow-sm",
   };
 
@@ -193,11 +202,15 @@ const AddEditServicePage = () => {
 
   return (
     <div className={`h-screen w-full flex flex-col ${theme.main}`}>
-      <header className={`px-6 py-4 border-b ${isDarkMode ? "border-gray-800" : "border-gray-200"}`}>
+      <header
+        className={`px-6 py-4 border-b ${isDarkMode ? "border-gray-800" : "border-gray-200"}`}
+      >
         <h1 className="text-sm font-bold">
           {isEdit ? "Edit Service" : "Add New Service"}
         </h1>
-        <p className="text-[10px] opacity-50">Fill in all required details below</p>
+        <p className="text-[10px] opacity-50">
+          Fill in all required details below
+        </p>
       </header>
 
       <main className="flex-1 overflow-y-auto p-4 md:p-8">
@@ -209,7 +222,6 @@ const AddEditServicePage = () => {
         >
           {({ setFieldValue, values, isSubmitting }) => (
             <Form className="max-w-4xl mx-auto space-y-6">
-
               {/* Basic Info */}
               <div className={`${theme.section} ${theme.card}`}>
                 <h2 className="text-xs font-bold mb-4">Basic Information</h2>
@@ -222,14 +234,22 @@ const AddEditServicePage = () => {
                       name="category"
                       as="select"
                       className={theme.input}
-                      onChange={(e) => handleCategoryChange(e.target.value, setFieldValue)}
+                      onChange={(e) =>
+                        handleCategoryChange(e.target.value, setFieldValue)
+                      }
                     >
                       <option value="">Select Category</option>
                       {categories.map((cat) => (
-                        <option key={cat._id} value={cat._id}>{cat.name}</option>
+                        <option key={cat._id} value={cat._id}>
+                          {cat.name}
+                        </option>
                       ))}
                     </Field>
-                    <ErrorMessage name="category" component="div" className={theme.error} />
+                    <ErrorMessage
+                      name="category"
+                      component="div"
+                      className={theme.error}
+                    />
                   </div>
 
                   <div>
@@ -244,10 +264,16 @@ const AddEditServicePage = () => {
                     >
                       <option value="">Select Sub-Category</option>
                       {subCategories.map((sub) => (
-                        <option key={sub._id} value={sub._id}>{sub.name}</option>
+                        <option key={sub._id} value={sub._id}>
+                          {sub.name}
+                        </option>
                       ))}
                     </Field>
-                    <ErrorMessage name="subCategory" component="div" className={theme.error} />
+                    <ErrorMessage
+                      name="subCategory"
+                      component="div"
+                      className={theme.error}
+                    />
                   </div>
 
                   <div>
@@ -263,7 +289,11 @@ const AddEditServicePage = () => {
                         setFieldValue("slug", generateSlug(e.target.value));
                       }}
                     />
-                    <ErrorMessage name="name" component="div" className={theme.error} />
+                    <ErrorMessage
+                      name="name"
+                      component="div"
+                      className={theme.error}
+                    />
                   </div>
 
                   <div>
@@ -281,8 +311,17 @@ const AddEditServicePage = () => {
                   <label className={theme.label}>
                     Short Description <span className="text-red-500">*</span>
                   </label>
-                  <Field name="shortDescription" as="textarea" rows="3" className={theme.input} />
-                  <ErrorMessage name="shortDescription" component="div" className={theme.error} />
+                  <Field
+                    name="shortDescription"
+                    as="textarea"
+                    rows="3"
+                    className={theme.input}
+                  />
+                  <ErrorMessage
+                    name="shortDescription"
+                    component="div"
+                    className={theme.error}
+                  />
                 </div>
 
                 <div>
@@ -304,13 +343,15 @@ const AddEditServicePage = () => {
                     accept="image/*"
                     multiple
                     className={theme.fileInput}
-                    onChange={(e) => setFieldValue("galleryImages", Array.from(e.target.files))}
+                    onChange={(e) =>
+                      setFieldValue("galleryImages", Array.from(e.target.files))
+                    }
                   />
                   <div className="mt-3 flex flex-wrap gap-2">
                     {values.existingGallery?.map((img, idx) => (
                       <img
                         key={idx}
-                        src={`http://localhost:5000/${img}`}
+                        src={`${import.meta.env.VITE_BASE_URL}${img}`}
                         alt={`existing-${idx}`}
                         className="h-16 w-16 object-cover rounded border border-gray-500"
                       />
@@ -332,7 +373,9 @@ const AddEditServicePage = () => {
                     type="file"
                     accept="application/pdf"
                     className={theme.fileInput}
-                    onChange={(e) => setFieldValue("pdfFile", e.target.files[0])}
+                    onChange={(e) =>
+                      setFieldValue("pdfFile", e.target.files[0])
+                    }
                   />
                   {values.existingPdf && (
                     <div className="mt-2 text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded">
@@ -353,8 +396,12 @@ const AddEditServicePage = () => {
                 className="w-full py-3 cursor-pointer bg-(--primary) text-white rounded-lg text-sm font-semibold hover:opacity-90 transition-all disabled:opacity-50"
               >
                 {isSubmitting
-                  ? isEdit ? "Updating..." : "Adding..."
-                  : isEdit ? "Update Service" : "Add Service"}
+                  ? isEdit
+                    ? "Updating..."
+                    : "Adding..."
+                  : isEdit
+                    ? "Update Service"
+                    : "Add Service"}
               </button>
             </Form>
           )}

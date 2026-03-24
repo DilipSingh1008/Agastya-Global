@@ -207,7 +207,7 @@ const ManageTeam = () => {
                         <img
                           src={
                             item.image
-                              ? `http://localhost:5000/${item.image}`
+                              ? `${import.meta.env.VITE_BASE_URL}/${item.image}`
                               : "https://via.placeholder.com/40"
                           }
                           className="w-9 h-9 rounded-full object-cover border"
@@ -448,7 +448,7 @@ const ManageTeam = () => {
                               src={
                                 values.image
                                   ? URL.createObjectURL(values.image)
-                                  : `http://localhost:5000/${editingItem.image}`
+                                  : `${import.meta.env.VITE_BASE_URL}/${editingItem.image}`
                               }
                               className="mt-3 w-16 h-16 rounded-full object-cover border"
                             />

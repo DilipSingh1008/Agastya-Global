@@ -6,7 +6,7 @@ export const AppWrapper = ({ children }) => {
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/setting");
+        const res = await fetch(`${import.meta.env.VITE_BASE_URL}/api/setting`);
         const data = await res.json();
         if (data.success) setSettings(data.data);
       } catch (error) {

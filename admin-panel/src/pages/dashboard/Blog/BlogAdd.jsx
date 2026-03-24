@@ -54,7 +54,7 @@ const BlogForm = () => {
       "w-full text-xs file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-(--primary) file:text-white hover:file:bg-(--primary) cursor-pointer",
     section: "p-4 md:p-6 rounded-xl border shadow-sm",
   };
-// blog-category
+  // blog-category
   // ── RTK Query: fetch categories ───────────────────────────────────────────
   const { data: categoriesData } = useGetItemsQuery("blog-category");
   const categories = categoriesData?.data || [];
@@ -126,7 +126,10 @@ const BlogForm = () => {
               data.append("folder", "blogimage");
 
               values.images?.forEach((file) => data.append("images", file));
-              data.append("existingImages", JSON.stringify(values.existingImages));
+              data.append(
+                "existingImages",
+                JSON.stringify(values.existingImages),
+              );
 
               if (isEdit) {
                 await updateItem({ url: `blogs/${id}`, data }).unwrap();
@@ -145,7 +148,6 @@ const BlogForm = () => {
         >
           {({ setFieldValue, values, isSubmitting }) => (
             <Form className="max-w-4xl mx-auto space-y-6">
-
               {/* Blog Details */}
               <div className={`${theme.section} ${theme.card}`}>
                 <div className="mb-4">
@@ -153,7 +155,11 @@ const BlogForm = () => {
                     Title <span className="text-red-500">*</span>
                   </label>
                   <Field name="title" type="text" className={theme.input} />
-                  <ErrorMessage name="title" component="div" className={theme.error} />
+                  <ErrorMessage
+                    name="title"
+                    component="div"
+                    className={theme.error}
+                  />
                 </div>
 
                 <div className="mb-4">
@@ -221,7 +227,7 @@ const BlogForm = () => {
                       className="relative h-16 w-16 rounded border border-gray-500 overflow-hidden"
                     >
                       <img
-                        src={`http://localhost:5000/uploads/${url.replace(/\\/g, "/")}`}
+                        src={`${import.meta.env.VITE_BASE_URL}/uploads/${url.replace(/\\/g, "/")}`}
                         alt={`existing-${idx}`}
                         className="w-full h-full object-cover"
                       />
@@ -277,8 +283,12 @@ const BlogForm = () => {
                 className="w-full py-3 cursor-pointer bg-(--primary) text-white rounded-lg text-sm font-semibold hover:opacity-90 transition-all"
               >
                 {isSubmitting
-                  ? isEdit ? "Updating..." : "Adding..."
-                  : isEdit ? "Update Blog" : "Publish Blog"}
+                  ? isEdit
+                    ? "Updating..."
+                    : "Adding..."
+                  : isEdit
+                    ? "Update Blog"
+                    : "Publish Blog"}
               </button>
             </Form>
           )}

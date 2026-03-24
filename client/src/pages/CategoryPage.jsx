@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getData } from "../api/api";
+import WhatsappFloat from "../components/WhatsappFloat";
 
 const CategoryPage = () => {
   const { category } = useParams(); // we use _id of category
@@ -56,7 +57,11 @@ const CategoryPage = () => {
             >
               <div className="relative overflow-hidden h-[230px] w-full rounded-t-2xl">
                 <img
-                  src={item.icon ? `http://localhost:5000${item.icon}` : null}
+                  src={
+                    item.icon
+                      ? `${import.meta.env.VITE_BASE_URL}${item.icon}`
+                      : null
+                  }
                   alt={item.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
@@ -79,6 +84,7 @@ const CategoryPage = () => {
           Back to Gallery
         </Link>
       </div>
+      <WhatsappFloat />
     </div>
   );
 };

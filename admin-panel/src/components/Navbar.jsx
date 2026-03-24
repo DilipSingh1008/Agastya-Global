@@ -39,7 +39,33 @@ const getPageTitle = () => {
   if (path.startsWith("/dashboard/Media-Post")) return "Media-Post";
   if (path.startsWith("/dashboard/Manage-media")) return "Manage-media";
   if (path.startsWith("/dashboard/Manage-media-items")) return "media-items";
+  if (path === "/dashboard/ManageTeam") return "Manage Team";
+  if (path === "/dashboard/manage-recruitment") return "Manage Recruitment";
+  if (path === "/dashboard/manage-services") return "Manage Services";
+  if (path === "/dashboard/manage-course-types") return "Manage Course Types";
+  if (path === "/dashboard/manage-subjects") return "Manage Subjects";
+  if (path === "/dashboard/manage-questions") return "Manage Questions";
 
+  if (path === "/dashboard/about/hero") return "About Hero";
+  if (path === "/dashboard/about/stats") return "About Stats";
+  if (path === "/dashboard/about/sections") return "About Sections";
+  if (path === "/dashboard/about/cards") return "About Cards";
+  if (path === "/dashboard/about/partners") return "About Partners";
+
+  if (path === "/dashboard/ielts/hero") return "IELTS Hero";
+  if (path === "/dashboard/ielts/overview") return "IELTS Overview";
+  if (path === "/dashboard/ielts/types") return "IELTS Types";
+  if (path === "/dashboard/ielts/test-structure") return "IELTS Test Structure";
+  if (path === "/dashboard/ielts/features") return "IELTS Features";
+  if (path === "/dashboard/ielts/cta") return "IELTS CTA";
+
+  if (path === "/dashboard/home/ManageCourses") return "Manage Courses";
+  if (path === "/dashboard/home/ManageHero") return "Manage Home Hero";
+  if (path === "/dashboard/home/ManageLogos") return "Manage Logos";
+  if (path === "/dashboard/home/ServicesManager") return "Services Manager";
+  if (path === "/dashboard/home/home-slider") return "Home Slider";
+
+  if (path === "/dashboard/applicationList") return "Application List";
   return "Dashboard"; // default
 };
 
