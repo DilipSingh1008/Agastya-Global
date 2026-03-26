@@ -7,10 +7,7 @@ exports.createCourse = async (req, res) => {
     const { name, duration } = req.body;
     const folder = req.body.folder || "default";
 
-    const image = req.file
-      ? `${req.protocol}://${req.get("host")}/uploads/${folder}/${req.file.filename}`
-      : null;
-
+    const image = req.file ? `/uploads/${folder}/${req.file.filename}` : null;
     const course = await Course.create({
       name,
       duration,
